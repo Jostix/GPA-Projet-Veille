@@ -14,27 +14,27 @@
     </thead>
     <tbody>
         <tr>
-            <td>Veille Techno</td>
+            <td>Veille Protection</td>
             <td>Blablabla</td>
             <td><button type="button" class="btn-xs btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Détail</button></td>
         </tr>
         <tr>
-            <td>Veille Techno</td>
+            <td>Veille Protection</td>
             <td>Blablabla</td>
             <td><button type="button" class="btn-xs btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Détail</button></td>
         </tr>
         <tr>
-            <td>Veille Techno</td>
+            <td>Veille Protection</td>
             <td>Blablabla</td>
             <td><button type="button" class="btn-xs btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Détail</button></td>
         </tr>
         <tr>
-            <td>Veille Techno</td>
+            <td>Veille Protection</td>
             <td>Blablabla</td>
             <td><button type="button" class="btn-xs btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Détail</button></td>
         </tr>
         <tr>
-            <td>Veille Techno</td>
+            <td>Veille Protection</td>
             <td>Blablabla</td>
             <td><button type="button" class="btn-xs btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Détail</button></td>
         </tr>
