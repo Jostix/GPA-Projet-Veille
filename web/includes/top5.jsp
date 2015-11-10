@@ -15,27 +15,27 @@
     <tbody>
         <tr>
             <td>Veille Protection</td>
-            <td>Blablabla</td>
+            <td>Promotion</td>
             <td><button type="button" class="btn-xs btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Détail</button></td>
         </tr>
         <tr>
             <td>Veille Protection</td>
-            <td>Blablabla</td>
+            <td>Grève</td>
             <td><button type="button" class="btn-xs btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Détail</button></td>
         </tr>
         <tr>
             <td>Veille Protection</td>
-            <td>Blablabla</td>
+            <td>Manifestation</td>
             <td><button type="button" class="btn-xs btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Détail</button></td>
         </tr>
         <tr>
             <td>Veille Protection</td>
-            <td>Blablabla</td>
+            <td>Promotion</td>
             <td><button type="button" class="btn-xs btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Détail</button></td>
         </tr>
         <tr>
             <td>Veille Protection</td>
-            <td>Blablabla</td>
+            <td>Démission</td>
             <td><button type="button" class="btn-xs btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Détail</button></td>
         </tr>
     </tbody>
