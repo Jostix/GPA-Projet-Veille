@@ -9,6 +9,6 @@ package ch.hearc.ig.gpa.business;
  *
  * @author Romain Ducret <romain.ducret1@he-arc.ch>
  */
-public class Twitter {
+public class Twitter extends Message {
     
 }
