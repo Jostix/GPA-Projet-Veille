@@ -12,18 +12,30 @@ import java.sql.Date;
  * @author Romain Ducret <romain.ducret1@he-arc.ch>
  */
 public class Utilisateur {
+
+    private Integer identifiant;
     private String nom;
     private String prenom;
     private Date dateNaissance;
     private String pays;
     private String username_twitter;
 
-    public Utilisateur(final String nom, final String prenom, final Date dateNaissance, final String pays, final String username_twitter) {
+    public Utilisateur(final Integer identifiant, final String nom, final String prenom, final Date dateNaissance, final String pays, final String username_twitter) {
+        this.identifiant = identifiant;
         this.nom = nom;
         this.prenom = prenom;
         this.dateNaissance = dateNaissance;
         this.pays = pays;
         this.username_twitter = username_twitter;
+    }
+
+    public Utilisateur() {
+        this.identifiant = null;
+        this.nom = null;
+        this.prenom = null;
+        this.dateNaissance = null;
+        this.pays = null;
+        this.username_twitter = null;
     }
 
     public String getNom() {
@@ -62,7 +74,19 @@ public class Utilisateur {
         return username_twitter;
     }
 
+    public Integer getIdentifiant() {
+        return identifiant;
+    }
+
+    public void setIdentifiant(final Integer identifiant) {
+        this.identifiant = identifiant;
+    }
+
     public void setUsername_twitter(final String username_twitter) {
         this.username_twitter = username_twitter;
+    }
+
+    public boolean isNull() {
+        return this.identifiant == null && this.nom == null && this.prenom == null && this.dateNaissance == null && this.pays == null && this.username_twitter == null;
     }
 }
