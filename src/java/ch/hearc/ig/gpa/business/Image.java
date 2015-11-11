@@ -15,18 +15,28 @@ public class Image {
     private String nom;
     private String type;
     private Blob image;
+    private int msg_numero;
 
-    public Image(String nom, String type, Blob image) {
+    public Image(String nom, String type, Blob image, final int msg_numero) {
         this.nom = nom;
         this.type = type;
         this.image = image;
+        this.msg_numero = msg_numero;
     }
 
     public String getNom() {
         return nom;
     }
 
-    public void setNom(String nom) {
+    public int getMsg_numero() {
+        return msg_numero;
+    }
+
+    public void setMsg_numero(final int msg_numero) {
+        this.msg_numero = msg_numero;
+    }
+
+    public void setNom(final String nom) {
         this.nom = nom;
     }
 
@@ -34,7 +44,7 @@ public class Image {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 
@@ -42,7 +52,7 @@ public class Image {
         return image;
     }
 
-    public void setImage(Blob image) {
+    public void setImage(final Blob image) {
         this.image = image;
     }
 }
