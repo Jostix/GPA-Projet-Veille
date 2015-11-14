@@ -12,10 +12,19 @@ import java.sql.Date;
  * @author Romain Ducret <romain.ducret1@he-arc.ch>
  */
 public class Message {
-    private String message;
-    private Date date_heure_publication;
-    private Date date_heure_recup;
-    private String resume;
+    protected String message;
+    protected Date date_heure_publication;
+    protected Date date_heure_recup;
+    protected String resume;
+
+    public Message(String message, Date date_heure_publication, Date date_heure_recup, String resume) {
+        this.message = message;
+        this.date_heure_publication = date_heure_publication;
+        this.date_heure_recup = date_heure_recup;
+        this.resume = resume;
+    }
+    
+    
 
     public String getMessage() {
         return message;
