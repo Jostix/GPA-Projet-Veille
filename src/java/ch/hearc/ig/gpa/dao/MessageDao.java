@@ -46,8 +46,10 @@ public class MessageDao {
             pstmt.setString(4, message.getResume());
 
             int count = pstmt.executeUpdate();
-            int newMessageNum = 0; //Récupérer le dernier numéro généré par la séquence message
-
+            
+            
+            int newMessageNum = getCurrentMsgSequenceValue();
+            
             /**
              * Test del l'instance du message, si c'est un message facebook on
              * va appeler le FacebookDao pour ajouter une publication facebook,
@@ -76,6 +78,33 @@ public class MessageDao {
         }
     }
 
+    public int getCurrentMsgSequenceValue() {
+        int currentValue = -1;
+        PreparedStatement stmt = null;
+        ResultSet rsSequence = null;
+        Connection c = null;
+
+        String query = "SELECT seq_msg.currval FROM DUAL";
+        try {
+            c = OracleConnections.getConnection();
+            stmt = c.prepareStatement(query);
+            rsSequence = stmt.executeQuery();
+
+            while (rsSequence.next()) {
+               currentValue = rsSequence.getInt("seq_msg.currval");
+            }
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+                c.close();
+            } catch (SQLException ex) {
+                logger.log(Level.SEVERE, null, ex);
+            }
+        }
+        return currentValue;
+    }
     public Message getMessageById(int numero) throws ConnectionProblemException {
         Message m = null;
         PreparedStatement stmt = null;
