@@ -12,6 +12,7 @@ import java.sql.Date;
  * @author Romain Ducret <romain.ducret1@he-arc.ch>
  */
 public class Message {
+    private int identifiant;
     protected String message;
     protected Date date_heure_publication;
     protected Date date_heure_recup;
@@ -23,8 +24,14 @@ public class Message {
         this.date_heure_recup = date_heure_recup;
         this.resume = resume;
     }
-    
-    
+
+    public int getIdentifiant() {
+        return identifiant;
+    }
+
+    public void setIdentifiant(int numero) {
+        this.identifiant = numero;
+    }
 
     public String getMessage() {
         return message;

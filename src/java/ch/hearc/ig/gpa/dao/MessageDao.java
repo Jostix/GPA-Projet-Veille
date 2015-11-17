@@ -9,6 +9,7 @@ import ch.hearc.ig.gpa.business.Facebook;
 import ch.hearc.ig.gpa.business.Message;
 import ch.hearc.ig.gpa.business.Twitter;
 import ch.hearc.ig.gpa.dbfactory.OracleConnections;
+import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import static com.sun.xml.ws.security.addressing.impl.policy.Constants.logger;
 import java.sql.Connection;
 import java.sql.Date;
@@ -75,7 +76,7 @@ public class MessageDao {
         }
     }
 
-    public Message getMessageById(int numero) {
+    public Message getMessageById(int numero) throws ConnectionProblemException {
         Message m = null;
         PreparedStatement stmt = null;
         ResultSet rsMessages = null;

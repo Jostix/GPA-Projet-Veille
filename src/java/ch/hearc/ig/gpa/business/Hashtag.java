@@ -13,27 +13,29 @@ public class Hashtag {
 
     private Integer identifiant;
     private String libelle;
-    private Integer msg_numero;
+    private Message message;
 
-    public Hashtag(final Integer identificant, final String libelle, final Integer msg_numero) {
+    public Hashtag(final Integer identifiant, final String libelle, final Message message) {
         this.libelle = libelle;
-        this.msg_numero = msg_numero;
+        this.message = message;
         this.identifiant = identifiant;
     }
 
     public Hashtag() {
         this.libelle = null;
-        this.msg_numero = null;
+        this.message = null;
         this.identifiant = null;
     }
 
-    public int getMsg_numero() {
-        return msg_numero;
+    public Message getMessage() {
+        return message;
     }
 
-    public void setMsg_numero(Integer msg_numero) {
-        this.msg_numero = msg_numero;
+    public void setMessage(Message message) {
+        this.message = message;
     }
+
+
 
     public String getLibelle() {
         return libelle;
@@ -52,7 +54,7 @@ public class Hashtag {
     }
 
     public boolean isNull() {
-        return this.libelle == null && this.msg_numero == null && this.identifiant == null;
+        return this.libelle == null && this.message == null && this.identifiant == null;
     }
 
 }

@@ -17,14 +17,14 @@ public class Image {
     private String nom;
     private String type;
     private Blob image;
-    private Integer msg_numero;
+    private Message message;
 
-    public Image(Integer identifiant, String nom, String type, Blob image, Integer msg_numero) {
+    public Image(Integer identifiant, String nom, String type, Blob image, Message message) {
         this.identifiant = identifiant;
         this.nom = nom;
         this.type = type;
         this.image = image;
-        this.msg_numero = msg_numero;
+        this.message = message;
     }
 
     public Image() {
@@ -32,7 +32,7 @@ public class Image {
         this.nom = null;
         this.type = null;
         this.image = null;
-        this.msg_numero = null;
+        this.message = null;
     }
 
     public Integer getIdentifiant() {
@@ -67,15 +67,15 @@ public class Image {
         this.image = image;
     }
 
-    public Integer getMsg_numero() {
-        return msg_numero;
+    public Message getMessage() {
+        return message;
     }
 
-    public void setMsg_numero(Integer msg_numero) {
-        this.msg_numero = msg_numero;
+    public void setMessage(Message message) {
+        this.message = message;
     }
 
     public boolean isNull() {
-        return this.identifiant == null && this.nom == null && this.type == null && this.image == null && this.msg_numero == null;
+        return this.identifiant == null && this.nom == null && this.type == null && this.image == null && this.message == null;
     }
 }
