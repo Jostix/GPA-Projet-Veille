@@ -5,7 +5,7 @@
  */
 package ch.hearc.ig.gpa.dao;
 
-import ch.hearc.ig.gpa.business.Utilisateur;
+import ch.hearc.ig.gpa.business.User;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -19,15 +19,16 @@ import java.util.Set;
  *
  * @author Romain Ducret <romain.ducret1@he-arc.ch>
  */
-public class UtilisateurDAOImpl extends AbstractDAOOracle implements UtilisateurDAO {
+public class UserDAOImpl extends AbstractDAOOracle implements UserDAO {
+    
     //Insertion d'un hashtag dans la base de donnée
 
     @Override
-    public Set<Utilisateur> researchAll() throws ConnectionProblemException {
+    public Set<User> researchAll() throws ConnectionProblemException {
         Statement stmt = null;
         ResultSet rs = null;
 
-        Set<Utilisateur> utilisateurs = new HashSet<>();
+        Set<User> utilisateurs = new HashSet<>();
 
         try {
             stmt = getConnection().createStatement();
@@ -50,12 +51,12 @@ public class UtilisateurDAOImpl extends AbstractDAOOracle implements Utilisateur
     }
 
     @Override
-    public Set<Utilisateur> researchByName(String name) throws ConnectionProblemException {
+    public Set<User> researchByName(String name) throws ConnectionProblemException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        Set<Utilisateur> utilisateurs = new HashSet<>();
-        Utilisateur currentUtilisateur = null;
+        Set<User> utilisateurs = new HashSet<>();
+        User currentUtilisateur = null;
 
         try {
 
@@ -83,13 +84,13 @@ public class UtilisateurDAOImpl extends AbstractDAOOracle implements Utilisateur
     }
 
     @Override
-    public Set<Utilisateur> research(Utilisateur user) throws ConnectionProblemException {
+    public Set<User> research(User user) throws ConnectionProblemException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         boolean and = false;
 
-        Set<Utilisateur> utilisateurs = new HashSet<>();
-        Utilisateur currentUtilisateur = null;
+        Set<User> utilisateurs = new HashSet<>();
+        User currentUtilisateur = null;
 
         try {
 
@@ -172,8 +173,8 @@ public class UtilisateurDAOImpl extends AbstractDAOOracle implements Utilisateur
     }
 
     @Override
-    public Utilisateur insert(String name, String lastname, Date birthdate, String country, String usernameTwitter) throws ConnectionProblemException {
-        Utilisateur utilisateur = new Utilisateur(null, name, lastname, birthdate, country, usernameTwitter);
+    public User insert(String name, String lastname, Date birthdate, String country, String usernameTwitter) throws ConnectionProblemException {
+        User utilisateur = new User(null, name, lastname, birthdate, country, usernameTwitter);
 
         this.insert(utilisateur);
 
@@ -181,10 +182,10 @@ public class UtilisateurDAOImpl extends AbstractDAOOracle implements Utilisateur
     }
 
     @Override
-    public void insert(Utilisateur utilisateur) throws ConnectionProblemException {
+    public void insert(User utilisateur) throws ConnectionProblemException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Utilisateur newUtilisateur = null;
+        User newUtilisateur = null;
         final String generatedColumns[] = {"numero"};
 
         try {
@@ -219,7 +220,7 @@ public class UtilisateurDAOImpl extends AbstractDAOOracle implements Utilisateur
     }
 
     @Override
-    public void update(Utilisateur utilisateur) throws ConnectionProblemException {
+    public void update(User utilisateur) throws ConnectionProblemException {
         PreparedStatement stmt = null;
 
         try {
@@ -245,7 +246,7 @@ public class UtilisateurDAOImpl extends AbstractDAOOracle implements Utilisateur
     }
 
     @Override
-    public void delete(Utilisateur utilisateur) throws ConnectionProblemException {
+    public void delete(User utilisateur) throws ConnectionProblemException {
         this.delete(utilisateur.getIdentifiant());
     }
 
@@ -270,8 +271,8 @@ public class UtilisateurDAOImpl extends AbstractDAOOracle implements Utilisateur
         }
     }
 
-    private Utilisateur getUtilisateur(ResultSet rs) throws SQLException, ConnectionProblemException {
-        Utilisateur user = new Utilisateur();
+    private User getUtilisateur(ResultSet rs) throws SQLException, ConnectionProblemException {
+        User user = new User();
         user.setIdentifiant(rs.getInt("NUMERO"));
         user.setNom(rs.getString("NOM"));
         user.setPrenom(rs.getString("PRENOM"));

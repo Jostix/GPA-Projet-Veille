@@ -116,7 +116,7 @@ public class HashtagDAOImpl extends AbstractDAOOracle implements HashtagDAO {
                     if (and) {
                         query.append(" and ");
                     }
-                    query.append("MSG_NUMERO = '");
+                    query.append("MSG_NUMERO = '"); 
                     query.append(hashtag.getMessage().getIdentifiant());
                     query.append("'");
                     and = true;

@@ -11,7 +11,7 @@ import java.sql.Date;
  *
  * @author Romain Ducret <romain.ducret1@he-arc.ch>
  */
-public class Utilisateur {
+public class User {
 
     private Integer identifiant;
     private String nom;
@@ -20,7 +20,7 @@ public class Utilisateur {
     private String pays;
     private String username_twitter;
 
-    public Utilisateur(final Integer identifiant, final String nom, final String prenom, final Date dateNaissance, final String pays, final String username_twitter) {
+    public User(final Integer identifiant, final String nom, final String prenom, final Date dateNaissance, final String pays, final String username_twitter) {
         this.identifiant = identifiant;
         this.nom = nom;
         this.prenom = prenom;
@@ -29,7 +29,7 @@ public class Utilisateur {
         this.username_twitter = username_twitter;
     }
 
-    public Utilisateur() {
+    public User() {
         this.identifiant = null;
         this.nom = null;
         this.prenom = null;

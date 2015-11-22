@@ -24,13 +24,9 @@ import oracle.jdbc.OraclePreparedStatement;
 
 /**
  *
- * @author Romain Ducret <romain.ducret1@he-arc.ch>
+ * @author thierry.hubmann
  */
-public class FacebookDao {
-
-    public FacebookDao() {
-
-    }
+public class FacebookDao extends MessageDAOImpl{
 
     public List<Facebook> getAllFBMessages() throws ConnectionProblemException {
         List<Facebook> facebookMessages = new ArrayList();
@@ -46,7 +42,7 @@ public class FacebookDao {
 
             while (rsMessages.next()) {
                 String localisation = rsMessages.getString("localisation");
-                Message message = new MessageDao().getMessageById(rsMessages.getInt("msg_numero"));
+                Message message = new MessageDAOImpl().getMessageById(rsMessages.getInt("msg_numero"));
 
                 Facebook fbMessage = new Facebook(localisation, message.getMessage(), message.getDate_heure_publication(), message.getDate_heure_recup(), message.getResume());
 
