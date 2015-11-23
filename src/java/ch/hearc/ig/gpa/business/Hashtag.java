@@ -5,6 +5,9 @@
  */
 package ch.hearc.ig.gpa.business;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Romain Ducret <romain.ducret1@he-arc.ch>
@@ -14,11 +17,13 @@ public class Hashtag {
     private Integer identifiant;
     private String libelle;
     private Message message;
+    private List<Twitter> twitters;
 
     public Hashtag(final Integer identifiant, final String libelle, final Message message) {
         this.libelle = libelle;
         this.message = message;
         this.identifiant = identifiant;
+        twitters = new ArrayList<>();
     }
 
     public Hashtag() {

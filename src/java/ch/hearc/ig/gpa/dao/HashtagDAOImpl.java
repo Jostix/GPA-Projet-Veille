@@ -7,13 +7,17 @@ package ch.hearc.ig.gpa.dao;
 
 import ch.hearc.ig.gpa.business.Hashtag;
 import ch.hearc.ig.gpa.business.Message;
+import ch.hearc.ig.gpa.dbfactory.OracleConnections;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
+import static com.sun.xml.ws.security.addressing.impl.policy.Constants.logger;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
 
 /**
  *
@@ -30,7 +34,7 @@ public class HashtagDAOImpl extends AbstractDAOOracle implements HashtagDAO {
 
         try {
             stmt = getConnection().createStatement();
-            String query = "SELECT NUMERO, LIBELLE, MSG_NUMERO FROM HASHTAG";
+            String query = "SELECT NUMERO, LIBELLE FROM HASHTAG";
             rs = stmt.executeQuery(query);
 
             //On ajoute les hashtags à la liste
@@ -58,7 +62,7 @@ public class HashtagDAOImpl extends AbstractDAOOracle implements HashtagDAO {
 
         try {
 
-            String query = "SELECT NUMERO, LIBELLE, MSG_NUMERO WHERE UPPER(libelle) LIKE UPPER(?)";
+            String query = "SELECT NUMERO, LIBELLE WHERE UPPER(libelle) LIKE UPPER(?)";
 
             stmt = getConnection().prepareStatement(query);
             libelle = "%" + libelle + "%";
@@ -92,7 +96,7 @@ public class HashtagDAOImpl extends AbstractDAOOracle implements HashtagDAO {
 
         try {
 
-            StringBuilder query = new StringBuilder("SELECT NUMERO, LIBELLE,MSG_NUMERO FROM HASHTAG");
+            StringBuilder query = new StringBuilder("SELECT NUMERO, LIBELLE FROM HASHTAG");
 
             if (!hashtag.isNull()) {
                 query.append(" where ");
@@ -109,15 +113,6 @@ public class HashtagDAOImpl extends AbstractDAOOracle implements HashtagDAO {
                     }
                     query.append("LIBELLE = '");
                     query.append(hashtag.getLibelle());
-                    query.append("'");
-                    and = true;
-                }
-                if (hashtag.getMessage() != null) {
-                    if (and) {
-                        query.append(" and ");
-                    }
-                    query.append("MSG_NUMERO = '"); 
-                    query.append(hashtag.getMessage().getIdentifiant());
                     query.append("'");
                     and = true;
                 }
@@ -158,20 +153,23 @@ public class HashtagDAOImpl extends AbstractDAOOracle implements HashtagDAO {
         final String generatedColumns[] = {"numero"};
 
         try {
-            String query = "INSERT INTO hashtag (libelle,msg_numero) VALUES (?,?)";
+            String query = "INSERT INTO hashtag (libelle) VALUES (?)";
             stmt = getConnection().prepareStatement(query, generatedColumns);
 
             stmt.setString(1, hashtag.getLibelle());
-            stmt.setInt(2, hashtag.getMessage().getIdentifiant());
 
             int rowCount = stmt.executeUpdate();
 
+            int identifiant = getCurrentMsgSequenceValue();
+            
+            hashtag.setIdentifiant(identifiant);
+            
             if (rowCount != 1) {
                 throw new ConnectionProblemException("A problem appeared while inserting an hashtag !");
             }
 
             rs = stmt.getGeneratedKeys();
-
+            
             if (rs.next()) {
                 hashtag.setIdentifiant(rs.getInt(1));
             }
@@ -190,7 +188,7 @@ public class HashtagDAOImpl extends AbstractDAOOracle implements HashtagDAO {
         PreparedStatement stmt = null;
 
         try {
-            String query = "UPDATE hashtag SET libelle = ?, msg_numero = ? WHERE numero = ?";
+            String query = "UPDATE hashtag SET libelle = ? WHERE numero = ?";
             stmt = getConnection().prepareStatement(query);
 
             stmt.setString(1, hashtag.getLibelle());
@@ -242,5 +240,34 @@ public class HashtagDAOImpl extends AbstractDAOOracle implements HashtagDAO {
         //hashtag.setMessage(MessageDAO.getMessageById(rs.getInt("MSG_NUMERO")));
   
         return hashtag;
+    }
+    
+    @Override
+    public int getCurrentMsgSequenceValue() {
+        int currentValue = -1;
+        PreparedStatement stmt = null;
+        ResultSet rsSequence = null;
+        Connection c = null;
+
+        String query = "SELECT seq_hsht.currval FROM DUAL";
+        try {
+            c = OracleConnections.getConnection();
+            stmt = c.prepareStatement(query);
+            rsSequence = stmt.executeQuery();
+
+            while (rsSequence.next()) {
+                currentValue = rsSequence.getInt("seq_hsht.currval");
+            }
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+                c.close();
+            } catch (SQLException ex) {
+                logger.log(Level.SEVERE, null, ex);
+            }
+        }
+        return currentValue;
     }
 }

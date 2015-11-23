@@ -6,12 +6,19 @@
 package ch.hearc.ig.gpa.business;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Romain Ducret <romain.ducret1@he-arc.ch>
  */
 public class Twitter extends Message {
+    
+    private int identifiantTwi;
+    private Integer retweet;
+    private List<Hashtag> hashtags;
+    
     /**
      * Constructeur généré automatiquement pour respecter l'héritage...
      * @param message
@@ -19,9 +26,25 @@ public class Twitter extends Message {
      * @param date_heure_recup
      * @param resume 
      */
-    public Twitter(String message, Date date_heure_publication, Date date_heure_recup, String resume) {
+    public Twitter(String message, Date date_heure_publication, Date date_heure_recup, String resume, Integer retweet) {
         super(message, date_heure_publication, date_heure_recup, resume);
+        this.retweet = retweet;
+        hashtags = new ArrayList<>();
     }
 
-    
+    public int getIdentifiantTwi() {
+        return identifiantTwi;
+    }
+
+    public void setIdentifiantTwi(int identifiantTwi) {
+        this.identifiantTwi = identifiantTwi;
+    }
+
+    public Integer getRetweet() {
+        return retweet;
+    }
+
+    public void setRetweet(Integer retweet) {
+        this.retweet = retweet;
+    }
 }
