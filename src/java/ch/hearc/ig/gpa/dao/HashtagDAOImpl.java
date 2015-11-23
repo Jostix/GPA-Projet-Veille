@@ -5,6 +5,7 @@
  */
 package ch.hearc.ig.gpa.dao;
 
+import ch.hearc.ig.gpa.dao.interf.HashtagDAO;
 import ch.hearc.ig.gpa.business.Hashtag;
 import ch.hearc.ig.gpa.business.Message;
 import ch.hearc.ig.gpa.dbfactory.OracleConnections;
@@ -242,8 +243,8 @@ public class HashtagDAOImpl extends AbstractDAOOracle implements HashtagDAO {
         return hashtag;
     }
     
-    @Override
-    public int getCurrentMsgSequenceValue() {
+   
+    private int getCurrentMsgSequenceValue() {
         int currentValue = -1;
         PreparedStatement stmt = null;
         ResultSet rsSequence = null;
