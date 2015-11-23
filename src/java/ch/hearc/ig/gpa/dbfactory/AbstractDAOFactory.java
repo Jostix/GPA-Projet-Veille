@@ -5,10 +5,10 @@
  */
 package ch.hearc.ig.gpa.dbfactory;
 
-import ch.hearc.ig.gpa.dao.HashtagDAO;
-import ch.hearc.ig.gpa.dao.ImageDAO;
+import ch.hearc.ig.gpa.dao.interf.HashtagDAO;
+import ch.hearc.ig.gpa.dao.interf.ImageDAO;
 import ch.hearc.ig.gpa.dao.MessageDAOImpl;
-import ch.hearc.ig.gpa.dao.UserDAO;
+import ch.hearc.ig.gpa.dao.interf.UserDAO;
 import ch.hearc.ig.gpa.dbfactory.OracleDAOFactory;
 import ch.hearc.ig.gpa.exceptions.CommitException;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;

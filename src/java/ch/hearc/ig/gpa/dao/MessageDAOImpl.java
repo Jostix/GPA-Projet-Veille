@@ -5,6 +5,7 @@
  */
 package ch.hearc.ig.gpa.dao;
 
+import ch.hearc.ig.gpa.dao.interf.MessageDAO;
 import ch.hearc.ig.gpa.business.Facebook;
 import ch.hearc.ig.gpa.business.Message;
 import ch.hearc.ig.gpa.business.Twitter;

@@ -5,6 +5,7 @@
  */
 package ch.hearc.ig.gpa.dao;
 
+import ch.hearc.ig.gpa.dao.interf.ImageDAO;
 import ch.hearc.ig.gpa.business.Image;
 import ch.hearc.ig.gpa.business.Message;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;

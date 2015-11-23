@@ -5,6 +5,7 @@
  */
 package ch.hearc.ig.gpa.dao;
 
+import ch.hearc.ig.gpa.dao.interf.UserDAO;
 import ch.hearc.ig.gpa.business.User;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import java.sql.Date;
