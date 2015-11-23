@@ -94,7 +94,6 @@ public class TwitterDao {
         }
     }
     
-    @Override
     public int getCurrentMsgSequenceValue() {
         int currentValue = -1;
         PreparedStatement stmt = null;
