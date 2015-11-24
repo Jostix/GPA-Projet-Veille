@@ -9,6 +9,7 @@ import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import ch.hearc.ig.gpa.log.MyLogger;
 import ch.hearc.ig.gpa.dbfactory.OracleConnections;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -29,6 +30,27 @@ public abstract class AbstractDAOOracle extends AbstractDAO {
 
             if (stmt != null) {
                 stmt.close();
+            }
+        } catch (Exception e) {
+            MyLogger.getInstance().log(Level.SEVERE, null, e);
+        }
+
+        try {
+
+            if (rs != null) {
+                rs.close();
+            }
+        } catch (Exception e) {
+            MyLogger.getInstance().log(Level.SEVERE, null, e);
+        }
+
+    }
+    
+     protected void closePStmtAndRS(PreparedStatement pstmt, ResultSet rs) {
+        try {
+
+            if (pstmt != null) {
+                pstmt.close();
             }
         } catch (Exception e) {
             MyLogger.getInstance().log(Level.SEVERE, null, e);

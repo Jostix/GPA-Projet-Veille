@@ -15,9 +15,9 @@ import java.util.Set;
  */
 public interface MessageDAO {
 
-    public void addMessage(Message message, int userNum);
+    public void addMessage(Message message, int userNum)  throws ConnectionProblemException;
 
-    public int getCurrentMsgSequenceValue();
+    public int getCurrentMsgSequenceValue() throws ConnectionProblemException;
 
     public Message getMessageById(int numero) throws ConnectionProblemException;
 

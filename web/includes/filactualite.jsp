@@ -4,6 +4,9 @@
     Author     : Romain Ducret <romain.ducret1@he-arc.ch>
 --%>
 
+<%@page import="java.util.Set"%>
+<%@page import="ch.hearc.ig.gpa.business.Message"%>
+<%@page import="ch.hearc.ig.gpa.business.Message"%>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -51,3 +54,11 @@
         </tr>
     </tbody>
 </table>
+
+
+ <% Set<Message> myList = (Set<Message>) request.getAttribute("my.search.results"); 
+ myList.size();
+int test = 12;
+out.println(test);
+
+ %>
