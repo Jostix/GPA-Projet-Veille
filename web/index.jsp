@@ -3,7 +3,12 @@
     Created on : 4 janv. 2010, 11:23:22
     Author     : termine
 --%>
-
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.HashSet"%>
+<%@page import="ch.hearc.ig.gpa.dao.UserDAOImpl"%>
+<%@page import="java.util.Date"%>
+<%@page import="ch.hearc.ig.gpa.business.User"%>
+<%@page import="ch.hearc.ig.gpa.twitter.*" %>
 <%@include file="includes/header.jsp" %>
 <%@include file="includes/navbar.jsp" %>
 <!-- <a href="recherchePersonne.html">Recherche Personne</a><br>
