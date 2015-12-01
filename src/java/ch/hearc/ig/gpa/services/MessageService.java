@@ -13,6 +13,7 @@ import ch.hearc.ig.gpa.exceptions.CommitException;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import ch.hearc.ig.gpa.exceptions.RollbackException;
 import ch.hearc.ig.gpa.log.MyLogger;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -35,8 +36,8 @@ public class MessageService {
         return list;
     }
 
-    public static Set<Message> findTop5Message() throws ConnectionProblemException {
-        Set<Message> list = null;
+    public static List<Message> findTop5Message() throws ConnectionProblemException {
+        List<Message> list = null;
         try {
             list = AbstractDAOFactory.getDAOFactory().getMessageDAO().getTop5Message();
         } catch (ConnectionProblemException e) {

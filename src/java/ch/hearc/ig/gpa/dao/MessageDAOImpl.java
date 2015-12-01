@@ -43,7 +43,6 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
             pstmt.setDate(3, message.getDate_heure_publication());
             pstmt.setDate(4, message.getDate_heure_recup());
             pstmt.setString(5, message.getResume());
-            
 
             int count = pstmt.executeUpdate();
 
@@ -152,8 +151,9 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
     }
 
     @Override
-    public Set<Message> getTop5Message() throws ConnectionProblemException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Message> getTop5Message() throws ConnectionProblemException {
+        List topMessages = new TwitterDao().getTopRetweeted(5); //Si le client veut un top 6, entrer 6 ici
+        return topMessages;
     }
 
     @Override
