@@ -33,13 +33,20 @@ public class ServletFil extends HttpServlet {
             HtmlHttpUtils.doHeader("<span class='glyphicon glyphicon-th-list'></span> Fil d'actualité", out, request, response);
 
             //Récupère la liste des messages
-           // Set<Message> listeMessage = MessageService.findAllMessage();
-
+            //Set<Message> listeMessage = MessageService.findAllMessage();
+            
             //Test pour récupèrer la taille de la liste.
             //out.println(listeMessage.size());
-
+            
             //Inlcusion du top 5
             out.println("<h2>Top 5 des actualités</h2>");
+            
+            //Affichage du tableau top 5
+            HtmlHttpUtils.doTableHeader(out);
+            HtmlHttpUtils.doTableRow(out, "colonne1", "colonne2", "col3");
+            HtmlHttpUtils.doTableFooter(out);
+            
+            
             request.getRequestDispatcher("includes/top5.jsp").include(request, response);
 
             //Inclusion de toutes les pages
@@ -47,7 +54,7 @@ public class ServletFil extends HttpServlet {
             request.getRequestDispatcher("includes/filactualite.jsp").include(request, response);
 
         //} catch (ConnectionProblemException ex) {
-        //    Logger.getLogger(ServletFil.class.getName()).log(Level.SEVERE, null, ex);
+            //    Logger.getLogger(ServletFil.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
         }

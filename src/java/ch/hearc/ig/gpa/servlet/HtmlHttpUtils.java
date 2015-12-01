@@ -38,6 +38,7 @@ public class HtmlHttpUtils extends HttpServlet {
         out.println("<h1 class='page-header'>" + titre + "</h1><br>");
     }
 
+    //Méthode qui permet d'afficher l'entête d'un tableau
     public static void doTableHeader(PrintWriter out) {
         out.println("<table class=\"table table-striped\">");
         out.println("  <thead>");
@@ -49,10 +50,16 @@ public class HtmlHttpUtils extends HttpServlet {
         out.println("  </thead>");
     }
 
-    public static void doTableRow(PrintWriter out, final String col1, final String col2, final String col3) {
-        
+    //Méthode qui permet d'afficher une ligne dans un tableau
+    public static void doTableRow(PrintWriter out, final String col1, final String col2, final String actionLink) {
+        out.println("<tr>");
+        out.println("<td>" + col1 + "</td>");
+        out.println("<td>" + col2 + "</td>");
+        out.println("<td><a class='btn-xs btn btn-primary' href='" + actionLink + "'><span class='glyphicon glyphicon-search' aria-hidden='true'></span> Détail</a></td>");
+        out.println("</tr>");
     }
 
+    //Méthode qui affiche le footer d'un tableau
     public static void doTableFooter(PrintWriter out) {
         out.println("</tbody>");
         out.println("</table>");
