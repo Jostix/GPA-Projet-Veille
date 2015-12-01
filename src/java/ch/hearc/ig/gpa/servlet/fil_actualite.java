@@ -6,8 +6,10 @@
 package ch.hearc.ig.gpa.servlet;
 
 import ch.hearc.ig.gpa.business.Message;
+import ch.hearc.ig.gpa.exceptions.CommitException;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import ch.hearc.ig.gpa.services.MessageService;
+import ch.hearc.ig.gpa.twitter.RecuperationTwitter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import twitter4j.TwitterException;
 
 /**
  *
@@ -64,8 +67,7 @@ public class fil_actualite extends HttpServlet {
             getServletContext().getRequestDispatcher("/includes/footer.jsp").include(request, response);
 
            
-        }
-    }
+        }    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

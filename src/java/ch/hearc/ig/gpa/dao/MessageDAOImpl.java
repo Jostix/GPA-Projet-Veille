@@ -35,13 +35,15 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
         ResultSet rs = null;
 
         try {
-            String query = "insert into Message(message, date_heure_publication, date_heure_recup, resume, user_numero) values (?,?,?,?)";
+            String query = "insert into Message(user_numero, message, date_heure_publication, date_heure_recup, resume) values (?,?,?,?,?)";
 
             pstmt = getConnection().prepareStatement(query);
-            pstmt.setString(1, message.getMessage());
-            pstmt.setDate(2, message.getDate_heure_publication());
-            pstmt.setDate(3, message.getDate_heure_recup());
-            pstmt.setString(4, message.getResume());
+            pstmt.setInt(1, userNum);
+            pstmt.setString(2, message.getMessage());
+            pstmt.setDate(3, message.getDate_heure_publication());
+            pstmt.setDate(4, message.getDate_heure_recup());
+            pstmt.setString(5, message.getResume());
+            
 
             int count = pstmt.executeUpdate();
 
@@ -53,9 +55,9 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
              * si c'est un message Twitter on va bien entendu ajouter une
              * publication Twitter.
              */
-            if (message instanceof Facebook) {
-                new FacebookDao().addFbMessage((Facebook) message, newMessageNum);
-            }
+//            if (message instanceof Facebook) {
+//                new FacebookDao().addFbMessage((Facebook) message, newMessageNum);
+//            }
             if (message instanceof Twitter) {
                 new TwitterDao().addTwitterMessage((Twitter) message, newMessageNum);
             }

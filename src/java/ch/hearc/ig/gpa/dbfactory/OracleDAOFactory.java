@@ -10,6 +10,7 @@ import ch.hearc.ig.gpa.dao.HashtagDAOImpl;
 import ch.hearc.ig.gpa.dao.interf.ImageDAO;
 import ch.hearc.ig.gpa.dao.ImageDAOImpl;
 import ch.hearc.ig.gpa.dao.MessageDAOImpl;
+import ch.hearc.ig.gpa.dao.RelationTwiHashDAO;
 import ch.hearc.ig.gpa.dao.interf.UserDAO;
 import ch.hearc.ig.gpa.dao.UserDAOImpl;
 import ch.hearc.ig.gpa.dbfactory.OracleConnections;
@@ -73,7 +74,12 @@ public class OracleDAOFactory extends AbstractDAOFactory {
 
     @Override
     public MessageDAOImpl getMessageDAO() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new MessageDAOImpl();
+    }
+    
+    @Override
+    public RelationTwiHashDAO getRelationTwiHashDAO() {
+        return new RelationTwiHashDAO();
     }
 
 }
