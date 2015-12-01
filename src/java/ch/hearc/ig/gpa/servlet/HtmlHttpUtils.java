@@ -5,8 +5,12 @@
  */
 package ch.hearc.ig.gpa.servlet;
 
+import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -15,14 +19,43 @@ import javax.servlet.http.HttpServlet;
 public class HtmlHttpUtils extends HttpServlet {
 
     //Cette méthode est appellé sur en en-tête sur chaque servlet
-    public static void doHeader(String titre, PrintWriter out) {
+    public static void doHeader(String titre, PrintWriter out, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         out.println("<html>");
         out.println("<head>");
         out.println("<title> Projet Veille </title>");
+        out.println("<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'></link>");
+        out.println("<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css'></link>");
+        out.println("<script type='text/javascript' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>");
+        out.println("<script type='text/javascript' href='http://code.jquery.com/jquery-2.1.4.min.js'></script>");
         out.println("</head>");
         out.println("<body>");
+
         out.println("<div class='container'>");
+
+        //Inlcusion de la navigation
+        request.getRequestDispatcher("includes/navbar.jsp").include(request, response);
+
         out.println("<h1 class='page-header'>" + titre + "</h1><br>");
+    }
+
+    public static void doTableHeader(PrintWriter out) {
+        out.println("<table class=\"table table-striped\">");
+        out.println("  <thead>");
+        out.println("    <tr>");
+        out.println("      <td>Catégorie</td>");
+        out.println("      <td>Description</td>");
+        out.println("      <td>Action</td>");
+        out.println("    </tr>");
+        out.println("  </thead>");
+    }
+
+    public static void doTableRow(PrintWriter out, final String col1, final String col2, final String col3) {
+        
+    }
+
+    public static void doTableFooter(PrintWriter out) {
+        out.println("</tbody>");
+        out.println("</table>");
     }
 
     //Cette méthode permet d'afficher les boutons en bas de tous les servlet

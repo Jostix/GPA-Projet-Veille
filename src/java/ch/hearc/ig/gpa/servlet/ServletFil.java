@@ -11,6 +11,8 @@ import ch.hearc.ig.gpa.services.MessageService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,19 +27,27 @@ public class ServletFil extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        //request.getRequestDispatcher("includes/header.jsp").include(request, response);
-        // request.getRequestDispatcher("includes/navbar.jsp").include(request, response);
 
         try {
-            HtmlHttpUtils.doHeader("<span class='glyphicon glyphicon-th-list'></span> Fil d'actualité", out);
+            //Ajout de l'entête
+            HtmlHttpUtils.doHeader("<span class='glyphicon glyphicon-th-list'></span> Fil d'actualité", out, request, response);
 
-            Set<Message> searchResultsList = MessageService.findAllMessage();
-            out.println("Messages trouvées:");
-            out.println(searchResultsList.size());
+            //Récupère la liste des messages
+           // Set<Message> listeMessage = MessageService.findAllMessage();
 
-            HtmlHttpUtils.doFooter(out);
+            //Test pour récupèrer la taille de la liste.
+            //out.println(listeMessage.size());
 
-        } catch (ConnectionProblemException e) {
+            //Inlcusion du top 5
+            out.println("<h2>Top 5 des actualités</h2>");
+            request.getRequestDispatcher("includes/top5.jsp").include(request, response);
+
+            //Inclusion de toutes les pages
+            out.println("<h2>Reste de l'actualité</h2>");
+            request.getRequestDispatcher("includes/filactualite.jsp").include(request, response);
+
+        //} catch (ConnectionProblemException ex) {
+        //    Logger.getLogger(ServletFil.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
         }

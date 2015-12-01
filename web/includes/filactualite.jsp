@@ -54,11 +54,3 @@
         </tr>
     </tbody>
 </table>
-
-
- <% Set<Message> myList = (Set<Message>) request.getAttribute("my.search.results"); 
- myList.size();
-int test = 12;
-out.println(test);
-
- %>
