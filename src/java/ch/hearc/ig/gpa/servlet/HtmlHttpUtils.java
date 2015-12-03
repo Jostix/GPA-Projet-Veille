@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class HtmlHttpUtils extends HttpServlet {
 
+    private String col1 = null;
+    
     //Cette méthode est appellé sur en en-tête sur chaque servlet
     public static void doHeader(String titre, PrintWriter out, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         out.println("<html>");

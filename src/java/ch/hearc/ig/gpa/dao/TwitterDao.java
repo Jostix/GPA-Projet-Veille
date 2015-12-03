@@ -25,38 +25,35 @@ import oracle.jdbc.OraclePreparedStatement;
  *
  * @author Romain Ducret <romain.ducret1@he-arc.ch>
  */
-public class TwitterDao extends AbstractDAOOracle {
+public class TwitterDao extends MessageDAOImpl {
 
     public List<Twitter> getAllTwitterMessages() throws ConnectionProblemException {
         List<Twitter> twitterMessages = new ArrayList();
         PreparedStatement stmt = null;
         ResultSet rsMessages = null;
-        Connection c = null;
 
-        String query = "SELECT retweet, msg_numero FROM twitter_publication";
+        String query = "SELECT * FROM twitter_publication";
         try {
-            c = OracleConnections.getConnection();
-            stmt = c.prepareStatement(query);
+            stmt = getConnection().prepareStatement(query);
             rsMessages = stmt.executeQuery();
 
-            while (rsMessages.next()) {
+            Boolean test = rsMessages.next();
+           // while (test) {
+
                 Integer retweet = rsMessages.getInt("retweet");
                 Message message = new MessageDAOImpl().getMessageById(rsMessages.getInt("msg_numero"));
 
                 Twitter twMessage = new Twitter(message.getMessage(), message.getDate_heure_publication(), message.getDate_heure_recup(), message.getResume(), retweet);
 
                 twitterMessages.add(twMessage);
-
-            }
-        } catch (SQLException ex) {
-            logger.log(Level.SEVERE, null, ex);
+              //  test = rsMessages.next();
+           // }
+        } catch (ConnectionProblemException ex) {
+            throw ex;
+        } catch (SQLException sqlE) {
+            throw new ConnectionProblemException("A problem appared with loading all twitter message", sqlE);
         } finally {
-            try {
-                stmt.close();
-                c.close();
-            } catch (SQLException ex) {
-                logger.log(Level.SEVERE, null, ex);
-            }
+            closePStmtAndRS(stmt, rsMessages);
         }
         return twitterMessages;
     }

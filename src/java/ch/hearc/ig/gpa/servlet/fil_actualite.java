@@ -13,6 +13,7 @@ import ch.hearc.ig.gpa.twitter.RecuperationTwitter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,7 +58,7 @@ public class fil_actualite extends HttpServlet {
             //Content
             out.println("Fil d'actualité Servlet");
 
-            Set<Message> searchResultsList = MessageService.findAllMessage();
+            List<Message> searchResultsList = MessageService.findAllMessage();
             RequestDispatcher disp;
             disp = getServletContext().getRequestDispatcher("/includes/filactualite.jsp");
             request.setAttribute("my.search.results", searchResultsList);

@@ -132,16 +132,16 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
     }
 
     @Override
-    public Set<Message> getAllMessage() throws ConnectionProblemException {
+    public List<Message> getAllMessage() throws ConnectionProblemException {
         List<Facebook> FBmessages = new ArrayList<>();
         List<Twitter> Twittermessages = new ArrayList<>();
-        Set<Message> messages = new HashSet<>();
-        FBmessages = new FacebookDao().getAllFBMessages();
+        List<Message> messages  = new ArrayList<>();
+        //FBmessages = new FacebookDao().getAllFBMessages();
         Twittermessages = new TwitterDao().getAllTwitterMessages();
 
-        for (int compteur = 0; compteur < FBmessages.size(); compteur++) {
+      /*  for (int compteur = 0; compteur < FBmessages.size(); compteur++) {
             messages.add(FBmessages.get(compteur));
-        }
+        }*/
 
         for (int compteur = 0; compteur < Twittermessages.size(); compteur++) {
             messages.add(Twittermessages.get(compteur));

@@ -8,7 +8,6 @@ package ch.hearc.ig.gpa.dao.interf;
 import ch.hearc.ig.gpa.business.Message;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import java.util.List;
-import java.util.Set;
 
 /**
  *
@@ -26,7 +25,7 @@ public interface MessageDAO {
 
     public Message addTwitterMessage(Message message) throws ConnectionProblemException;
 
-    public Set<Message> getAllMessage() throws ConnectionProblemException;
+    public List<Message> getAllMessage() throws ConnectionProblemException;
 
     public List<Message> getTop5Message() throws ConnectionProblemException;
 }
