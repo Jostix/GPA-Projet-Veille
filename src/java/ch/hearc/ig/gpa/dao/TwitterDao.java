@@ -30,30 +30,32 @@ public class TwitterDao extends MessageDAOImpl {
     public List<Twitter> getAllTwitterMessages() throws ConnectionProblemException {
         List<Twitter> twitterMessages = new ArrayList();
         PreparedStatement stmt = null;
-        ResultSet rsMessages = null;
+        ResultSet rsMessagesTwitter = null;
 
         String query = "SELECT * FROM twitter_publication";
         try {
             stmt = getConnection().prepareStatement(query);
-            rsMessages = stmt.executeQuery();
+            rsMessagesTwitter = stmt.executeQuery();
+            Integer retweet;
+            Message message;
+            Twitter twMessage;
 
-            Boolean test = rsMessages.next();
-           // while (test) {
+            Boolean test = rsMessagesTwitter.next();
+            while (test) {
 
-                Integer retweet = rsMessages.getInt("retweet");
-                Message message = new MessageDAOImpl().getMessageById(rsMessages.getInt("msg_numero"));
-
-                Twitter twMessage = new Twitter(message.getMessage(), message.getDate_heure_publication(), message.getDate_heure_recup(), message.getResume(), retweet);
+                retweet = rsMessagesTwitter.getInt("retweet");
+                message = new MessageDAOImpl().getMessageById(rsMessagesTwitter.getInt("msg_numero"));
+                twMessage = new Twitter(message.getMessage(), message.getDate_heure_publication(), message.getDate_heure_recup(), message.getResume(), retweet);
 
                 twitterMessages.add(twMessage);
-              //  test = rsMessages.next();
-           // }
+                test = rsMessagesTwitter.next();
+            }
         } catch (ConnectionProblemException ex) {
             throw ex;
         } catch (SQLException sqlE) {
             throw new ConnectionProblemException("A problem appared with loading all twitter message", sqlE);
         } finally {
-            closePStmtAndRS(stmt, rsMessages);
+            closePStmtAndRS(stmt, rsMessagesTwitter);
         }
         return twitterMessages;
     }

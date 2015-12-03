@@ -46,6 +46,7 @@ public class HtmlHttpUtils extends HttpServlet {
         out.println("  <thead>");
         out.println("    <tr>");
         out.println("      <td>Catégorie</td>");
+        out.println("      <td>Résumé</td>");
         out.println("      <td>Description</td>");
         out.println("      <td>Action</td>");
         out.println("    </tr>");
@@ -53,8 +54,9 @@ public class HtmlHttpUtils extends HttpServlet {
     }
 
     //Méthode qui permet d'afficher une ligne dans un tableau
-    public static void doTableRow(PrintWriter out, final String col1, final String col2, final String actionLink) {
+    public static void doTableRow(PrintWriter out, final String cat, final String col1, final String col2, final String actionLink) {
         out.println("<tr>");
+        out.println("<td>" + cat + "</td>");
         out.println("<td>" + col1 + "</td>");
         out.println("<td>" + col2 + "</td>");
         out.println("<td><a class='btn-xs btn btn-primary' href='" + actionLink + "'><span class='glyphicon glyphicon-search' aria-hidden='true'></span> Détail</a></td>");

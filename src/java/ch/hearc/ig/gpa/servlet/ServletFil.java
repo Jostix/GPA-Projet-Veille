@@ -35,20 +35,21 @@ public class ServletFil extends HttpServlet {
 
             //Récupère la liste des messages
             List<Message> listeMessage = MessageService.findAllMessage();
-
+            Set<Message> listeMdessage;
+            
             //Inlcusion du top 5
             out.println("<h2>Top 5 des actualités</h2>");
 
             //Affichage du tableau top 5
             HtmlHttpUtils.doTableHeader(out);
-            HtmlHttpUtils.doTableRow(out, "colonne1", "colonne2", "col3");
+            HtmlHttpUtils.doTableRow(out, "cat", "colonne1", "colonne2", "col3");
             HtmlHttpUtils.doTableFooter(out);
 
             //Affichage du reste de l'actualité
             out.println("<h2>Reste de l'actualité</h2>");
             HtmlHttpUtils.doTableHeader(out);
             for (int compteur = 0; compteur < listeMessage.size(); compteur++) {
-                HtmlHttpUtils.doTableRow(out, listeMessage.get(compteur).getMessage(), listeMessage.get(compteur).getResume(), "col3");
+                HtmlHttpUtils.doTableRow(out, "Twitter - Veille Protection",  listeMessage.get(compteur).getResume(), listeMessage.get(compteur).getMessage() + " - " + listeMessage.get(compteur).getDate_heure_publication() , "col3");
             }
             HtmlHttpUtils.doTableFooter(out);
 

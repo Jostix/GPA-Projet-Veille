@@ -40,8 +40,6 @@ public class Hashtag {
         this.message = message;
     }
 
-
-
     public String getLibelle() {
         return libelle;
     }

@@ -99,12 +99,10 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
         Message m = null;
         PreparedStatement stmt = null;
         ResultSet rsMessages = null;
-        Connection c = null;
 
         String query = "SELECT message, date_heure_publication, date_heure_recup, resume FROM message  WHERE numero =?";
         try {
-            c = OracleConnections.getConnection();
-            stmt = c.prepareStatement(query);
+            stmt = getConnection().prepareStatement(query);
             stmt.setInt(1, numero);
             rsMessages = stmt.executeQuery();
 
@@ -118,15 +116,12 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
                 m = new Message(message, dateHeurePublication, dateHeureRecup, resume);
 
             }
-        } catch (SQLException ex) {
-            logger.log(Level.SEVERE, null, ex);
+        } catch (ConnectionProblemException ex) {
+            throw ex;
+        } catch (SQLException sqlE) {
+            throw new ConnectionProblemException("A problem appared with loading one message", sqlE);
         } finally {
-            try {
-                stmt.close();
-                c.close();
-            } catch (SQLException ex) {
-                logger.log(Level.SEVERE, null, ex);
-            }
+            closePStmtAndRS(stmt, rsMessages);
         }
         return m;
     }
@@ -135,14 +130,13 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
     public List<Message> getAllMessage() throws ConnectionProblemException {
         List<Facebook> FBmessages = new ArrayList<>();
         List<Twitter> Twittermessages = new ArrayList<>();
-        List<Message> messages  = new ArrayList<>();
+        List<Message> messages = new ArrayList<>();
         //FBmessages = new FacebookDao().getAllFBMessages();
         Twittermessages = new TwitterDao().getAllTwitterMessages();
 
-      /*  for (int compteur = 0; compteur < FBmessages.size(); compteur++) {
-            messages.add(FBmessages.get(compteur));
-        }*/
-
+        /*  for (int compteur = 0; compteur < FBmessages.size(); compteur++) {
+         messages.add(FBmessages.get(compteur));
+         }*/
         for (int compteur = 0; compteur < Twittermessages.size(); compteur++) {
             messages.add(Twittermessages.get(compteur));
         }
