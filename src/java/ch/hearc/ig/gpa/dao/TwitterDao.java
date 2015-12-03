@@ -7,7 +7,6 @@ package ch.hearc.ig.gpa.dao;
 
 import ch.hearc.ig.gpa.business.Twitter;
 import ch.hearc.ig.gpa.business.Message;
-import ch.hearc.ig.gpa.dbfactory.OracleConnections;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import static com.sun.xml.ws.security.addressing.impl.policy.Constants.logger;
 import java.sql.Connection;
@@ -16,9 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import oracle.jdbc.OraclePreparedStatement;
 
 /**
@@ -98,7 +95,7 @@ public class TwitterDao extends MessageDAOImpl {
         int currentValue = -1;
         PreparedStatement stmt = null;
         ResultSet rsSequence = null;
-        Connection c = null;
+        Connection c = null; //beurk
 
         String query = "SELECT seq_twipub.currval FROM DUAL";
         try {

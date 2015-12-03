@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 public class HtmlHttpUtils extends HttpServlet {
 
     private String col1 = null;
-    
+
     //Cette méthode est appellé sur en en-tête sur chaque servlet
     public static void doHeader(String titre, PrintWriter out, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         out.println("<html>");
@@ -38,6 +38,34 @@ public class HtmlHttpUtils extends HttpServlet {
         request.getRequestDispatcher("includes/navbar.jsp").include(request, response);
 
         out.println("<h1 class='page-header'>" + titre + "</h1><br>");
+    }
+
+    //Méthode qui permet d'afficher l'en-tête d'un accordeon
+    public static void doAccordeonHeader(PrintWriter out, final String id) {
+        out.println("<div class='panel-group' id=" + id + " role='tablist' aria-multiselectable='true'>");
+    }
+
+    public static void doAccordeoRow(PrintWriter out, final String parentId, final int rowNumber, final String menuTitle, final String content) {
+        out.println("<div class='panel panel-default'>");
+        out.println("   <div class='panel-heading' role='tab' id='heading" + rowNumber + "'>");
+        out.println("       <h4 class='panel-title'>");
+        out.println("         <a class='collapsed' role='button' data-toggle='collapse' data-parent=" + parentId + " href='#collapse" + rowNumber + "' aria-expanded='false' aria-controls='collapse" + rowNumber + "'>");
+        out.println(menuTitle);
+        out.println("         </a>");
+        out.println("       </h4>");
+        out.println("   </div>");
+        out.println("   <div id='collapse" + rowNumber + "' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading" + rowNumber + "'>");
+        out.println("        <div class='panel-body'>");
+        out.println(content);
+        out.println("        </div>");
+        out.println("   </div>");
+
+        out.println("</div>");
+    }
+
+    //Méthode qui permet d'affiche le footer d'un accordeon
+    public static void doAccordeonFooter(PrintWriter out) {
+        out.println("</div>");
     }
 
     //Méthode qui permet d'afficher l'entête d'un tableau

@@ -9,19 +9,13 @@ import ch.hearc.ig.gpa.dao.interf.MessageDAO;
 import ch.hearc.ig.gpa.business.Facebook;
 import ch.hearc.ig.gpa.business.Message;
 import ch.hearc.ig.gpa.business.Twitter;
-import ch.hearc.ig.gpa.dbfactory.OracleConnections;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
-import static com.sun.xml.ws.security.addressing.impl.policy.Constants.logger;
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
 
 /**
  *

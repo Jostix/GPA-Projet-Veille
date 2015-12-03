@@ -7,6 +7,7 @@ package ch.hearc.ig.gpa.servlet;
 
 import ch.hearc.ig.gpa.business.Message;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
+import ch.hearc.ig.gpa.log.MyLogger;
 import ch.hearc.ig.gpa.services.MessageService;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,6 +41,13 @@ public class ServletFil extends HttpServlet {
             // Titre
             out.println("<h2>Top 5 des actualités</h2>");
 
+            //Affiche l'accordeon
+            HtmlHttpUtils.doAccordeonHeader(out, "AccordeonTop5");
+            for (int compteur = 0; compteur < listeMessageTop5.size(); compteur++) {
+                HtmlHttpUtils.doAccordeoRow(out, "AccordeonTop5", compteur, listeMessageTop5.get(compteur).getResume(), listeMessageTop5.get(compteur).getMessage());
+            }
+            HtmlHttpUtils.doAccordeonFooter(out);
+
             // Affiche le tableau et l'alimente
             HtmlHttpUtils.doTableHeader(out);
             for (Message message : listeMessageTop5) {
@@ -61,6 +69,7 @@ public class ServletFil extends HttpServlet {
             }
             HtmlHttpUtils.doTableFooter(out); // Fin du tableau
 
+            throw new ConnectionProblemException("Test");
         } catch (ConnectionProblemException ex) {
             Logger.getLogger(ServletFil.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
