@@ -32,8 +32,9 @@ public class OracleConnections {
         try {
             // Se connecter à la BD Oracle
             String DBURL = "jdbc:oracle:thin:@" + HOST + ":" + PORT + ":" + SID;
-
+            System.out.println("URL:" + DBURL);
             con = DriverManager.getConnection(DBURL, USER, PASSWORD);
+            System.out.println("TEST");
             con.setAutoCommit(false);
 
         } catch (SQLException ex) {
