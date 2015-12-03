@@ -10,6 +10,7 @@ import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import ch.hearc.ig.gpa.services.MessageService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,13 +33,13 @@ public class ServletFil extends HttpServlet {
             //Ajout de l'entête
             HtmlHttpUtils.doHeader("<span class='glyphicon glyphicon-th-list'></span> Fil d'actualité", out, request, response);
 
-            //Récupère la liste des messages
-            //Set<Message> listeMessage = MessageService.findAllMessage();
+           // Récupère la liste des messages
+            List<Message> listeMessage = MessageService.findAllMessage();
             
             //Test pour récupèrer la taille de la liste.
-            //out.println(listeMessage.size());
+            out.println(listeMessage.size());
             
-            //Inlcusion du top 5
+           /// Inlcusion du top 5
             out.println("<h2>Top 5 des actualités</h2>");
             
             //Affichage du tableau top 5
@@ -55,6 +56,8 @@ public class ServletFil extends HttpServlet {
 
         //} catch (ConnectionProblemException ex) {
             //    Logger.getLogger(ServletFil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ConnectionProblemException ex) {
+            Logger.getLogger(ServletFil.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
         }

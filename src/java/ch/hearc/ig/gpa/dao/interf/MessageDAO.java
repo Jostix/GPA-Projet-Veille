@@ -26,7 +26,7 @@ public interface MessageDAO {
 
     public Message addTwitterMessage(Message message) throws ConnectionProblemException;
 
-    public Set<Message> getAllMessage() throws ConnectionProblemException;
+    public List<Message> getAllMessage() throws ConnectionProblemException;
 
     public List<Message> getTop5Message() throws ConnectionProblemException;
 }

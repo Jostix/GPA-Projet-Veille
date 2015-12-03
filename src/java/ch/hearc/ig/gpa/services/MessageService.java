@@ -23,8 +23,8 @@ import java.util.logging.Level;
  */
 public class MessageService {
 
-    public static Set<Message> findAllMessage() throws ConnectionProblemException {
-        Set<Message> list = null;
+    public static List<Message> findAllMessage() throws ConnectionProblemException {
+        List<Message> list = null;
         try {
             list = AbstractDAOFactory.getDAOFactory().getMessageDAO().getAllMessage();
         } catch (ConnectionProblemException e) {
