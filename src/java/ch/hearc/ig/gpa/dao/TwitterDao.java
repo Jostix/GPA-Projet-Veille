@@ -126,7 +126,6 @@ public class TwitterDao extends MessageDAOImpl {
         List<Twitter> twitterMessages = new ArrayList();
         PreparedStatement stmt = null;
         ResultSet rsMessages = null;
-        Connection c = null;
 
         String query = "SELECT retweet, msg_numero FROM (SELECT retweet, msg_numero FROM twitter_publication ORDER BY retweet desc) WHERE ROWNUM <=" + nbMessages;
         try {
@@ -143,15 +142,12 @@ public class TwitterDao extends MessageDAOImpl {
                 twitterMessages.add(twMessage);
 
             }
-        } catch (SQLException ex) {
-            logger.log(Level.SEVERE, null, ex);
+        } catch (ConnectionProblemException ex) {
+            throw ex;
+        } catch (SQLException sqlE) {
+            throw new ConnectionProblemException("A problem appared while getting MsgSequenceValue", sqlE);
         } finally {
-            try {
-                stmt.close();
-                c.close();
-            } catch (SQLException ex) {
-                logger.log(Level.SEVERE, null, ex);
-            }
+            closePStmtAndRS(stmt, rsMessages);
         }
         return twitterMessages;
     }
