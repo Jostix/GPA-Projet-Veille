@@ -11,6 +11,7 @@ import ch.hearc.ig.gpa.dao.interf.ImageDAO;
 import ch.hearc.ig.gpa.dao.ImageDAOImpl;
 import ch.hearc.ig.gpa.dao.MessageDAOImpl;
 import ch.hearc.ig.gpa.dao.RelationTwiHashDAO;
+import ch.hearc.ig.gpa.dao.TwitterDao;
 import ch.hearc.ig.gpa.dao.interf.UserDAO;
 import ch.hearc.ig.gpa.dao.UserDAOImpl;
 import ch.hearc.ig.gpa.dbfactory.OracleConnections;
@@ -63,7 +64,7 @@ public class OracleDAOFactory extends AbstractDAOFactory {
     }
 
     @Override
-    public HashtagDAO getHashtagDAO() {
+    public HashtagDAOImpl getHashtagDAO() {
         return new HashtagDAOImpl();
     }
 
@@ -80,6 +81,10 @@ public class OracleDAOFactory extends AbstractDAOFactory {
     @Override
     public RelationTwiHashDAO getRelationTwiHashDAO() {
         return new RelationTwiHashDAO();
+    }
+
+    public TwitterDao getTwitterDao() {
+        return new TwitterDao();
     }
 
 }

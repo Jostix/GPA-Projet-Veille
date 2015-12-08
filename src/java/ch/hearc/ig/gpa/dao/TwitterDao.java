@@ -5,7 +5,7 @@
  */
 package ch.hearc.ig.gpa.dao;
 
-import ch.hearc.ig.gpa.business.Twitter;
+import ch.hearc.ig.gpa.business.TwitterMessage;
 import ch.hearc.ig.gpa.business.Message;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import static com.sun.xml.ws.security.addressing.impl.policy.Constants.logger;
@@ -24,8 +24,8 @@ import oracle.jdbc.OraclePreparedStatement;
  */
 public class TwitterDao extends MessageDAOImpl {
 
-    public List<Twitter> getAllTwitterMessages() throws ConnectionProblemException {
-        List<Twitter> twitterMessages = new ArrayList();
+    public List<TwitterMessage> getAllTwitterMessages() throws ConnectionProblemException {
+        List<TwitterMessage> twitterMessages = new ArrayList();
         PreparedStatement stmt = null;
         ResultSet rsMessagesTwitter = null;
 
@@ -35,14 +35,14 @@ public class TwitterDao extends MessageDAOImpl {
             rsMessagesTwitter = stmt.executeQuery();
             Integer retweet;
             Message message;
-            Twitter twMessage;
+            TwitterMessage twMessage;
 
             Boolean test = rsMessagesTwitter.next();
             while (test) {
 
                 retweet = rsMessagesTwitter.getInt("retweet");
                 message = new MessageDAOImpl().getMessageById(rsMessagesTwitter.getInt("msg_numero"));
-                twMessage = new Twitter(message.getMessage(), message.getDate_heure_publication(), message.getDate_heure_recup(), message.getResume(), retweet);
+                twMessage = new TwitterMessage(message.getMessage(), message.getDate_heure_publication(), message.getDate_heure_recup(), message.getResume(), retweet);
 
                 twitterMessages.add(twMessage);
                 test = rsMessagesTwitter.next();
@@ -57,37 +57,26 @@ public class TwitterDao extends MessageDAOImpl {
         return twitterMessages;
     }
 
-    public void addTwitterMessage(Twitter message, int messageNumber) {
-        Connection conn = null;
-        OraclePreparedStatement pstmt = null;
+    public void addTwitterMessage(TwitterMessage message, int messageNumber) {
         ResultSet rs = null;
+        PreparedStatement pstmt = null;
+        
 
         try {
 
             String query = "insert into twitter_publication(retweet, msg_numero) values (?,?)";
-
-            pstmt = (OraclePreparedStatement) getConnection().prepareStatement(query);
+            pstmt = getConnection().prepareStatement(query);
             pstmt.setInt(1, message.getRetweet());
             pstmt.setInt(2, messageNumber);
+            System.out.println("plus loin");
 
             int count = pstmt.executeUpdate();
-
-            int identifiant = getCurrentMsgSequenceValue();
-
-            message.setIdentifiantTwi(identifiant);
+            System.out.println("Encore plus loin");
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try {
-                rs.close();
-                pstmt.close();
-                conn.close();
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            }
+            closePStmtAndRS(pstmt, rs);
         }
     }
 
@@ -119,8 +108,8 @@ public class TwitterDao extends MessageDAOImpl {
         return currentValue;
     }
 
-    public List<Twitter> getTopRetweeted(int nbMessages) throws ConnectionProblemException {
-        List<Twitter> twitterMessages = new ArrayList();
+    public List<TwitterMessage> getTopRetweeted(int nbMessages) throws ConnectionProblemException {
+        List<TwitterMessage> twitterMessages = new ArrayList();
         PreparedStatement stmt = null;
         ResultSet rsMessages = null;
 
@@ -134,7 +123,7 @@ public class TwitterDao extends MessageDAOImpl {
                 Integer retweet = rsMessages.getInt("retweet");
                 Message message = new MessageDAOImpl().getMessageById(rsMessages.getInt("msg_numero"));
 
-                Twitter twMessage = new Twitter(message.getMessage(), message.getDate_heure_publication(), message.getDate_heure_recup(), message.getResume(), retweet);
+                TwitterMessage twMessage = new TwitterMessage(message.getMessage(), message.getDate_heure_publication(), message.getDate_heure_recup(), message.getResume(), retweet);
 
                 twitterMessages.add(twMessage);
 
@@ -147,5 +136,35 @@ public class TwitterDao extends MessageDAOImpl {
             closePStmtAndRS(stmt, rsMessages);
         }
         return twitterMessages;
+    }
+    
+    public TwitterMessage getTwitterMessage(TwitterMessage message) throws ConnectionProblemException {
+        TwitterMessage twitterMessage = null;
+        PreparedStatement stmt = null;
+        ResultSet rsMessagesTwitter = null;
+
+        String query = "SELECT numero, retweet, msg_numero FROM twitter_publication where retweet=? and msg_numero=?";
+        try {
+            stmt = getConnection().prepareStatement(query);
+            stmt.setInt(1, message.getRetweet());
+            stmt.setInt(2, message.getIdentifiant());
+            rsMessagesTwitter = stmt.executeQuery();
+
+            while (rsMessagesTwitter.next()) {
+
+                int numero = rsMessagesTwitter.getInt("numero");
+                int retweet = rsMessagesTwitter.getInt("retweet");
+                int msgNumero = rsMessagesTwitter.getInt("msg_numero");
+                twitterMessage = new TwitterMessage(numero, message.getMessage(), message.getDate_heure_publication(), message.getDate_heure_recup(), message.getResume(), retweet);
+
+            }
+        } catch (ConnectionProblemException ex) {
+            throw ex;
+        } catch (SQLException sqlE) {
+            throw new ConnectionProblemException("A problem appared with loading all twitter message", sqlE);
+        } finally {
+            closePStmtAndRS(stmt, rsMessagesTwitter);
+        }
+        return twitterMessage;
     }
 }

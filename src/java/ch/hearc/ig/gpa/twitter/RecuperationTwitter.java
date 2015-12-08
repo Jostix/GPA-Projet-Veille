@@ -5,13 +5,19 @@
  */
 package ch.hearc.ig.gpa.twitter;
 
+import ch.hearc.ig.gpa.business.Hashtag;
 import ch.hearc.ig.gpa.business.Message;
+import ch.hearc.ig.gpa.business.TwitterMessage;
 import ch.hearc.ig.gpa.business.User;
+import ch.hearc.ig.gpa.dao.HashtagDAOImpl;
 import ch.hearc.ig.gpa.dao.MessageDAOImpl;
+import ch.hearc.ig.gpa.dao.RelationTwiHashDAO;
+import ch.hearc.ig.gpa.dao.TwitterDao;
 import ch.hearc.ig.gpa.dbfactory.OracleDAOFactory;
 import ch.hearc.ig.gpa.exceptions.CommitException;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,35 +54,62 @@ public class RecuperationTwitter {
         }
     }
     
-    public void recuperationListPosts(String usernameTwitter) throws ConnectionProblemException, TwitterException, CommitException{
+    public void recuperationListPosts(String usernameTwitter) throws ConnectionProblemException, TwitterException, CommitException, SQLException{
         
         Twitter twitter = (Twitter) TwitterFactory.getSingleton();
         List<Status> statuses = twitter.getUserTimeline(usernameTwitter);
         for (Status status : statuses) {
             
             //Affichage status pour vérif
-            System.out.println(status.getUser().getName() + ":"
-                    + status.getText() + status.getRetweetCount());
+//            System.out.println(status.getUser().getName() + ":"
+//                    + status.getText() + status.getRetweetCount());
             
             //setMessage
             System.out.println(status.getText());
             System.out.println("---");
+            
+            StringBuilder sb = new StringBuilder();
+            sb.append(status.getText().substring(0, 25));
                     
-            Message message = new Message(status.getText(), new java.sql.Date(status.getCreatedAt().getTime()), new java.sql.Date(100000), status.getText().substring(0, 10));
+            Message message = new Message(status.getText(), new java.sql.Date(status.getCreatedAt().getTime()), new java.sql.Date(100000), status.getText().substring(0, 30) + " [...]");
+            TwitterMessage twitMessage = new TwitterMessage(status.getText(), new java.sql.Date(status.getCreatedAt().getTime()), new java.sql.Date(100000), status.getText().substring(0, 30) + " [...]", status.getRetweetCount());
+   
+            //Persistence
+            OracleDAOFactory factory = OracleDAOFactory.getInstance();
+            factory.getConnection();
             
-//            //Persistence
-//            OracleDAOFactory factory = OracleDAOFactory.getInstance();
-//            factory.getConnection();
-//            
-//            MessageDAOImpl messageDAO = factory.getMessageDAO();
-//            try {
-//                messageDAO.addMessage(message, 1);
-//            } catch (ConnectionProblemException ex) {
-//                Logger.getLogger(RecuperationTwitter.class.getName()).log(Level.SEVERE, null, ex);
-//            }
+            MessageDAOImpl messageDAO = factory.getMessageDAO();
+            try {
+                messageDAO.addMessage(message, 1);
+            } catch (ConnectionProblemException ex) {
+                Logger.getLogger(RecuperationTwitter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            TwitterDao twitterDao = factory.getTwitterDao();
+            twitMessage.setIdentifiantTwi(messageDAO.getMessage(message).getIdentifiant());
+            twitterDao.addTwitterMessage(twitMessage, messageDAO.getMessage(message).getIdentifiant());
+            System.out.println(twitMessage.getIdentifiantTwi());
             
             
             
+            HashtagDAOImpl hashtagDAO = factory.getHashtagDAO();
+            RelationTwiHashDAO relationTwiHashDAO = factory.getRelationTwiHashDAO();
+            
+            HashtagEntity[] hashtags = status.getHashtagEntities();
+            for (HashtagEntity hashtag : hashtags) {
+                Hashtag hash = new Hashtag();
+                hash.setLibelle(hashtag.getText());
+                if (!hashtagDAO.exist(hash)) {
+                    hashtagDAO.insert(hash);
+                }
+                
+                hash = hashtagDAO.getHashtag(hash);
+                System.out.println("Hash:" + hash.getIdentifiant());
+                System.out.println("pk twi_pub:" + twitMessage.getIdentifiantTwi());
+                relationTwiHashDAO.insert(twitMessage, hash);
+            }
+           
+         
         }
     }
     

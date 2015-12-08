@@ -17,8 +17,10 @@ public class Hashtag {
     private Integer identifiant;
     private String libelle;
     private Message message;
-    private List<Twitter> twitters;
+    private List<TwitterMessage> twitters;
 
+    
+    
     public Hashtag(final Integer identifiant, final String libelle, final Message message) {
         this.libelle = libelle;
         this.message = message;

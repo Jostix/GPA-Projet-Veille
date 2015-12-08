@@ -5,10 +5,12 @@
  */
 package ch.hearc.ig.gpa.dbfactory;
 
+import ch.hearc.ig.gpa.dao.HashtagDAOImpl;
 import ch.hearc.ig.gpa.dao.interf.HashtagDAO;
 import ch.hearc.ig.gpa.dao.interf.ImageDAO;
 import ch.hearc.ig.gpa.dao.MessageDAOImpl;
 import ch.hearc.ig.gpa.dao.RelationTwiHashDAO;
+import ch.hearc.ig.gpa.dao.TwitterDao;
 import ch.hearc.ig.gpa.dao.interf.UserDAO;
 import ch.hearc.ig.gpa.dbfactory.OracleDAOFactory;
 import ch.hearc.ig.gpa.exceptions.CommitException;
@@ -26,9 +28,11 @@ public abstract class AbstractDAOFactory {
       
     public abstract ImageDAO getImageDAO();
 
-    public abstract HashtagDAO getHashtagDAO();
+    public abstract HashtagDAOImpl getHashtagDAO();
     
     public abstract UserDAO getUserDAO();
+    
+    public abstract TwitterDao getTwitterDao();
     
     public abstract RelationTwiHashDAO getRelationTwiHashDAO();
 

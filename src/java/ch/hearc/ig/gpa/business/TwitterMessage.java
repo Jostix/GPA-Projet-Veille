@@ -13,11 +13,22 @@ import java.util.List;
  *
  * @author Romain Ducret <romain.ducret1@he-arc.ch>
  */
-public class Twitter extends Message {
+public class TwitterMessage extends Message {
     
     private int identifiantTwi;
     private Integer retweet;
     private List<Hashtag> hashtags;
+
+    public TwitterMessage() {
+        super(null, null, null, null);
+    }
+
+    public TwitterMessage(int identifiantTwi, String message, Date date_heure_publication, Date date_heure_recup, String resume, int retweet) {
+        super(message, date_heure_publication, date_heure_recup, resume);
+        this.identifiantTwi = identifiantTwi;
+        this.retweet = retweet;
+        hashtags = new ArrayList<>();
+    }
     
     /**
      * Constructeur généré automatiquement pour respecter l'héritage...
@@ -26,7 +37,10 @@ public class Twitter extends Message {
      * @param date_heure_recup
      * @param resume 
      */
-    public Twitter(String message, Date date_heure_publication, Date date_heure_recup, String resume, Integer retweet) {
+    
+    
+    
+    public TwitterMessage(String message, Date date_heure_publication, Date date_heure_recup, String resume, Integer retweet) {
         super(message, date_heure_publication, date_heure_recup, resume);
         this.retweet = retweet;
         hashtags = new ArrayList<>();

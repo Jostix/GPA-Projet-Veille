@@ -18,6 +18,14 @@ public class Message {
     protected Date date_heure_recup;
     protected String resume;
 
+    public Message(int identifiant, String message, Date date_heure_publication, Date date_heure_recup, String resume) {
+        this.identifiant = identifiant;
+        this.message = message;
+        this.date_heure_publication = date_heure_publication;
+        this.date_heure_recup = date_heure_recup;
+        this.resume = resume;
+    }
+
     public Message(String message, Date date_heure_publication, Date date_heure_recup, String resume) {
         this.message = message;
         this.date_heure_publication = date_heure_publication;

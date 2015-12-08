@@ -31,6 +31,7 @@ public class ServletFil extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         try {
+//            MessageService.recupMessagesTwitter();
             //Ajout de l'entête
             HtmlHttpUtils.doHeader("<span class='glyphicon glyphicon-th-list'></span> Fil d'actualité", out, request, response);
 

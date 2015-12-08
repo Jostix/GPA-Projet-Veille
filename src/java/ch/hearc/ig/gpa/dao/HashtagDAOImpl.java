@@ -19,6 +19,7 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -160,10 +161,6 @@ public class HashtagDAOImpl extends AbstractDAOOracle implements HashtagDAO {
             stmt.setString(1, hashtag.getLibelle());
 
             int rowCount = stmt.executeUpdate();
-
-            int identifiant = getCurrentMsgSequenceValue();
-            
-            hashtag.setIdentifiant(identifiant);
             
             if (rowCount != 1) {
                 throw new ConnectionProblemException("A problem appeared while inserting an hashtag !");
@@ -243,6 +240,66 @@ public class HashtagDAOImpl extends AbstractDAOOracle implements HashtagDAO {
         return hashtag;
     }
     
+    public Hashtag getHashtag(Hashtag hashtag) throws ConnectionProblemException {
+        Hashtag hashtagg = new Hashtag();
+        PreparedStatement stmt = null;
+        ResultSet rsHashtag = null;
+
+        String query = "SELECT numero, libelle FROM hashtag where libelle=?";
+        try {
+            stmt = getConnection().prepareStatement(query);
+            stmt.setString(1, hashtag.getLibelle());
+            rsHashtag = stmt.executeQuery();
+
+            while (rsHashtag.next()) {
+
+                int numero = rsHashtag.getInt("numero");
+                String libelle = rsHashtag.getString("libelle");
+                hashtagg.setIdentifiant(numero);
+                hashtagg.setLibelle(libelle);
+
+            }
+        } catch (ConnectionProblemException ex) {
+            throw ex;
+        } catch (SQLException sqlE) {
+            throw new ConnectionProblemException("A problem appared with loading all twitter message", sqlE);
+        } finally {
+            closePStmtAndRS(stmt, rsHashtag);
+        }
+        return hashtagg;
+    }
+    
+    public boolean exist(Hashtag hashtag) throws SQLException{
+        
+        PreparedStatement stmt = null;
+        ResultSet rsHashtag = null;
+
+        String query = "SELECT numero, libelle FROM hashtag where libelle=?";
+        try {
+            stmt = getConnection().prepareStatement(query);
+            stmt.setString(1, hashtag.getLibelle());
+            rsHashtag = stmt.executeQuery();
+
+            if (!rsHashtag.next()){
+                return false;
+            } else{
+                return true;
+            }
+
+        } catch (ConnectionProblemException ex) {
+            Logger.getLogger(HashtagDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(HashtagDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closePStmtAndRS(stmt, rsHashtag);
+        }
+          if (!rsHashtag.next()){
+                return false;
+            } else{
+                return true;
+            }
+    }
+    
    
     private int getCurrentMsgSequenceValue() {
         int currentValue = -1;
@@ -270,5 +327,25 @@ public class HashtagDAOImpl extends AbstractDAOOracle implements HashtagDAO {
             }
         }
         return currentValue;
+    }
+    
+    public void deleteAllHashtag(){
+        Statement stmt = null;
+        ResultSet rs = null;
+
+
+        try {
+            stmt = getConnection().createStatement();
+            String query = "delete from hashtag";
+            stmt.executeQuery(query);
+
+        
+        } catch (ConnectionProblemException ex) {
+            Logger.getLogger(HashtagDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(HashtagDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeStmtAndRS(stmt, rs);
+        }
     }
 }

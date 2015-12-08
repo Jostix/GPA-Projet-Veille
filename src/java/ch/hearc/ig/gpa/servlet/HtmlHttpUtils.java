@@ -27,8 +27,8 @@ public class HtmlHttpUtils extends HttpServlet {
         out.println("<title> Projet Veille </title>");
         out.println("<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'></link>");
         out.println("<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css'></link>");
-        out.println("<script type='text/javascript' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>");
         out.println("<script type='text/javascript' href='http://code.jquery.com/jquery-2.1.4.min.js'></script>");
+        out.println("<script type='text/javascript' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>");
         out.println("</head>");
         out.println("<body>");
 
