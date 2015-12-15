@@ -110,7 +110,7 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
                 Date dateHeureRecup = rsMessages.getDate("date_heure_recup");
                 String resume = rsMessages.getString("resume");
 
-                m = new Message(message, dateHeurePublication, dateHeureRecup, resume);
+                m = new Message(message, dateHeurePublication, dateHeureRecup, resume,null);
 
             }
         } catch (ConnectionProblemException ex) {
@@ -177,7 +177,7 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
                 Date dateHeureRecup = rsMessages.getDate("date_heure_recup");
                 String resume = rsMessages.getString("resume");
 
-                m = new Message(numero, messageText, dateHeurePublication, dateHeureRecup, resume);
+                m = new Message(numero, messageText, dateHeurePublication, dateHeureRecup, resume,null);
 
             }
         } catch (ConnectionProblemException ex) {

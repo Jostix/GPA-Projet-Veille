@@ -15,32 +15,40 @@ import java.sql.Date;
  * @author Romain Ducret <romain.ducret1@he-arc.ch>
  */
 public class Message {
+
     private int identifiant;
     protected String message;
     protected Date date_heure_publication;
     protected Date date_heure_recup;
     protected String resume;
+    protected String sourceType;
 
-    public Message(int identifiant, String message, Date date_heure_publication, Date date_heure_recup, String resume) {
-        this.identifiant = identifiant;
-        this.message = message;
-        this.date_heure_publication = date_heure_publication;
-        this.date_heure_recup = date_heure_recup;
-        this.resume = resume;
+    public String getSourceType() {
+        return sourceType;
     }
 
-    public Message(String message, Date date_heure_publication, Date date_heure_recup, String resume) {
+    public void setSourceType(final String sourceType) {
+        this.sourceType = sourceType;
+    }
+
+    public Message(final int identifiant, final String message,final Date date_heure_publication,final Date date_heure_recup,final String resume, final String sourceType) {
+        this(message, date_heure_publication, date_heure_recup, resume, sourceType);
+        this.identifiant = identifiant;
+    }
+
+    public Message(final String message, final Date date_heure_publication, final Date date_heure_recup, final String resume, final String sourceType) {
         this.message = message;
         this.date_heure_publication = date_heure_publication;
         this.date_heure_recup = date_heure_recup;
         this.resume = resume;
+        this.sourceType = sourceType;
     }
 
     public int getIdentifiant() {
         return identifiant;
     }
 
-    public void setIdentifiant(int numero) {
+    public void setIdentifiant(final int numero) {
         this.identifiant = numero;
     }
 

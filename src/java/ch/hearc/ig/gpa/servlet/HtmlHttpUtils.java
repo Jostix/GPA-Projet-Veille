@@ -64,6 +64,7 @@ public class HtmlHttpUtils extends HttpServlet {
         out.println("   </div>");
 
         out.println("</div>");
+       
     }
 
     //Méthode qui permet d'affiche le footer d'un accordeon

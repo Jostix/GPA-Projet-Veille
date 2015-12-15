@@ -19,7 +19,7 @@ public class Facebook extends Message {
     public String localisation;
 
     public Facebook(String localisation, String message, Date date_heure_publication, Date date_heure_recup, String resume) {
-        super(message, date_heure_publication, date_heure_recup, resume);
+        super(message, date_heure_publication, date_heure_recup, resume,ch.hearc.ig.gpa.constant.messageCategorie.FACEBOOK);
         this.localisation = localisation;
     }
 

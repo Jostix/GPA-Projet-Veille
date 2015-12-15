@@ -45,17 +45,10 @@ public class ServletFil extends HttpServlet {
             // Titre
             out.println("<h2>Top 5 des actualités</h2>");
 
-            //Affiche l'accordeon
-            HtmlHttpUtils.doAccordeonHeader(out, "AccordeonTop5");
-            for (int compteur = 0; compteur < listeMessageTop5.size(); compteur++) {
-                HtmlHttpUtils.doAccordeoRow(out, "AccordeonTop5", compteur, listeMessageTop5.get(compteur).getResume(), listeMessageTop5.get(compteur).getMessage());
-            }
-            HtmlHttpUtils.doAccordeonFooter(out);
-
             // Affiche le tableau et l'alimente
             HtmlHttpUtils.doTableHeader(out);
             for (Message message : listeMessageTop5) {
-                HtmlHttpUtils.doTableRow(out, "Twitter - Veille Protection", message.getResume(), message.getMessage() + " - " + message.getDate_heure_publication(), "col3");
+                HtmlHttpUtils.doTableRow(out, message.getSourceType(), message.getResume(), message.getMessage() + " - " + message.getDate_heure_publication(), "col3");
             }
             HtmlHttpUtils.doTableFooter(out);
 
@@ -69,7 +62,7 @@ public class ServletFil extends HttpServlet {
             // Affiche le tableau et l'alimente
             HtmlHttpUtils.doTableHeader(out); // En-tête du tableau
             for (Message message : listeMessage) {
-                HtmlHttpUtils.doTableRow(out, "Twitter - Veille Protection", message.getResume(), message.getMessage() + " - " + message.getDate_heure_publication(), "col3");
+                HtmlHttpUtils.doTableRow(out, message.getSourceType(), message.getResume(), message.getMessage() + " - " + message.getDate_heure_publication(), "col3");
             }
             HtmlHttpUtils.doTableFooter(out); // Fin du tableau
 
