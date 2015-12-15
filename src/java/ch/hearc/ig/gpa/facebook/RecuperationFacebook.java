@@ -1,7 +1,10 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *  Translait SA vous présente son projet de gestion de Projet Agile.
+ *  Copyleft 2015 Translait.
+ *   /\_/\
+ * =( °w° )=
+ *   )   (  //
+ *  (__ __)//
  */
 package ch.hearc.ig.gpa.facebook;
 
