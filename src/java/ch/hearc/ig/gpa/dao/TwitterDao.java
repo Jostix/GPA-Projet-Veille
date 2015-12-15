@@ -32,7 +32,7 @@ public class TwitterDao extends MessageDAOImpl {
         PreparedStatement stmt = null;
         ResultSet rsMessagesTwitter = null;
 
-        String query = "SELECT * FROM twitter_publication";
+        String query = "SELECT retweet, msg_numero FROM twitter_publication";
         try {
             stmt = getConnection().prepareStatement(query);
             rsMessagesTwitter = stmt.executeQuery();
@@ -40,15 +40,13 @@ public class TwitterDao extends MessageDAOImpl {
             Message message;
             TwitterMessage twMessage;
 
-            Boolean test = rsMessagesTwitter.next();
-            while (test) {
+            while (rsMessagesTwitter.next()) {
 
                 retweet = rsMessagesTwitter.getInt("retweet");
                 message = new MessageDAOImpl().getMessageById(rsMessagesTwitter.getInt("msg_numero"));
                 twMessage = new TwitterMessage(message.getMessage(), message.getDate_heure_publication(), message.getDate_heure_recup(), message.getResume(), retweet);
 
-                twitterMessages.add(twMessage);
-                test = rsMessagesTwitter.next();
+                twitterMessages.add(twMessage);              
             }
         } catch (ConnectionProblemException ex) {
             throw ex;
@@ -71,11 +69,10 @@ public class TwitterDao extends MessageDAOImpl {
             pstmt = getConnection().prepareStatement(query);
             pstmt.setInt(1, message.getRetweet());
             pstmt.setInt(2, messageNumber);
-            System.out.println("plus loin");
+            
 
             int count = pstmt.executeUpdate();
-            System.out.println("Encore plus loin");
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
