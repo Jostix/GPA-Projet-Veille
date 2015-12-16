@@ -6,7 +6,7 @@
 package ch.hearc.ig.gpa.business;
 
 import java.sql.Date;
-import ch.hearc.ig.gpa.constant.MessageCategorie;
+import ch.hearc.ig.gpa.constants.MessageCategorie;
 
 /**
  *
