@@ -6,6 +6,7 @@
 package ch.hearc.ig.gpa.business;
 
 import java.sql.Date;
+import ch.hearc.ig.gpa.constant.MessageCategorie;
 
 /**
  *
@@ -13,15 +14,17 @@ import java.sql.Date;
  */
 public class RSS extends Message{
 
+    private int identifiantRSS;
     private String url;
     private String categorie;
     
     public RSS(){
-        super(null,null,null,null);
+        super(null,null,null,null, null);
     }
 
-    public RSS(String message, Date date_heure_publication, Date date_heure_recup, String resume, String url, String categorie) {
-        super(message, date_heure_publication, date_heure_recup, resume);
+    public RSS(int identifiantRSS, String message, Date date_heure_publication, Date date_heure_recup, String resume, String url, String categorie) {
+        super(message, date_heure_publication, date_heure_recup, resume, MessageCategorie.RSS);
+        this.identifiantRSS = identifiantRSS;
         this.url = url;
         this.categorie = categorie;
     }

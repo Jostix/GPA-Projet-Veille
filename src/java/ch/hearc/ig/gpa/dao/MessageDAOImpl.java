@@ -156,6 +156,11 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
     public Message addTwitterMessage(Message message) throws ConnectionProblemException {
         return this.addTwitterMessage(message);
     }
+    
+    @Override
+    public Message addRSSMessage(Message message) throws ConnectionProblemException{
+        return this.addRSSMessage(message);
+    }
 
     public Message getMessage(Message message) {
         Message m = null;

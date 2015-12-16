@@ -27,6 +27,8 @@ public interface MessageDAO {
     public Message addFacebookMessage(Message message) throws ConnectionProblemException;
 
     public Message addTwitterMessage(Message message) throws ConnectionProblemException;
+    
+    public Message addRSSMessage(Message message) throws ConnectionProblemException;
 
     public List<Message> getAllMessage() throws ConnectionProblemException;
 

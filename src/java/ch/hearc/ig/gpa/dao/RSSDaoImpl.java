@@ -53,7 +53,7 @@ public class RSSDaoImpl extends MessageDAOImpl implements RSSDao{
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        String query = "SELECT categorie, url, msg_numero FROM rss";
+        String query = "SELECT numero, categorie, url, msg_numero FROM rss";
         try {
             stmt = getConnection().prepareStatement(query);
             rs = stmt.executeQuery();
@@ -77,7 +77,7 @@ public class RSSDaoImpl extends MessageDAOImpl implements RSSDao{
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        String query = "SELECT categorie, url, msg_numero FROM rss WHERE categorie =?";
+        String query = "SELECT numero, categorie, url, msg_numero FROM rss WHERE categorie =?";
         try {
             stmt = getConnection().prepareStatement(query);
             stmt.setString(1, categorie);
@@ -97,10 +97,11 @@ public class RSSDaoImpl extends MessageDAOImpl implements RSSDao{
     }
 
     private RSS getRSS(ResultSet rs) throws SQLException, ConnectionProblemException {
+        int numero = rs.getInt("NUMERO");
         String url = rs.getString("URL");
         String categorie = rs.getString("categorie");
         Message message = new MessageDAOImpl().getMessageById(rs.getInt("msg_numero"));
-        RSS rss = new RSS(message.getMessage(), message.getDate_heure_publication(), message.getDate_heure_recup(), message.getResume(), url, categorie);
+        RSS rss = new RSS(numero, message.getMessage(), message.getDate_heure_publication(), message.getDate_heure_recup(), message.getResume(), url, categorie);
 
         return rss;
     }
