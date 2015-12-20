@@ -16,14 +16,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Ensemble d'utilitaires pour l'affichage HTML
  *
  * @author Romain Ducret <romain.ducret1@he-arc.ch>
  */
 public class HtmlHttpUtils extends HttpServlet {
 
-    private String col1 = null;
-
-    //Cette méthode est appellé sur en en-tête sur chaque servlet
+    /**
+     * Cette méthode est appellé sur en en-tête sur chaque servlet
+     *
+     * @param titre
+     * @param out
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     public static void doHeader(String titre, PrintWriter out, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         out.println("<html>");
         out.println("<head>");
@@ -57,11 +65,25 @@ public class HtmlHttpUtils extends HttpServlet {
         out.println("<h1 class='page-header'>" + titre + "</h1><br>");
     }
 
-    //Méthode qui permet d'afficher l'en-tête d'un accordeon
+    /**
+     * Méthode qui permet d'afficher l'en-tête d'un accordeon html
+     *
+     * @param out
+     * @param id
+     */
     public static void doAccordeonHeader(PrintWriter out, final String id) {
         out.println("<div class='panel-group' id=" + id + " role='tablist' aria-multiselectable='true'>");
     }
 
+    /**
+     * Affiche le contenu d'un accordeon html
+     *
+     * @param out
+     * @param parentId
+     * @param rowNumber
+     * @param menuTitle
+     * @param content
+     */
     public static void doAccordeoRow(PrintWriter out, final String parentId, final int rowNumber, final String menuTitle, final String content) {
         out.println("<div class='panel panel-default'>");
         out.println("   <div class='panel-heading' role='tab' id='heading" + rowNumber + "'>");
@@ -81,37 +103,70 @@ public class HtmlHttpUtils extends HttpServlet {
 
     }
 
-    //Méthode qui permet d'affiche le footer d'un accordeon
+    /**
+     * Méthode qui permet d'affiche le footer d'un accordeon
+     *
+     * @param out
+     */
     public static void doAccordeonFooter(PrintWriter out) {
         out.println("</div>");
     }
 
-    //Méthode qui permet d'afficher l'entête d'un tableau
+    /**
+     * Affiche l'entête d'un tableau html
+     *
+     * @param out
+     */
     public static void doTableHeader(PrintWriter out) {
         out.println("<table class=\"table table-striped\">");
         out.println("  <thead>");
         out.println("    <tr>");
-        out.println("      <td>Source</td>");
+        out.println("      <td class='text-center'>Source</td>");
         out.println("      <td>Résumé</td>");
-        out.println("      <td>Description</td>");
+        //out.println("      <td>Description</td>");
         out.println("      <td>Action</td>");
         out.println("    </tr>");
         out.println("  </thead>");
     }
 
-    //Méthode qui permet d'afficher une ligne dans un tableau
+    /**
+     * Méthode qui permet d'afficher une ligne dans un tableau
+     *
+     * @param out
+     * @param cat
+     * @param col1
+     * @param col2
+     * @param actionLink
+     */
     public static void doTableRow(PrintWriter out, final String cat, final String col1, final String col2, final String actionLink) {
         out.println("<tr class='" + getCategoryColor(cat) + "'>");
-        out.println("<td>" + cat + "</td>");
+
+        //Test conditionel pour afficher le logo de la catégorie
+        if (cat.equals(ch.hearc.ig.gpa.constants.Constant.TWITTER.toString())) {
+            out.println("<td class='text-center'><img src='includes/image/twitter.png' style='height:25px;width:25px;' alt='" + cat + "' /></td>");
+        } else if (cat.equals(ch.hearc.ig.gpa.constants.Constant.RSS.toString())) {
+            out.println("<td class='text-center'><img src='includes/image/rss.png' style='height:25px;width:25px;' alt='" + cat + "' /></td>");
+        } else {
+            out.println("<td>" + cat + "</td>");
+        }
+
         out.println("<td>" + col1 + "</td>");
-        out.println("<td>" + col2 + "</td>");
+        //out.println("<td>" + col2 + "</td>");
         out.println("<td><button class='btn-xs btn btn-primary' type='button' data-toggle=\"modal\" data-target='#" + actionLink + "'><span class='glyphicon glyphicon-search' aria-hidden='true'></span> Détail</button></td>");
         out.println("</tr>");
 
         doModal(out, actionLink, col1, col2);
     }
 
-    //Méthode qui permet d'ajouter une fenêtre modal qui s'ouvre lordque l'on clique sur le bouton détail de chaque ligne.
+    /**
+     * Méthode qui permet d'ajouter une fenêtre modal qui s'ouvre lordque l'on
+     * clique sur le bouton détail de chaque ligne.
+     *
+     * @param out
+     * @param modalId
+     * @param modalTitle
+     * @param modalBody
+     */
     private static void doModal(PrintWriter out, final String modalId, final String modalTitle, final String modalBody) {
         out.println(
                 "<div class=\"modal fade\" id='" + modalId + "' tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\">\n"
@@ -129,33 +184,43 @@ public class HtmlHttpUtils extends HttpServlet {
                 + "</div>");
     }
 
-    //Méthode qui permet de récupèrer la class qui donnera la couleur à la ligne du tableau
+    /**
+     * Méthode qui permet de récupèrer la class qui donnera la couleur à la
+     * ligne du tableau
+     *
+     * @param sourceType
+     * @return
+     */
     private static String getCategoryColor(final String sourceType) {
         String rowColor = "";
 
         if (sourceType.equals(ch.hearc.ig.gpa.constants.Constant.valueOf("TWITTER").toString())) {
             rowColor = "success";
-        }
-        else if(sourceType.equals(ch.hearc.ig.gpa.constants.Constant.valueOf("FACEBOOK").toString()))
-        {
+        } else if (sourceType.equals(ch.hearc.ig.gpa.constants.Constant.valueOf("FACEBOOK").toString())) {
             rowColor = "info";
 
-        }
-        else if(sourceType.equals(ch.hearc.ig.gpa.constants.Constant.valueOf("RSS").toString()))
-        {
+        } else if (sourceType.equals(ch.hearc.ig.gpa.constants.Constant.valueOf("RSS").toString())) {
             rowColor = "danger";
         }
 
         return rowColor;
     }
 
-    //Méthode qui affiche le footer d'un tableau
+    /**
+     * Méthode qui affiche le footer d'un tableau
+     *
+     * @param out
+     */
     public static void doTableFooter(PrintWriter out) {
         out.println("</tbody>");
         out.println("</table>");
     }
 
-    //Cette méthode permet d'afficher les boutons en bas de tous les servlet
+    /**
+     * Cette méthode permet d'afficher les boutons en bas de tous les servlet
+     *
+     * @param out
+     */
     public static void doFooter(PrintWriter out) {
         out.println("<div><a class='btn btn-info' href='ServletListePersonne'><span class='glyphicon glyphicon-th-list'></span> Accueil</a> &nbsp;<a class='btn btn-warning' href='ServletLogout'><span class='glyphicon glyphicon-log-out'></span> Déconnexion</a></div>");
         out.println("</div>");

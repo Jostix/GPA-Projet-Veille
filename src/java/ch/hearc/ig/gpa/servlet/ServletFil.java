@@ -10,12 +10,10 @@ package ch.hearc.ig.gpa.servlet;
 
 import ch.hearc.ig.gpa.business.Message;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
-import ch.hearc.ig.gpa.log.MyLogger;
 import ch.hearc.ig.gpa.services.MessageService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -24,17 +22,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Servlet utilisé sur la page d'index pour affiche le top5 et le reste de
+ * l'actu
  *
  * @author Romain Ducret <romain.ducret1@he-arc.ch>
  */
 public class ServletFil extends HttpServlet {
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
         try {
-//            MessageService.recupMessagesTwitter();
             //Ajout de l'entête
             HtmlHttpUtils.doHeader("<span class='glyphicon glyphicon-th-list'></span> Fil d'actualité", out, request, response);
 
