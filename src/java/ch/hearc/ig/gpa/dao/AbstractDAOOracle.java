@@ -18,16 +18,29 @@ import java.sql.Statement;
 import java.util.logging.Level;
 
 /**
- *
+ * Ensemble de services Oracle transmit à tous les DAO (connection, close etc.).
+ * 
  * @author Romain Ducret <romain.ducret1@he-arc.ch>
  */
 public abstract class AbstractDAOOracle extends AbstractDAO {
 
+    /**
+     * Retourne une connection Oracle
+     * 
+     * @return
+     * @throws ConnectionProblemException 
+     */
     @Override
     protected Connection getConnection() throws ConnectionProblemException {
         return OracleConnections.getConnection();
     }
 
+    /**
+     * Ferme un statment et un ResultSet
+     * 
+     * @param stmt
+     * @param rs 
+     */
     protected void closeStmtAndRS(Statement stmt, ResultSet rs) {
         try {
 
@@ -49,6 +62,12 @@ public abstract class AbstractDAOOracle extends AbstractDAO {
 
     }
     
+    /**
+     * Ferme un poststatement et un resulset
+     * 
+     * @param pstmt
+     * @param rs 
+     */
      protected void closePStmtAndRS(PreparedStatement pstmt, ResultSet rs) {
         try {
 

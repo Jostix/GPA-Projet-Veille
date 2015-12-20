@@ -12,9 +12,16 @@ import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import java.sql.Connection;
 
 /**
- *
+ * Interface pour récupèrer une connection Oracle
+ * 
  * @author Romain Ducret <romain.ducret1@he-arc.ch>
  */
 public abstract class AbstractDAO {
+    /**
+     * Constructeur
+     * 
+     * @return
+     * @throws ConnectionProblemException 
+     */
     protected abstract Connection getConnection() throws ConnectionProblemException;
 }
