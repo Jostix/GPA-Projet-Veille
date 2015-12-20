@@ -28,10 +28,24 @@ public class HtmlHttpUtils extends HttpServlet {
         out.println("<html>");
         out.println("<head>");
         out.println("<title> Projet Veille </title>");
-        out.println("<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'></link>");
-        out.println("<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css'></link>");
-        out.println("<script type='text/javascript' href='http://code.jquery.com/jquery-2.1.4.min.js'></script>");
-        out.println("<script type='text/javascript' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>");
+        out.println("<script src=\"http://code.jquery.com/jquery-2.1.4.min.js\"></script>");
+        out.println("");
+
+        out.println("          <!-- Jquery -->\n"
+                + "        <script src=\"http://code.jquery.com/jquery-2.1.4.min.js\"></script>\n"
+                + "        \n"
+                + "        <!-- Latest compiled and minified CSS -->\n"
+                + "        <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css\" integrity=\"sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==\" crossorigin=\"anonymous\">\n"
+                + "\n"
+                + "        <!-- Optional theme -->\n"
+                + "        <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css\" integrity=\"sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX\" crossorigin=\"anonymous\">\n"
+                + "\n"
+                + "        <link href=\"includes/style.css\" rel=\"stylesheet\"></link>\n"
+                + "        \n"
+                + "        <!-- Latest compiled and minified JavaScript -->\n"
+                + "        <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js\" integrity=\"sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==\" crossorigin=\"anonymous\"></script>\n"
+                + "        \n"
+                + "");
         out.println("</head>");
         out.println("<body>");
 
@@ -64,7 +78,7 @@ public class HtmlHttpUtils extends HttpServlet {
         out.println("   </div>");
 
         out.println("</div>");
-       
+
     }
 
     //Méthode qui permet d'affiche le footer d'un accordeon
@@ -77,7 +91,7 @@ public class HtmlHttpUtils extends HttpServlet {
         out.println("<table class=\"table table-striped\">");
         out.println("  <thead>");
         out.println("    <tr>");
-        out.println("      <td>Catégorie</td>");
+        out.println("      <td>Source</td>");
         out.println("      <td>Résumé</td>");
         out.println("      <td>Description</td>");
         out.println("      <td>Action</td>");
@@ -87,12 +101,52 @@ public class HtmlHttpUtils extends HttpServlet {
 
     //Méthode qui permet d'afficher une ligne dans un tableau
     public static void doTableRow(PrintWriter out, final String cat, final String col1, final String col2, final String actionLink) {
-        out.println("<tr>");
+        out.println("<tr class='" + getCategoryColor(cat) + "'>");
         out.println("<td>" + cat + "</td>");
         out.println("<td>" + col1 + "</td>");
         out.println("<td>" + col2 + "</td>");
-        out.println("<td><a class='btn-xs btn btn-primary' href='" + actionLink + "'><span class='glyphicon glyphicon-search' aria-hidden='true'></span> Détail</a></td>");
+        out.println("<td><button class='btn-xs btn btn-primary' type='button' data-toggle=\"modal\" data-target='#" + actionLink + "'><span class='glyphicon glyphicon-search' aria-hidden='true'></span> Détail</button></td>");
         out.println("</tr>");
+
+        doModal(out, actionLink, col1, col2);
+    }
+
+    //Méthode qui permet d'ajouter une fenêtre modal qui s'ouvre lordque l'on clique sur le bouton détail de chaque ligne.
+    private static void doModal(PrintWriter out, final String modalId, final String modalTitle, final String modalBody) {
+        out.println(
+                "<div class=\"modal fade\" id='" + modalId + "' tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\">\n"
+                + "  <div class=\"modal-dialog\" role=\"document\">\n"
+                + "    <div class=\"modal-content\">\n"
+                + "      <div class=\"modal-header\">\n"
+                + "        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n"
+                + "        <h4 class=\"modal-title\" id=\"myModalLabel\">" + modalTitle + "</h4>\n"
+                + "      </div>\n"
+                + "      <div class=\"modal-body\">\n"
+                + modalBody
+                + "      </div>\n"
+                + "    </div>\n"
+                + "  </div>\n"
+                + "</div>");
+    }
+
+    //Méthode qui permet de récupèrer la class qui donnera la couleur à la ligne du tableau
+    private static String getCategoryColor(final String sourceType) {
+        String rowColor = "";
+
+        if (sourceType.equals(ch.hearc.ig.gpa.constants.Constant.valueOf("TWITTER").toString())) {
+            rowColor = "success";
+        }
+        else if(sourceType.equals(ch.hearc.ig.gpa.constants.Constant.valueOf("FACEBOOK").toString()))
+        {
+            rowColor = "info";
+
+        }
+        else if(sourceType.equals(ch.hearc.ig.gpa.constants.Constant.valueOf("RSS").toString()))
+        {
+            rowColor = "danger";
+        }
+
+        return rowColor;
     }
 
     //Méthode qui affiche le footer d'un tableau

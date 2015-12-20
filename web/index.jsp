@@ -17,55 +17,28 @@
 
  
 <!-- test -->
-<div id="wrapper">
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>
 
-    <!-- Sidebar -->
-    <div id="sidebar-wrapper">
-        <ul class="sidebar-nav">
-            <!--<li class="sidebar-brand">
-                <a href="#">Vue d'ensemble</a>
-            </li>-->
-            <li>
-                <a href="#">Lien 1</a>
-            </li>
-                <li>
-                <a href="#">Lien 2</a>
-            </li>
-
-        </ul>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
     </div>
-    <!-- /#sidebar-wrapper -->
-
-    <!-- Page Content -->
-    <div id="page-content-wrapper">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Fil d'actualité  <a href="#menu-toggle" class="btn btn-success btn-sm" id="menu-toggle">Afficher Menu</a></h1> 
-                    
-                    <span style="color:red;">Données bruts:</span>
-                    <h2>Top 5 des actualités</h2>
-                    <%@include file="includes/top5.jsp" %>
-                    
-                    <h2>Reste de l'actualité</h2>
-                    <%@include file="includes/filactualite.jsp" %>
-                    
-                  
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /#page-content-wrapper -->
-
+  </div>
 </div>
-<!-- /#wrapper -->
-
-<!-- Menu Toggle Script -->
-<script>
-    $("#menu-toggle").click(function (e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-</script>
 
 <%@include file="includes/footer.jsp" %>

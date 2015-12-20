@@ -47,9 +47,10 @@ public class ServletFil extends HttpServlet {
 
             // Affiche le tableau et l'alimente
             HtmlHttpUtils.doTableHeader(out);
-            for (Message message : listeMessageTop5) {
-                HtmlHttpUtils.doTableRow(out, message.getSourceType(), message.getResume(), message.getMessage() + " - " + message.getDate_heure_publication(), "col3");
+            for (int compteur = 0; compteur < listeMessageTop5.size(); compteur++) {
+                HtmlHttpUtils.doTableRow(out, listeMessageTop5.get(compteur).getSourceType(), listeMessageTop5.get(compteur).getResume(), listeMessageTop5.get(compteur).getMessage() + " - " + listeMessageTop5.get(compteur).getDate_heure_publication(), "top5" + compteur);
             }
+
             HtmlHttpUtils.doTableFooter(out);
 
             // ---------------------------  Reste de l'actualité

@@ -74,7 +74,7 @@ public class RecuperationTwitter {
             StringBuilder sb = new StringBuilder();
             sb.append(status.getText().substring(0, 25));
                     
-            Message message = new Message(status.getText(), new java.sql.Date(status.getCreatedAt().getTime()), new java.sql.Date(100000), status.getText().substring(0, 30) + " [...]",ch.hearc.ig.gpa.constants.MessageCategorie.TWITTER);
+            Message message = new Message(status.getText(), new java.sql.Date(status.getCreatedAt().getTime()), new java.sql.Date(100000), status.getText().substring(0, 30) + " [...]",ch.hearc.ig.gpa.constants.Constant.TWITTER.toString());
             TwitterMessage twitMessage = new TwitterMessage(status.getText(), new java.sql.Date(status.getCreatedAt().getTime()), new java.sql.Date(100000), status.getText().substring(0, 30) + " [...]", status.getRetweetCount());
    
             //Persistence
