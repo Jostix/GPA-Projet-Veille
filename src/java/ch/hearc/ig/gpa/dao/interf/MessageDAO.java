@@ -18,19 +18,72 @@ import java.util.List;
  */
 public interface MessageDAO {
 
+    /**
+     * Ajoute un message
+     * 
+     * @param message
+     * @param userNum
+     * @throws ConnectionProblemException 
+     */
     public void addMessage(Message message, int userNum)  throws ConnectionProblemException;
 
+    /**
+     * Retourne la séquence des messages
+     * 
+     * @return
+     * @throws ConnectionProblemException 
+     */
     public int getCurrentMsgSequenceValue() throws ConnectionProblemException;
 
+    /**
+     * Retourne l'identifiant du message
+     * 
+     * @param numero
+     * @return
+     * @throws ConnectionProblemException 
+     */
     public Message getMessageById(int numero) throws ConnectionProblemException;
 
+    /**
+     * Ajoute un message facebook
+     * 
+     * @param message
+     * @return
+     * @throws ConnectionProblemException 
+     */
     public Message addFacebookMessage(Message message) throws ConnectionProblemException;
 
+    /**
+     * Ajoute un message twitter
+     * 
+     * @param message
+     * @return
+     * @throws ConnectionProblemException 
+     */
     public Message addTwitterMessage(Message message) throws ConnectionProblemException;
     
+    /**
+     * Ajoute un message RSS
+     * 
+     * @param message
+     * @return
+     * @throws ConnectionProblemException 
+     */
     public Message addRSSMessage(Message message) throws ConnectionProblemException;
 
+    /**
+     * Retourne une liste de tous les messages
+     * 
+     * @return
+     * @throws ConnectionProblemException 
+     */
     public List<Message> getAllMessage() throws ConnectionProblemException;
 
+    /**
+     * Retourne une liste du top 5 des messages
+     * 
+     * @return
+     * @throws ConnectionProblemException 
+     */
     public List<Message> getTop5Message() throws ConnectionProblemException;
 }

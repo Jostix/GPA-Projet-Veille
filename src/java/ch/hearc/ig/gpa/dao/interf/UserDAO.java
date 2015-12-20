@@ -19,19 +19,74 @@ import java.util.Set;
  */
 public interface UserDAO {
 
+    /**
+     * Retourne un set de tous les utilisateurs
+     * 
+     * @return
+     * @throws ConnectionProblemException 
+     */
     public Set<User> researchAll() throws ConnectionProblemException;
 
+    /**
+     * Retourne un set des utilisateurs en fonction de leur nom
+     * 
+     * @param name
+     * @return
+     * @throws ConnectionProblemException 
+     */
     public Set<User> researchByName(String name) throws ConnectionProblemException;
 
+    /**
+     * Retourne un set d'utilisateur en fonction de l'objet utilisateur passé en paramètre
+     * 
+     * @param user
+     * @return
+     * @throws ConnectionProblemException 
+     */
     public Set<User> research(User user) throws ConnectionProblemException;
 
+    /**
+     * Ajoute un utilisateur
+     * 
+     * @param name
+     * @param lastname
+     * @param birthdate
+     * @param country
+     * @param usernameTwitter
+     * @return
+     * @throws ConnectionProblemException 
+     */
     public User insert(String name, String lastname, Date birthdate, String country, String usernameTwitter) throws ConnectionProblemException;
 
+    /**
+     * Ajoute un utilisateur
+     * 
+     * @param utilisateur
+     * @throws ConnectionProblemException 
+     */
     public void insert(User utilisateur) throws ConnectionProblemException;
 
+    /**
+     * Met à jour un utilisateur
+     * 
+     * @param utilisateur
+     * @throws ConnectionProblemException 
+     */
     public void update(User utilisateur) throws ConnectionProblemException;
 
+    /**
+     * Supprime un utilisateur
+     * 
+     * @param utilisateur
+     * @throws ConnectionProblemException 
+     */
     public void delete(User utilisateur) throws ConnectionProblemException;
 
+    /**
+     * Supprime un utilisateur
+     * 
+     * @param utilisateurID
+     * @throws ConnectionProblemException 
+     */
     public void delete(Integer utilisateurID) throws ConnectionProblemException;
 }
