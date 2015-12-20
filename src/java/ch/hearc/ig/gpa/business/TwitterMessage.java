@@ -22,11 +22,24 @@ public class TwitterMessage extends Message {
     private Integer retweet;
     private List<Hashtag> hashtags;
 
+    /**
+     *  Constructeur
+     */
     public TwitterMessage() {
         super(null, null, null, null,null);
     }
 
-    public TwitterMessage(int identifiantTwi, String message, Date date_heure_publication, Date date_heure_recup, String resume, int retweet) {
+    /**
+     * Constructeur
+     * 
+     * @param identifiantTwi
+     * @param message
+     * @param date_heure_publication
+     * @param date_heure_recup
+     * @param resume
+     * @param retweet 
+     */
+    public TwitterMessage(final int identifiantTwi,final String message,final Date date_heure_publication,final Date date_heure_recup,final String resume,final int retweet) {
         super(message, date_heure_publication, date_heure_recup, resume,ch.hearc.ig.gpa.constants.Constant.TWITTER.toString());
         this.identifiantTwi = identifiantTwi;
         this.retweet = retweet;
@@ -35,32 +48,50 @@ public class TwitterMessage extends Message {
     
     /**
      * Constructeur généré automatiquement pour respecter l'héritage...
+     * 
      * @param message
      * @param date_heure_publication
      * @param date_heure_recup
      * @param resume 
      */
-    
-    
-    
-    public TwitterMessage(String message, Date date_heure_publication, Date date_heure_recup, String resume, Integer retweet) {
+    public TwitterMessage(final String message,final Date date_heure_publication,final Date date_heure_recup,final String resume,final Integer retweet) {
         super(message, date_heure_publication, date_heure_recup, resume,ch.hearc.ig.gpa.constants.Constant.TWITTER.toString());
         this.retweet = retweet;
         hashtags = new ArrayList<>();
     }
 
+    /**
+     * Retourne l'identifiant
+     * 
+     * @return 
+     */
     public int getIdentifiantTwi() {
         return identifiantTwi;
     }
 
+    /**
+     * Met à jour l'identifiant
+     * 
+     * @param identifiantTwi 
+     */
     public void setIdentifiantTwi(int identifiantTwi) {
         this.identifiantTwi = identifiantTwi;
     }
 
+    /**
+     * Retourne les retweet
+     * 
+     * @return 
+     */
     public Integer getRetweet() {
         return retweet;
     }
 
+    /**
+     * Met à jour les retweet
+     * 
+     * @param retweet 
+     */
     public void setRetweet(Integer retweet) {
         this.retweet = retweet;
     }
