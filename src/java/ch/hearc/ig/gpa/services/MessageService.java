@@ -156,6 +156,11 @@ public class MessageService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * Méthode permettant de récupérer les flux RSS et de les insérer dans la base de données
+     * @throws FeedNotFoundException
+     * @throws ConnectionProblemException 
+     */
     public static void recupMessagesRSS() throws FeedNotFoundException, ConnectionProblemException {
         try {
             new RecuperationRSS().getRSS();

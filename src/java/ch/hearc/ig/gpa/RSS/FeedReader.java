@@ -10,6 +10,7 @@ package ch.hearc.ig.gpa.RSS;
 
 import ch.hearc.ig.gpa.business.RSS;
 import ch.hearc.ig.gpa.business.RSSFeed;
+import ch.hearc.ig.gpa.services.StringServices;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -27,16 +28,19 @@ import jdk.internal.util.xml.XMLStreamException;
  * @author thierry.hubmann
  */
 public class FeedReader {
-    static final String TITLE = "title";
-    static final String DESCRIPTION = "description";
-    static final String CHANNEL = "channel";
-    static final String LANGUAGE = "language";
-    static final String COPYRIGHT = "copyright";
-    static final String LINK = "link";
-    static final String AUTHOR = "author";
-    static final String ITEM = "item";
-    static final String PUB_DATE = "pubDate";
-    static final String GUID = "guid";
+
+    private static final int RESUMELIMIT=60;
+    
+    private static final String TITLE = "title";
+    private static final String DESCRIPTION = "description";
+    private static final String CHANNEL = "channel";
+    private static final String LANGUAGE = "language";
+    private static final String COPYRIGHT = "copyright";
+    private static final String LINK = "link";
+    private static final String AUTHOR = "author";
+    private static final String ITEM = "item";
+    private static final String PUB_DATE = "pubDate";
+    private static final String GUID = "guid";
 
     final URL url;
 
@@ -49,6 +53,11 @@ public class FeedReader {
         }
     }
 
+    /**
+     * Lit le flux RSS
+     * @return un flux RSS
+     * @throws javax.xml.stream.XMLStreamException 
+     */
     public RSSFeed readFeed() throws javax.xml.stream.XMLStreamException {
         RSSFeed feed = null;
         try {
@@ -114,6 +123,7 @@ public class FeedReader {
                         message.setMessage(description);
                         message.setUrl(link);
 //                        message.setDate_heure_publication(new Date(Calendar.getInstance().getTime().getTime()));
+                        message.setResume(StringServices.limit(description, RESUMELIMIT));
                         message.setDate_heure_recup(new Date(Calendar.getInstance().getTime().getTime()));
                         feed.getMessages().add(message);
                         event = eventReader.nextEvent();
@@ -127,6 +137,7 @@ public class FeedReader {
         return feed;
     }
 
+    
     private String getCharacterData(XMLEvent event, XMLEventReader eventReader)
             throws XMLStreamException, javax.xml.stream.XMLStreamException {
         String result = "";
