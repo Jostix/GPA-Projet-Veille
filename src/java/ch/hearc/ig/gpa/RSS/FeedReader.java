@@ -1,7 +1,10 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *  Translait SA vous présente son projet de gestion de Projet Agile.
+ *  Copyleft 2015 Translait.
+ *   /\_/\
+ * =( °w° )=
+ *   )   (  //
+ *  (__ __)//
  */
 package ch.hearc.ig.gpa.RSS;
 
@@ -12,6 +15,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Date;
+import java.util.Calendar;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.events.Characters;
@@ -109,8 +113,8 @@ public class FeedReader {
                         RSS message = new RSS();
                         message.setMessage(description);
                         message.setUrl(link);
-                        message.setDate_heure_publication(Date.valueOf(pubdate));
-                        message.setDate_heure_recup((Date) new java.util.Date());
+//                        message.setDate_heure_publication(new Date(Calendar.getInstance().getTime().getTime()));
+                        message.setDate_heure_recup(new Date(Calendar.getInstance().getTime().getTime()));
                         feed.getMessages().add(message);
                         event = eventReader.nextEvent();
                         continue;

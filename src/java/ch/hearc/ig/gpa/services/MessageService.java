@@ -8,12 +8,14 @@
  */
 package ch.hearc.ig.gpa.services;
 
+import ch.hearc.ig.gpa.RSS.RecuperationRSS;
 import ch.hearc.ig.gpa.business.Hashtag;
 import ch.hearc.ig.gpa.business.Image;
 import ch.hearc.ig.gpa.business.Message;
 import ch.hearc.ig.gpa.dbfactory.AbstractDAOFactory;
 import ch.hearc.ig.gpa.exceptions.CommitException;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
+import ch.hearc.ig.gpa.exceptions.FeedNotFoundException;
 import ch.hearc.ig.gpa.exceptions.RollbackException;
 import ch.hearc.ig.gpa.log.MyLogger;
 import ch.hearc.ig.gpa.twitter.RecuperationTwitter;
@@ -21,6 +23,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.stream.XMLStreamException;
 import twitter4j.TwitterException;
 
 /**
@@ -153,8 +156,17 @@ public class MessageService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    //Méthode test?
-    private static void recupMessagesTwitter(String username) {
+    public static void recupMessagesRSS() throws FeedNotFoundException, ConnectionProblemException {
+        try {
+            new RecuperationRSS().getRSS();
+        } catch (XMLStreamException ex) {
+            throw new FeedNotFoundException("Il y a eu un problème lors de la récuperation des flux RSS");
+        }
+    }
+
+
+//Méthode test?
+private static void recupMessagesTwitter(String username) {
 
         RecuperationTwitter recup = new RecuperationTwitter();
 
@@ -168,14 +180,30 @@ public class MessageService {
 //                recup.recuperationListPosts(user.getUsername_twitter());
 //            }
 
-        } catch (ConnectionProblemException ex) {
-            Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TwitterException ex) {
-            Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CommitException ex) {
-            Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
+        
+
+} catch (ConnectionProblemException ex) {
+            Logger.getLogger(MessageService.class  
+
+.getName()).log(Level.SEVERE, null, ex);
+        } 
+
+catch (TwitterException ex) {
+            Logger.getLogger(MessageService.class  
+
+.getName()).log(Level.SEVERE, null, ex);
+        } 
+
+catch (CommitException ex) {
+            Logger.getLogger(MessageService.class  
+
+.getName()).log(Level.SEVERE, null, ex);
+        } 
+
+catch (SQLException ex) {
+            Logger.getLogger(MessageService.class  
+
+.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

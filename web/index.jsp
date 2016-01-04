@@ -3,6 +3,9 @@
     Created on : 4 janv. 2010, 11:23:22
     Author     : termine
 --%>
+<%@page import="ch.hearc.ig.gpa.business.RSS"%>
+<%@page import="java.util.List"%>
+<%@page import="ch.hearc.ig.gpa.RSS.RecuperationRSS"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.HashSet"%>
 <%@page import="ch.hearc.ig.gpa.dao.UserDAOImpl"%>
@@ -21,7 +24,6 @@
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
   Launch demo modal
 </button>
-
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">

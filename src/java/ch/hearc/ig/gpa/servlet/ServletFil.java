@@ -8,7 +8,9 @@
  */
 package ch.hearc.ig.gpa.servlet;
 
+import ch.hearc.ig.gpa.RSS.RecuperationRSS;
 import ch.hearc.ig.gpa.business.Message;
+import ch.hearc.ig.gpa.business.RSS;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import ch.hearc.ig.gpa.services.MessageService;
 import java.io.IOException;
@@ -20,6 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.stream.XMLStreamException;
 
 /**
  * Servlet utilisé sur la page d'index pour affiche le top5 et le reste de
@@ -36,14 +39,15 @@ public class ServletFil extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
         try {
             //Ajout de l'entête
             HtmlHttpUtils.doHeader("<span class='glyphicon glyphicon-th-list'></span> Fil d'actualité", out, request, response);
-
+            
+            
             // ---------------------------  TOP 5
             // Récupère la liste du top 5 des messages
             List<Message> listeMessageTop5 = MessageService.findTop5Message();
