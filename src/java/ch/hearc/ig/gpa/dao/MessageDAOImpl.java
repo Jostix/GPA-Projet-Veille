@@ -18,6 +18,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -39,7 +41,7 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
             //Step 1 On ajoute le message dans la table message
             String query = "insert into Message(user_numero, message, date_heure_publication, date_heure_recup, resume) values (?,?,?,?,?)";
 
-            pstmt = getConnection().prepareStatement(query);
+            pstmt = getConnection().prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
             pstmt.setInt(1, userNum);
             pstmt.setString(2, message.getMessage());
             pstmt.setDate(3, message.getDate_heure_publication());
@@ -49,16 +51,20 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
             int count = pstmt.executeUpdate();
 
             //Step 2 : On récupère le numéro de séquence
-            rs = pstmt.getGeneratedKeys();
+            Statement stmt = getConnection().createStatement();
+            String seqQuery = "select seq_msg.currval from dual";
+            rs = stmt.executeQuery(seqQuery);
             rs.next();
-            int currentSequence = (int)rs.getLong(1);
+
+            int currentSequence = rs.getInt(1);
 
             //On ajoute le message dans la table RSSMessage
             new RSSDaoImpl().AddRSS(message, currentSequence);
 
 
         } catch (ConnectionProblemException ex) {
-            throw ex;
+            ex.printStackTrace();
+           // throw ex;
         } catch (SQLException sqlE) {
             throw new ConnectionProblemException("A problem appared with adding message", sqlE);
         } finally {

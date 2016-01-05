@@ -122,7 +122,7 @@ public class FeedReader {
                         RSS message = new RSS();
                         message.setMessage(description);
                         message.setUrl(link);
-//                        message.setDate_heure_publication(new Date(Calendar.getInstance().getTime().getTime()));
+                        message.setDate_heure_publication(new Date(Calendar.getInstance().getTime().getTime()));
                         message.setResume(StringServices.limit(description, RESUMELIMIT));
                         message.setDate_heure_recup(new Date(Calendar.getInstance().getTime().getTime()));
                         feed.getMessages().add(message);

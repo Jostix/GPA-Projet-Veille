@@ -17,7 +17,7 @@
 <!-- <a href="recherchePersonne.html">Recherche Personne</a><br>
  <a href="creationPersonne.html">Creation Personne</a>-->
 
-
+<%Class.forName("oracle.jdbc.OracleDriver");%>
  
 <!-- test -->
 <!-- Button trigger modal -->

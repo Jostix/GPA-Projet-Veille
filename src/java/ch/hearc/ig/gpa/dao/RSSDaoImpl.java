@@ -36,6 +36,8 @@ public class RSSDaoImpl extends MessageDAOImpl implements RSSDao{
             pstmt.setString(1, rss.getUrl());
             pstmt.setString(2, rss.getCategorie());
             pstmt.setInt(3, msgNumber);
+            
+            pstmt.executeQuery();
 
         } catch (ConnectionProblemException ex) {
             throw new ConnectionProblemException("Problem while inserting rss message in DB");

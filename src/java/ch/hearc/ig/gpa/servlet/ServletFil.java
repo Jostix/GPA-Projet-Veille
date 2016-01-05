@@ -39,21 +39,23 @@ public class ServletFil extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
         try {
             //Ajout de l'entête
             HtmlHttpUtils.doHeader("<span class='glyphicon glyphicon-th-list'></span> Fil d'actualité", out, request, response);
-
+            
+            
             // ---------------------------  TOP 5
             // Récupère la liste du top 5 des messages
             List<Message> listeMessageTop5 = MessageService.findTop5Message();
 
             //Bouton qui met à jour les données
             out.println("<a href='Update'>Update</a>");
-
+            
+            
             // Titre
             out.println("<h2>Top 5 des actualités</h2>");
 

@@ -32,11 +32,10 @@ public class RecuperationRSS {
         FeedReader parser = new FeedReader("https://www.mercedes-benz.com/en/ressort/mercedes-benz/innovation/feed/");
         RSSFeed feed = parser.readFeed();
         System.out.println(feed);
+        MessageDAOImpl msgDao = AbstractDAOFactory.getDAOFactory().getMessageDAO();
         for (RSS message : feed.getMessages()) {
-           message.setCategorie(Constant.RSS.toString());
-           MessageDAOImpl msgDao = AbstractDAOFactory.getDAOFactory().getMessageDAO();
+           message.setCategorie(Constant.RSS.toString());          
            msgDao.addMessageRSS(message,1);
-
         }
         return feed.getMessages();
     }
