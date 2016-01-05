@@ -15,6 +15,7 @@ import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import ch.hearc.ig.gpa.exceptions.RollbackException;
 import ch.hearc.ig.gpa.log.MyLogger;
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -24,10 +25,10 @@ import java.util.logging.Level;
  */
 public abstract class UserService {
 
-    public static Set<User> findAllUser() throws ConnectionProblemException {
-        Set<User> list = null;
+    public static List<User> findAllUser() throws ConnectionProblemException {
+        List<User> list = null;
         try {
-            list = AbstractDAOFactory.getDAOFactory().getUserDAO().researchAll();
+            list = AbstractDAOFactory.getDAOFactory().getUserDAOImpl().researchAll();
         } catch (ConnectionProblemException e) {
             MyLogger.getInstance().log(Level.SEVERE, null, e);
             throw e;
@@ -37,10 +38,10 @@ public abstract class UserService {
         return list;
     }
 
-    public static Set<User> findUsersByName(String name) throws ConnectionProblemException {
-        Set<User> list = null;
+    public static List<User> findUsersByName(String name) throws ConnectionProblemException {
+        List<User> list = null;
         try {
-            list = AbstractDAOFactory.getDAOFactory().getUserDAO().researchByName(name);
+            list = AbstractDAOFactory.getDAOFactory().getUserDAOImpl().researchByName(name);
         } catch (ConnectionProblemException e) {
             MyLogger.getInstance().log(Level.SEVERE, null, e);
             throw e;
@@ -53,7 +54,7 @@ public abstract class UserService {
     public static User createUser(String name, String lastname, Date birthdate, String country, String usernameTwitter) throws ConnectionProblemException {
         User newUser = null;
         try {
-            newUser = AbstractDAOFactory.getDAOFactory().getUserDAO().insert(name, lastname, birthdate, country, usernameTwitter);
+            newUser = AbstractDAOFactory.getDAOFactory().getUserDAOImpl().insert(name, lastname, birthdate, country, usernameTwitter);
             AbstractDAOFactory.getDAOFactory().commit();
 
         } catch (ConnectionProblemException ex) {

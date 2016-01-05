@@ -7,7 +7,6 @@ package ch.hearc.ig.gpa.dao;
 
 import ch.hearc.ig.gpa.business.Message;
 import ch.hearc.ig.gpa.business.RSS;
-import ch.hearc.ig.gpa.business.TwitterMessage;
 import ch.hearc.ig.gpa.dao.interf.RSSDao;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import java.sql.PreparedStatement;
@@ -96,6 +95,29 @@ public class RSSDaoImpl extends MessageDAOImpl implements RSSDao{
             closePStmtAndRS(stmt, rs);
         }
         return rssMessages;
+    }
+
+    /**
+     * Supprime tous les messages RSS
+     */
+    @Override
+    public void deleteAllRSS() {
+        PreparedStatement stmt = null;
+        ResultSet rsMessages = null;
+
+        String query = "delete from rss";
+        try {
+            stmt = getConnection().prepareStatement(query);
+
+            stmt.executeQuery();
+
+        } catch (ConnectionProblemException ex) {
+            Logger.getLogger(MessageDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(MessageDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closePStmtAndRS(stmt, rsMessages);
+        }
     }
 
     private RSS getRSS(ResultSet rs) throws SQLException, ConnectionProblemException {

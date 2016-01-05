@@ -16,7 +16,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -24,15 +26,14 @@ import java.util.Set;
  * @author Romain Ducret <romain.ducret1@he-arc.ch>
  */
 public class UserDAOImpl extends AbstractDAOOracle implements UserDAO {
-    
-    //Insertion d'un hashtag dans la base de donnée
 
+    //Insertion d'un hashtag dans la base de donnée
     @Override
-    public Set<User> researchAll() throws ConnectionProblemException {
+    public List<User> researchAll() throws ConnectionProblemException {
         Statement stmt = null;
         ResultSet rs = null;
 
-        Set<User> utilisateurs = new HashSet<>();
+        List<User> utilisateurs = new ArrayList<>();
 
         try {
             stmt = getConnection().createStatement();
@@ -54,12 +55,42 @@ public class UserDAOImpl extends AbstractDAOOracle implements UserDAO {
         return utilisateurs;
     }
 
-    @Override
-    public Set<User> researchByName(String name) throws ConnectionProblemException {
+    public int getIdByUsername(String username) throws ConnectionProblemException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        Set<User> utilisateurs = new HashSet<>();
+        int id = -1;
+
+        try {
+
+            String query = "SELECT NUMERO FROM UTILISATEUR WHERE UPPER(username_twitter) = UPPER(?)";
+
+            stmt = getConnection().prepareStatement(query);
+
+            stmt.setString(1, username);
+
+            rs = stmt.executeQuery();
+
+            // On ajoute les utilisateurs à la liste
+            while (rs.next()) {
+                id = rs.getInt("numero");
+            }
+        } catch (ConnectionProblemException ex) {
+            throw ex;
+        } catch (SQLException sqlE) {
+            throw new ConnectionProblemException("A problem appeared while loading users by name", sqlE);
+        } finally {
+            closeStmtAndRS(stmt, rs);
+        }
+        return id;
+    }
+
+    @Override
+    public List<User> researchByName(String name) throws ConnectionProblemException {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        List<User> utilisateurs = new ArrayList<>();
         User currentUtilisateur = null;
 
         try {
@@ -88,12 +119,12 @@ public class UserDAOImpl extends AbstractDAOOracle implements UserDAO {
     }
 
     @Override
-    public Set<User> research(User user) throws ConnectionProblemException {
+    public List<User> research(User user) throws ConnectionProblemException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         boolean and = false;
 
-        Set<User> utilisateurs = new HashSet<>();
+        List<User> utilisateurs = new ArrayList<>();
         User currentUtilisateur = null;
 
         try {

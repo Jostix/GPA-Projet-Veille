@@ -9,14 +9,14 @@
 package ch.hearc.ig.gpa.services;
 
 import ch.hearc.ig.gpa.RSS.RecuperationRSS;
-import ch.hearc.ig.gpa.business.Hashtag;
-import ch.hearc.ig.gpa.business.Image;
 import ch.hearc.ig.gpa.business.Message;
+import ch.hearc.ig.gpa.business.RSS;
+import ch.hearc.ig.gpa.business.TwitterMessage;
+import ch.hearc.ig.gpa.business.User;
 import ch.hearc.ig.gpa.dbfactory.AbstractDAOFactory;
 import ch.hearc.ig.gpa.exceptions.CommitException;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import ch.hearc.ig.gpa.exceptions.FeedNotFoundException;
-import ch.hearc.ig.gpa.exceptions.RollbackException;
 import ch.hearc.ig.gpa.log.MyLogger;
 import ch.hearc.ig.gpa.twitter.RecuperationTwitter;
 import java.sql.SQLException;
@@ -70,107 +70,51 @@ public class MessageService {
         }
         return list;
     }
-
-    /**
-     * Ajout d'un message facebook
-     *
-     * @param message
-     * @param img
-     * @return
-     * @throws ConnectionProblemException
-     */
-    /*public static Message addFacebookMessage(Message message, Image img) throws ConnectionProblemException {
-        Message newMessage = null;
+    
+    public static List<TwitterMessage> findAllTwitterMessages(){
+        List<TwitterMessage> list = null;
         try {
-            newMessage = AbstractDAOFactory.getDAOFactory().getMessageDAO().addFacebookMessage(newMessage);
-            AbstractDAOFactory.getDAOFactory().commit();
-            img.setMessage(message);
-
+            list = AbstractDAOFactory.getDAOFactory().getTwitterDao().getAllTwitterMessages();
         } catch (ConnectionProblemException ex) {
-            try {
-                AbstractDAOFactory.getDAOFactory().rollback();
-            } catch (RollbackException ex1) {
-                MyLogger.getInstance().log(Level.SEVERE, null, ex1);
-            }
-            MyLogger.getInstance().log(Level.SEVERE, null, ex);
-            throw ex;
-        } catch (CommitException ex) {
-            try {
-                AbstractDAOFactory.getDAOFactory().rollback();
-            } catch (RollbackException ex1) {
-                MyLogger.getInstance().log(Level.SEVERE, null, ex1);
-            }
-            MyLogger.getInstance().log(Level.SEVERE, null, ex);
-            throw new ConnectionProblemException("A problem appeared while inserting the new message facebook in the database");
-        } finally {
-            AbstractDAOFactory.getDAOFactory().closeConnection();
+            Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        return newMessage;
-    }*/
-
-    /**
-     * Ajout d'un message twitter
-     *
-     * @param message
-     * @param img
-     * @param hash
-     * @return
-     * @throws ConnectionProblemException
-     */
-    /*public static Message addTwitterMessage(Message message, Image img, Hashtag hash) throws ConnectionProblemException {
-        Message newMessage = null;
+        return list;
+    }
+    
+    public static List<RSS> findAllRSS(){
+        List<RSS> list = null;
         try {
-            newMessage = AbstractDAOFactory.getDAOFactory().getMessageDAO().addTwitterMessage(message);
-            AbstractDAOFactory.getDAOFactory().commit();
-            img.setMessage(message);
-            hash.setMessage(message);
-
+            list = AbstractDAOFactory.getDAOFactory().getRSSDaoImpl().getRSSMessages();
         } catch (ConnectionProblemException ex) {
-            try {
-                AbstractDAOFactory.getDAOFactory().rollback();
-            } catch (RollbackException ex1) {
-                MyLogger.getInstance().log(Level.SEVERE, null, ex1);
-            }
-            MyLogger.getInstance().log(Level.SEVERE, null, ex);
-            throw ex;
-        } catch (CommitException ex) {
-            try {
-                AbstractDAOFactory.getDAOFactory().rollback();
-            } catch (RollbackException ex1) {
-                MyLogger.getInstance().log(Level.SEVERE, null, ex1);
-            }
-            MyLogger.getInstance().log(Level.SEVERE, null, ex);
-            throw new ConnectionProblemException("A problem appeared while inserting the new message twitter in the database");
-        } finally {
-            AbstractDAOFactory.getDAOFactory().closeConnection();
+            Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        return newMessage;
-    }*/
+        return list;
+    }
 
     /**
-     * Met à jour les données de la base de donnée
+     * Service appelé lors d'un clic sur le bouton d'actualisation. Il
+     * supprime toutes les données dans les tables et en rajoute des fraiches
+     * @throws CommitException 
      */
-    public static void UpdateAll() {
+    public static void UpdateAll() throws CommitException {
+
         try {
-            //throw new UnsupportedOperationException("Not supported yet.");
-           
+            AbstractDAOFactory.getDAOFactory().getRSSDaoImpl().deleteAllRSS();
+            AbstractDAOFactory.getDAOFactory().getTwitterDao().deleteAllMessage();
+            AbstractDAOFactory.getDAOFactory().getMessageDAO().deleteAllMessage();
             recupMessagesRSS();
-            try {
-                AbstractDAOFactory.getDAOFactory().commit();
-            } catch (CommitException ex) {
-                Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            recupMessagesTwitter();
+            AbstractDAOFactory.getDAOFactory().commit();
         } catch (FeedNotFoundException ex) {
             Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ConnectionProblemException ex) {
             Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     /**
-     * Méthode permettant de récupérer les flux RSS et de les insérer dans la
+     * Service permettant de récupérer les flux RSS et de les insérer dans la
      * base de données
      *
      * @throws FeedNotFoundException
@@ -184,34 +128,25 @@ public class MessageService {
         }
     }
 
-//Méthode test?
-    private static void recupMessagesTwitter(String username) {
-
-        RecuperationTwitter recup = new RecuperationTwitter();
+    /**
+     * Ce service permet de récupérer tous les messages sur twitter et de les insérer dans la base de données
+     */
+    private static void recupMessagesTwitter() {
 
         try {
-
-//            AbstractDAOFactory.getDAOFactory().getMessageDAO().deleteAllMessage();
-//            AbstractDAOFactory.getDAOFactory().getHashtagDAO().deleteAllHashtag();
-//            Set<User> users = AbstractDAOFactory.getDAOFactory().getUserDAO().researchAll();
-            recup.recuperationListPosts(username);
-//            for (User user : users) {
-//                recup.recuperationListPosts(user.getUsername_twitter());
-//            }
-
+            RecuperationTwitter recup = new RecuperationTwitter();
+            for (User user : AbstractDAOFactory.getDAOFactory().getUserDAOImpl().researchAll()) {
+                recup.recuperationListPosts(user.getUsername_twitter());
+            }
         } catch (ConnectionProblemException ex) {
-            Logger.getLogger(MessageService.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        } catch (TwitterException ex) {
-            Logger.getLogger(MessageService.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        } catch (CommitException ex) {
-            Logger.getLogger(MessageService.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(MessageService.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TwitterException ex) {
+            Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CommitException ex) {
+            Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
+
 }

@@ -8,8 +8,6 @@
  */
 package ch.hearc.ig.gpa.dbfactory;
 
-import ch.hearc.ig.gpa.business.RSS;
-import ch.hearc.ig.gpa.dao.interf.HashtagDAO;
 import ch.hearc.ig.gpa.dao.HashtagDAOImpl;
 import ch.hearc.ig.gpa.dao.interf.ImageDAO;
 import ch.hearc.ig.gpa.dao.ImageDAOImpl;
@@ -17,15 +15,12 @@ import ch.hearc.ig.gpa.dao.MessageDAOImpl;
 import ch.hearc.ig.gpa.dao.RSSDaoImpl;
 import ch.hearc.ig.gpa.dao.RelationTwiHashDAO;
 import ch.hearc.ig.gpa.dao.TwitterDao;
-import ch.hearc.ig.gpa.dao.interf.UserDAO;
 import ch.hearc.ig.gpa.dao.UserDAOImpl;
 import ch.hearc.ig.gpa.dao.interf.RSSDao;
-import ch.hearc.ig.gpa.dbfactory.OracleConnections;
 import ch.hearc.ig.gpa.exceptions.CommitException;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import ch.hearc.ig.gpa.exceptions.RollbackException;
 import java.sql.Connection;
-import java.util.List;
 
 /**
  *
@@ -76,26 +71,28 @@ public class OracleDAOFactory extends AbstractDAOFactory {
     }
 
     @Override
-    public UserDAO getUserDAO() {
-        return new UserDAOImpl();
-    }
-
-    @Override
     public MessageDAOImpl getMessageDAO() {
         return new MessageDAOImpl();
     }
-    
+
     @Override
     public RelationTwiHashDAO getRelationTwiHashDAO() {
         return new RelationTwiHashDAO();
     }
 
-    public RSSDao getRSSDao(){
-        return new RSSDaoImpl();        
-    }
     @Override
     public TwitterDao getTwitterDao() {
         return new TwitterDao();
+    }
+
+    @Override
+    public UserDAOImpl getUserDAOImpl() {
+        return new UserDAOImpl();
+    }
+
+    @Override
+    public RSSDao getRSSDaoImpl() {
+        return new RSSDaoImpl();
     }
 
 }

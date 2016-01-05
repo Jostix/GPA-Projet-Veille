@@ -8,9 +8,12 @@
  */
 package ch.hearc.ig.gpa.servlet;
 
+import ch.hearc.ig.gpa.exceptions.CommitException;
 import ch.hearc.ig.gpa.services.MessageService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -62,7 +65,11 @@ public class Update extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
         
-        MessageService.UpdateAll();
+        try {
+            MessageService.UpdateAll();
+        } catch (CommitException ex) {
+            Logger.getLogger(Update.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

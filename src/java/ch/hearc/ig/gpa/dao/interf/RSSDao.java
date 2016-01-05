@@ -19,4 +19,6 @@ public interface RSSDao {
     public List<RSS> getRSSMessages() throws ConnectionProblemException;
     
     public List<RSS> getRSSMessagesByCategory(String categorie) throws ConnectionProblemException;
+    
+    public void deleteAllRSS();
 }

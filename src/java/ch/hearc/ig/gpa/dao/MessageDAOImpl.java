@@ -71,7 +71,47 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
             closePStmtAndRS(pstmt, rs);
         }
     }
+    
+    public void addMessageTwitter(TwitterMessage message, int userNum) throws ConnectionProblemException{
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
 
+        try {
+            
+            //Step 1 On ajoute le message dans la table message
+            String query = "insert into Message(user_numero, message, date_heure_publication, date_heure_recup, resume) values (?,?,?,?,?)";
+
+            pstmt = getConnection().prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+            pstmt.setInt(1, userNum);
+            pstmt.setString(2, message.getMessage());
+            pstmt.setDate(3, message.getDate_heure_publication());
+            pstmt.setDate(4, message.getDate_heure_recup());
+            pstmt.setString(5, message.getResume());
+
+            int count = pstmt.executeUpdate();
+
+            //Step 2 : On récupère le numéro de séquence
+            Statement stmt = getConnection().createStatement();
+            String seqQuery = "select seq_msg.currval from dual";
+            rs = stmt.executeQuery(seqQuery);
+            rs.next();
+
+            int currentSequence = rs.getInt(1);
+
+            //On ajoute le message dans la table TwitterMessage
+            new TwitterDao().addTwitterMessage(message, currentSequence);
+
+
+        } catch (ConnectionProblemException ex) {
+            ex.printStackTrace();
+           // throw ex;
+        } catch (SQLException sqlE) {
+            throw new ConnectionProblemException("A problem appared with adding message", sqlE);
+        } finally {
+            closePStmtAndRS(pstmt, rs);
+        }
+    }
+    
     @Override
     public int getCurrentMsgSequenceValue() throws ConnectionProblemException {
         int currentValue = -1;

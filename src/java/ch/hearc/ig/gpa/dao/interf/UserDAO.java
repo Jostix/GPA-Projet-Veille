@@ -11,6 +11,7 @@ package ch.hearc.ig.gpa.dao.interf;
 import ch.hearc.ig.gpa.business.User;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,7 +26,7 @@ public interface UserDAO {
      * @return
      * @throws ConnectionProblemException 
      */
-    public Set<User> researchAll() throws ConnectionProblemException;
+    public List<User> researchAll() throws ConnectionProblemException;
 
     /**
      * Retourne un set des utilisateurs en fonction de leur nom
@@ -34,7 +35,7 @@ public interface UserDAO {
      * @return
      * @throws ConnectionProblemException 
      */
-    public Set<User> researchByName(String name) throws ConnectionProblemException;
+    public List<User> researchByName(String name) throws ConnectionProblemException;
 
     /**
      * Retourne un set d'utilisateur en fonction de l'objet utilisateur passé en paramètre
@@ -43,7 +44,7 @@ public interface UserDAO {
      * @return
      * @throws ConnectionProblemException 
      */
-    public Set<User> research(User user) throws ConnectionProblemException;
+    public List<User> research(User user) throws ConnectionProblemException;
 
     /**
      * Ajoute un utilisateur

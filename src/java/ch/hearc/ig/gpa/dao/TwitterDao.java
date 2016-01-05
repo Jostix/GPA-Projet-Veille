@@ -70,7 +70,7 @@ public class TwitterDao extends MessageDAOImpl {
             pstmt.setInt(1, message.getRetweet());
             pstmt.setInt(2, messageNumber);
             
-
+            System.out.println(messageNumber);
             int count = pstmt.executeUpdate();
             
         } catch (Exception e) {
@@ -98,12 +98,7 @@ public class TwitterDao extends MessageDAOImpl {
         } catch (Exception ex) {
             logger.log(Level.SEVERE, null, ex);
         } finally {
-            try {
-                stmt.close();
-                c.close();
-            } catch (SQLException ex) {
-                logger.log(Level.SEVERE, null, ex);
-            }
+            closeStmtAndRS(stmt, rsSequence);
         }
         return currentValue;
     }

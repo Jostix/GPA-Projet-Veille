@@ -13,6 +13,7 @@ import ch.hearc.ig.gpa.dao.interf.ImageDAO;
 import ch.hearc.ig.gpa.dao.MessageDAOImpl;
 import ch.hearc.ig.gpa.dao.RelationTwiHashDAO;
 import ch.hearc.ig.gpa.dao.TwitterDao;
+import ch.hearc.ig.gpa.dao.UserDAOImpl;
 import ch.hearc.ig.gpa.dao.interf.RSSDao;
 import ch.hearc.ig.gpa.dao.interf.UserDAO;
 import ch.hearc.ig.gpa.exceptions.CommitException;
@@ -32,11 +33,11 @@ public abstract class AbstractDAOFactory {
 
     public abstract HashtagDAOImpl getHashtagDAO();
     
-    public abstract UserDAO getUserDAO();
+    public abstract UserDAOImpl getUserDAOImpl();
     
     public abstract TwitterDao getTwitterDao();
     
-    public abstract RSSDao getRSSDao();
+    public abstract RSSDao getRSSDaoImpl();
     
     public abstract RelationTwiHashDAO getRelationTwiHashDAO();
 
