@@ -79,7 +79,7 @@ public class MessageService {
      * @return
      * @throws ConnectionProblemException
      */
-    public static Message addFacebookMessage(Message message, Image img) throws ConnectionProblemException {
+    /*public static Message addFacebookMessage(Message message, Image img) throws ConnectionProblemException {
         Message newMessage = null;
         try {
             newMessage = AbstractDAOFactory.getDAOFactory().getMessageDAO().addFacebookMessage(newMessage);
@@ -107,7 +107,7 @@ public class MessageService {
         }
 
         return newMessage;
-    }
+    }*/
 
     /**
      * Ajout d'un message twitter
@@ -118,7 +118,7 @@ public class MessageService {
      * @return
      * @throws ConnectionProblemException
      */
-    public static Message addTwitterMessage(Message message, Image img, Hashtag hash) throws ConnectionProblemException {
+    /*public static Message addTwitterMessage(Message message, Image img, Hashtag hash) throws ConnectionProblemException {
         Message newMessage = null;
         try {
             newMessage = AbstractDAOFactory.getDAOFactory().getMessageDAO().addTwitterMessage(message);
@@ -147,19 +147,34 @@ public class MessageService {
         }
 
         return newMessage;
-    }
+    }*/
 
     /**
      * Met à jour les données de la base de donnée
      */
     public static void UpdateAll() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            //throw new UnsupportedOperationException("Not supported yet.");
+           
+            recupMessagesRSS();
+            try {
+                AbstractDAOFactory.getDAOFactory().commit();
+            } catch (CommitException ex) {
+                Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (FeedNotFoundException ex) {
+            Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ConnectionProblemException ex) {
+            Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
-     * Méthode permettant de récupérer les flux RSS et de les insérer dans la base de données
+     * Méthode permettant de récupérer les flux RSS et de les insérer dans la
+     * base de données
+     *
      * @throws FeedNotFoundException
-     * @throws ConnectionProblemException 
+     * @throws ConnectionProblemException
      */
     public static void recupMessagesRSS() throws FeedNotFoundException, ConnectionProblemException {
         try {
@@ -169,9 +184,8 @@ public class MessageService {
         }
     }
 
-
 //Méthode test?
-private static void recupMessagesTwitter(String username) {
+    private static void recupMessagesTwitter(String username) {
 
         RecuperationTwitter recup = new RecuperationTwitter();
 
@@ -185,30 +199,18 @@ private static void recupMessagesTwitter(String username) {
 //                recup.recuperationListPosts(user.getUsername_twitter());
 //            }
 
-        
-
-} catch (ConnectionProblemException ex) {
-            Logger.getLogger(MessageService.class  
-
-.getName()).log(Level.SEVERE, null, ex);
-        } 
-
-catch (TwitterException ex) {
-            Logger.getLogger(MessageService.class  
-
-.getName()).log(Level.SEVERE, null, ex);
-        } 
-
-catch (CommitException ex) {
-            Logger.getLogger(MessageService.class  
-
-.getName()).log(Level.SEVERE, null, ex);
-        } 
-
-catch (SQLException ex) {
-            Logger.getLogger(MessageService.class  
-
-.getName()).log(Level.SEVERE, null, ex);
+        } catch (ConnectionProblemException ex) {
+            Logger.getLogger(MessageService.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        } catch (TwitterException ex) {
+            Logger.getLogger(MessageService.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        } catch (CommitException ex) {
+            Logger.getLogger(MessageService.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(MessageService.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
     }

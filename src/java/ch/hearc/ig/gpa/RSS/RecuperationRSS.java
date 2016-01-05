@@ -35,7 +35,7 @@ public class RecuperationRSS {
         for (RSS message : feed.getMessages()) {
            message.setCategorie(Constant.RSS.toString());
            MessageDAOImpl msgDao = AbstractDAOFactory.getDAOFactory().getMessageDAO();
-           msgDao.addRSSMessage(message);
+           msgDao.addMessageRSS(message,1);
 
         }
         return feed.getMessages();

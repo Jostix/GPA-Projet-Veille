@@ -19,9 +19,9 @@ import java.sql.Date;
 import java.util.Calendar;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.XMLEvent;
-import jdk.internal.util.xml.XMLStreamException;
 
 /**
  *

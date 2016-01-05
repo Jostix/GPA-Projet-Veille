@@ -9,6 +9,7 @@
 package ch.hearc.ig.gpa.dao.interf;
 
 import ch.hearc.ig.gpa.business.Message;
+import ch.hearc.ig.gpa.business.RSS;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public interface MessageDAO {
      * @param userNum
      * @throws ConnectionProblemException 
      */
-    public void addMessage(Message message, int userNum)  throws ConnectionProblemException;
+    public void addMessageRSS(RSS message, int userNum)  throws ConnectionProblemException;
 
     /**
      * Retourne la séquence des messages
@@ -43,33 +44,6 @@ public interface MessageDAO {
      * @throws ConnectionProblemException 
      */
     public Message getMessageById(int numero) throws ConnectionProblemException;
-
-    /**
-     * Ajoute un message facebook
-     * 
-     * @param message
-     * @return
-     * @throws ConnectionProblemException 
-     */
-    public Message addFacebookMessage(Message message) throws ConnectionProblemException;
-
-    /**
-     * Ajoute un message twitter
-     * 
-     * @param message
-     * @return
-     * @throws ConnectionProblemException 
-     */
-    public Message addTwitterMessage(Message message) throws ConnectionProblemException;
-    
-    /**
-     * Ajoute un message RSS
-     * 
-     * @param message
-     * @return
-     * @throws ConnectionProblemException 
-     */
-    public Message addRSSMessage(Message message) throws ConnectionProblemException;
 
     /**
      * Retourne une liste de tous les messages

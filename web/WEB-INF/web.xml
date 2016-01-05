@@ -8,6 +8,10 @@
         <servlet-name>ServletFil</servlet-name>
         <servlet-class>ch.hearc.ig.gpa.servlet.ServletFil</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Update</servlet-name>
+        <servlet-class>ch.hearc.ig.gpa.servlet.Update</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HtmlHttpUtils</servlet-name>
         <url-pattern>/HtmlHttpUtils</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>ServletFil</servlet-name>
         <url-pattern>/ServletFil</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Update</servlet-name>
+        <url-pattern>/Update</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

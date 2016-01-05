@@ -52,6 +52,10 @@ public class ServletFil extends HttpServlet {
             // Récupère la liste du top 5 des messages
             List<Message> listeMessageTop5 = MessageService.findTop5Message();
 
+            //Bouton qui met à jour les données
+            out.println("<a href='Update'>Update</a>");
+            
+            
             // Titre
             out.println("<h2>Top 5 des actualités</h2>");
 

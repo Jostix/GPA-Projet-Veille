@@ -11,6 +11,7 @@ package ch.hearc.ig.gpa.dao;
 import ch.hearc.ig.gpa.dao.interf.MessageDAO;
 import ch.hearc.ig.gpa.business.Facebook;
 import ch.hearc.ig.gpa.business.Message;
+import ch.hearc.ig.gpa.business.RSS;
 import ch.hearc.ig.gpa.business.TwitterMessage;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import java.sql.Date;
@@ -29,11 +30,13 @@ import java.util.logging.Logger;
 public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
 
     @Override
-    public void addMessage(Message message, int userNum) throws ConnectionProblemException {
+    public void addMessageRSS(RSS message, int userNum) throws ConnectionProblemException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
         try {
+            
+            //Step 1 On ajoute le message dans la table message
             String query = "insert into Message(user_numero, message, date_heure_publication, date_heure_recup, resume) values (?,?,?,?,?)";
 
             pstmt = getConnection().prepareStatement(query);
@@ -45,18 +48,14 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
 
             int count = pstmt.executeUpdate();
 
-            /**
-             * Test del l'instance du message, si c'est un message facebook on
-             * va appeler le FacebookDao pour ajouter une publication facebook,
-             * si c'est un message Twitter on va bien entendu ajouter une
-             * publication Twitter.
-             */
-//            if (message instanceof Facebook) {
-//                new FacebookDao().addFbMessage((Facebook) message, newMessageNum);
-//            }
-//            if (message instanceof TwitterMessage) {
-//                new TwitterDao().addTwitterMessage((TwitterMessage) message, newMessageNum);
-//            }
+            //Step 2 : On récupère le numéro de séquence
+            rs = pstmt.getGeneratedKeys();
+            rs.next();
+            int currentSequence = (int)rs.getLong(1);
+
+            //On ajoute le message dans la table RSSMessage
+            new RSSDaoImpl().AddRSS(message, currentSequence);
+
 
         } catch (ConnectionProblemException ex) {
             throw ex;
@@ -110,7 +109,7 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
                 Date dateHeureRecup = rsMessages.getDate("date_heure_recup");
                 String resume = rsMessages.getString("resume");
 
-                m = new Message(message, dateHeurePublication, dateHeureRecup, resume,null);
+                m = new Message(message, dateHeurePublication, dateHeureRecup, resume, null);
 
             }
         } catch (ConnectionProblemException ex) {
@@ -146,22 +145,7 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
         List topMessages = new TwitterDao().getTopRetweeted(5); //Si le client veut un top 6, entrer 6 ici
         return topMessages;
     }
-
-    @Override
-    public Message addFacebookMessage(Message message) throws ConnectionProblemException {
-        return this.addFacebookMessage(message);
-    }
-
-    @Override
-    public Message addTwitterMessage(Message message) throws ConnectionProblemException {
-        return this.addTwitterMessage(message);
-    }
     
-    @Override
-    public Message addRSSMessage(Message message) throws ConnectionProblemException{
-        return this.addRSSMessage(message);
-    }
-
     public Message getMessage(Message message) {
         Message m = null;
         PreparedStatement stmt = null;
@@ -182,7 +166,7 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
                 Date dateHeureRecup = rsMessages.getDate("date_heure_recup");
                 String resume = rsMessages.getString("resume");
 
-                m = new Message(numero, messageText, dateHeurePublication, dateHeureRecup, resume,null);
+                m = new Message(numero, messageText, dateHeurePublication, dateHeureRecup, resume, null);
 
             }
         } catch (ConnectionProblemException ex) {
@@ -194,18 +178,17 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
         }
         return m;
     }
-    
-    public void deleteAllMessage(){
+
+    public void deleteAllMessage() {
         PreparedStatement stmt = null;
         ResultSet rsMessages = null;
 
         String query = "delete from message";
         try {
             stmt = getConnection().prepareStatement(query);
-            
+
             stmt.executeQuery();
 
-        
         } catch (ConnectionProblemException ex) {
             Logger.getLogger(MessageDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

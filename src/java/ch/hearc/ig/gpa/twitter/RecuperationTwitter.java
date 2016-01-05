@@ -50,7 +50,7 @@ public class RecuperationTwitter {
         
             //AddMessage
             MessageDAOImpl messageDAO = new MessageDAOImpl();
-            messageDAO.addMessage(messageTwitter, utilisateur.getIdentifiant());
+            //messageDAO.addMessage(messageTwitter, utilisateur.getIdentifiant());
             
             
             
@@ -82,11 +82,11 @@ public class RecuperationTwitter {
             factory.getConnection();
             
             MessageDAOImpl messageDAO = factory.getMessageDAO();
-            try {
-                messageDAO.addMessage(message, 1);
+           /* try {
+               messageDAO.addMessage(message, 1);
             } catch (ConnectionProblemException ex) {
                 Logger.getLogger(RecuperationTwitter.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }*/
             
             TwitterDao twitterDao = factory.getTwitterDao();
             twitMessage.setIdentifiantTwi(messageDAO.getMessage(message).getIdentifiant());
