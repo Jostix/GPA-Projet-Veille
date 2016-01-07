@@ -49,7 +49,7 @@ public class ServletFil extends HttpServlet {
             List<Message> listeMessageTop5 = MessageService.findTop5Message();
 
             //Bouton qui met à jour les données
-            out.println("<a href='Update'>Update</a>");
+            out.println("<a class='btn btn-default' href='Update'>Update Data</a>");
 
             // Titre
             out.println("<h2>Top 5 des actualités</h2>");
