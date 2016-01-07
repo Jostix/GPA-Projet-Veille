@@ -41,7 +41,7 @@ public class TwitterMessage extends Message {
      * @param retweet 
      */
     public TwitterMessage(final int identifiantTwi,final String message,final Date date_heure_publication,final Date date_heure_recup,final String resume,final int retweet) {
-        super(message, date_heure_publication, date_heure_recup, resume,ch.hearc.ig.gpa.constants.Constant.TWITTER.toString());
+        super(message, date_heure_publication, date_heure_recup, resume,ch.hearc.ig.gpa.constants.Categories.TWITTER.toString());
         this.identifiantTwi = identifiantTwi;
         this.retweet = retweet;
         hashtags = new ArrayList<>();
@@ -56,7 +56,7 @@ public class TwitterMessage extends Message {
      * @param resume 
      */
     public TwitterMessage(final String message,final Date date_heure_publication,final Date date_heure_recup,final String resume,final Integer retweet) {
-        super(message, date_heure_publication, date_heure_recup, resume,ch.hearc.ig.gpa.constants.Constant.TWITTER.toString());
+        super(message, date_heure_publication, date_heure_recup, resume,ch.hearc.ig.gpa.constants.Categories.TWITTER.toString());
         this.retweet = retweet;
         hashtags = new ArrayList<>();
     }

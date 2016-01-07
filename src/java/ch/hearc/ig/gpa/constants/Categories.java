@@ -13,7 +13,7 @@ package ch.hearc.ig.gpa.constants;
  *
  * @author romain.ducret
  */
-public enum Constant {
+public enum Categories {
 
     RSS("Rss"),
     FACEBOOK("Facebook"),
@@ -26,7 +26,7 @@ public enum Constant {
      *
      * @param name
      */
-    Constant(final String name) {
+    Categories(final String name) {
         this.name = name;
     }
     

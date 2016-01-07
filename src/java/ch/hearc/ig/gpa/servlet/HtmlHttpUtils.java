@@ -176,9 +176,9 @@ public class HtmlHttpUtils extends HttpServlet {
         out.println("<tr class='" + getCategoryColor(cat) + "'>");
 
         //Test conditionel pour afficher le logo de la catégorie
-        if (cat.equals(ch.hearc.ig.gpa.constants.Constant.TWITTER.toString())) {
+        if (cat.equals(ch.hearc.ig.gpa.constants.Categories.TWITTER.toString())) {
             out.println("<td class='text-center'><img src='includes/image/twitter.png' style='height:25px;width:25px;' alt='" + cat + "' /></td>");
-        } else if (cat.equals(ch.hearc.ig.gpa.constants.Constant.RSS.toString())) {
+        } else if (cat.equals(ch.hearc.ig.gpa.constants.Categories.RSS.toString())) {
             out.println("<td class='text-center'><img src='includes/image/rss.png' style='height:25px;width:25px;' alt='" + cat + "' /></td>");
         } else {
             out.println("<td>" + cat + "</td>");
@@ -271,12 +271,12 @@ public class HtmlHttpUtils extends HttpServlet {
     private static String getCategoryColor(final String sourceType) {
         String rowColor = "";
 
-        if (sourceType.equals(ch.hearc.ig.gpa.constants.Constant.valueOf("TWITTER").toString())) {
+        if (sourceType.equals(ch.hearc.ig.gpa.constants.Categories.valueOf("TWITTER").toString())) {
             rowColor = "success";
-        } else if (sourceType.equals(ch.hearc.ig.gpa.constants.Constant.valueOf("FACEBOOK").toString())) {
+        } else if (sourceType.equals(ch.hearc.ig.gpa.constants.Categories.valueOf("FACEBOOK").toString())) {
             rowColor = "info";
 
-        } else if (sourceType.equals(ch.hearc.ig.gpa.constants.Constant.valueOf("RSS").toString())) {
+        } else if (sourceType.equals(ch.hearc.ig.gpa.constants.Categories.valueOf("RSS").toString())) {
             rowColor = "danger";
         }
 

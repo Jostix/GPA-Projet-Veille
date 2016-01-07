@@ -12,6 +12,7 @@ import ch.hearc.ig.gpa.business.Hashtag;
 import ch.hearc.ig.gpa.business.Message;
 import ch.hearc.ig.gpa.business.TwitterMessage;
 import ch.hearc.ig.gpa.business.User;
+import ch.hearc.ig.gpa.constants.Constants;
 import ch.hearc.ig.gpa.dao.HashtagDAOImpl;
 import ch.hearc.ig.gpa.dao.MessageDAOImpl;
 import ch.hearc.ig.gpa.dao.RelationTwiHashDAO;
@@ -34,13 +35,14 @@ import twitter4j.TwitterFactory;
  * @author Julien Bron <julien.bron@he-arc.ch>
  */
 public class RecuperationTwitter {
-    private static final int RESUMELIMIT=60;
+
+    private static final int RESUMELIMIT = 60;
     Twitter twitter;
-    
+
     public RecuperationTwitter() {
         Twitter twitter = (Twitter) TwitterFactory.getSingleton();
     }
-               
+
 //    public void recuperationListPosts(User utilisateur) throws TwitterException, ConnectionProblemException{
 //        Message messageTwitter = null;
 //        List<Status> statuses = this.twitter.getUserTimeline(utilisateur.getUsername_twitter());
@@ -59,23 +61,21 @@ public class RecuperationTwitter {
 //            
 //        }
 //    }
-    
-    public void recuperationListPosts(String usernameTwitter) throws ConnectionProblemException, TwitterException, CommitException, SQLException{
-        
+    public void recuperationListPosts(String usernameTwitter) throws ConnectionProblemException, TwitterException, CommitException, SQLException {
+
         Twitter twitter = (Twitter) TwitterFactory.getSingleton();
         List<Status> statuses = twitter.getUserTimeline(usernameTwitter);
+        UserDAOImpl userDao = AbstractDAOFactory.getDAOFactory().getUserDAOImpl();
+        MessageDAOImpl msgDao = AbstractDAOFactory.getDAOFactory().getMessageDAO();
         for (Status status : statuses) {
-            System.out.println("test");
-            
+        
           
-                    
-          //  Message message = new Message(status.getText(), new java.sql.Date(status.getCreatedAt().getTime()), new java.sql.Date(100000), status.getText().substring(0, 30) + " [...]",ch.hearc.ig.gpa.constants.Constant.TWITTER.toString());
-            
-          TwitterMessage twitMessage = new TwitterMessage(status.getText(), new java.sql.Date(status.getCreatedAt().getTime()), new java.sql.Date(100000), StringServices.limit(status.getText(), RESUMELIMIT) + " [...]", status.getRetweetCount());
-            
-            UserDAOImpl userDao = AbstractDAOFactory.getDAOFactory().getUserDAOImpl();
-            MessageDAOImpl msgDao = AbstractDAOFactory.getDAOFactory().getMessageDAO();
-            msgDao.addMessageTwitter(twitMessage, userDao.getIdByUsername(usernameTwitter));
+            TwitterMessage twitMessage = new TwitterMessage(status.getText(), new java.sql.Date(status.getCreatedAt().getTime()), new java.sql.Date(100000), StringServices.limit(status.getText(), RESUMELIMIT) + " [...]", status.getRetweetCount());
+
+            if (StringServices.containsKey(twitMessage.getMessage(), Constants.KEYWORDS)) {
+                msgDao.addMessageTwitter(twitMessage, userDao.getIdByUsername(usernameTwitter));
+            }
+
 //            //Persistence
 //            OracleDAOFactory factory = OracleDAOFactory.getInstance();
 //            factory.getConnection();
@@ -110,10 +110,8 @@ public class RecuperationTwitter {
 //                System.out.println("pk twi_pub:" + twitMessage.getIdentifiantTwi());
 //                relationTwiHashDAO.insert(twitMessage, hash);
 //            }
-           
-         
         }
-   
+
     }
-    
+
 }
