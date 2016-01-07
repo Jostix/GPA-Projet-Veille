@@ -8,9 +8,7 @@
  */
 package ch.hearc.ig.gpa.servlet;
 
-import ch.hearc.ig.gpa.RSS.RecuperationRSS;
 import ch.hearc.ig.gpa.business.Message;
-import ch.hearc.ig.gpa.business.RSS;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import ch.hearc.ig.gpa.services.MessageService;
 import java.io.IOException;
@@ -22,7 +20,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.stream.XMLStreamException;
 
 /**
  * Servlet utilisé sur la page d'index pour affiche le top5 et le reste de
@@ -62,7 +59,7 @@ public class ServletFil extends HttpServlet {
             // Affiche le tableau et l'alimente
             HtmlHttpUtils.doTableHeader(out);
             for (int compteur = 0; compteur < listeMessageTop5.size(); compteur++) {
-                HtmlHttpUtils.doTableRow(out, listeMessageTop5.get(compteur).getSourceType(), listeMessageTop5.get(compteur).getResume(), listeMessageTop5.get(compteur).getMessage() + " - " + listeMessageTop5.get(compteur).getDate_heure_publication(), "top5" + compteur);
+                HtmlHttpUtils.doTableRow(out, listeMessageTop5.get(compteur).getSourceType(), listeMessageTop5.get(compteur).getResume(), listeMessageTop5.get(compteur).getMessage(), listeMessageTop5.get(compteur).getDate_heure_publication().toString(), "top5" + compteur);
             }
 
             HtmlHttpUtils.doTableFooter(out);
@@ -77,7 +74,7 @@ public class ServletFil extends HttpServlet {
             // Affiche le tableau et l'alimente
             HtmlHttpUtils.doTableHeader(out); // En-tête du tableau
             for (Message message : listeMessage) {
-                HtmlHttpUtils.doTableRow(out, message.getSourceType(), message.getResume(), message.getMessage() + " - " + message.getDate_heure_publication(), "col3");
+                HtmlHttpUtils.doTableRow(out, message.getSourceType(), message.getResume(), message.getMessage(),message.getDate_heure_publication().toString(), "col3");
             }
             HtmlHttpUtils.doTableFooter(out); // Fin du tableau
 

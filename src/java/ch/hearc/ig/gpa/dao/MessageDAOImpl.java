@@ -9,7 +9,6 @@
 package ch.hearc.ig.gpa.dao;
 
 import ch.hearc.ig.gpa.dao.interf.MessageDAO;
-import ch.hearc.ig.gpa.business.Facebook;
 import ch.hearc.ig.gpa.business.Message;
 import ch.hearc.ig.gpa.business.RSS;
 import ch.hearc.ig.gpa.business.TwitterMessage;
@@ -19,8 +18,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import static java.sql.Statement.RETURN_GENERATED_KEYS;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -166,24 +163,6 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
             closePStmtAndRS(stmt, rsMessages);
         }
         return m;
-    }
-
-    @Override
-    public List<Message> getAllMessage() throws ConnectionProblemException {
-        List<Facebook> FBmessages = new ArrayList<>();
-        List<TwitterMessage> Twittermessages = new ArrayList<>();
-        List<Message> messages = new ArrayList<>();
-        //FBmessages = new FacebookDao().getAllFBMessages();
-        Twittermessages = new TwitterDao().getAllTwitterMessages();
-
-        /*  for (int compteur = 0; compteur < FBmessages.size(); compteur++) {
-         messages.add(FBmessages.get(compteur));
-         }*/
-        for (int compteur = 0; compteur < Twittermessages.size(); compteur++) {
-            messages.add(Twittermessages.get(compteur));
-        }
-
-        return messages;
     }
 
     @Override

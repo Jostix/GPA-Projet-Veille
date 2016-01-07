@@ -9,6 +9,7 @@
 package ch.hearc.ig.gpa.services;
 
 import ch.hearc.ig.gpa.RSS.RecuperationRSS;
+import ch.hearc.ig.gpa.business.Facebook;
 import ch.hearc.ig.gpa.business.Message;
 import ch.hearc.ig.gpa.business.RSS;
 import ch.hearc.ig.gpa.business.TwitterMessage;
@@ -20,6 +21,9 @@ import ch.hearc.ig.gpa.exceptions.FeedNotFoundException;
 import ch.hearc.ig.gpa.log.MyLogger;
 import ch.hearc.ig.gpa.twitter.RecuperationTwitter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,22 +38,49 @@ import twitter4j.TwitterException;
 public class MessageService {
 
     /**
-     * Retourne une liste de tous les messages
+     * Retourne une liste de tous les messages (facebook / twitter / RSS)
      *
      * @return
      * @throws ConnectionProblemException
      */
     public static List<Message> findAllMessage() throws ConnectionProblemException {
-        List<Message> list = null;
+        //Initialisation des listes de messages
+        List<Message> messages = new ArrayList<>(); // Stocke les messages FB
+        List<Facebook> facebookMessages = new ArrayList<>(); // Stocke les messages FB
+        List<TwitterMessage> twitterMessages = new ArrayList<>(); // Stocke les messages Twitter
+        List<RSS> rssMessages = new ArrayList<>(); // Stocke les messages RSS
+
         try {
-            list = AbstractDAOFactory.getDAOFactory().getMessageDAO().getAllMessage();
-        } catch (ConnectionProblemException e) {
-            MyLogger.getInstance().log(Level.SEVERE, null, e);
-            throw e;
+            //Récupèration des messages
+            twitterMessages = findAllTwitterMessages();
+            rssMessages = findAllRSS();
+
+            //Concaténation messages twitter
+            for (TwitterMessage twitterMessage : twitterMessages) {
+                messages.add(twitterMessage);
+            }
+
+            //messages RSS
+            for (RSS rssMessage : rssMessages) {
+                messages.add(rssMessage);
+            }
+
+            //Tri des données sur le champ date
+            Collections.sort(messages, new Comparator<Message>() {
+                @Override
+                public int compare(Message message1, Message message2) {
+                    return message1.getDate_heure_publication().compareTo(message2.getDate_heure_publication());
+                }
+            });
+            
+            //Trie descendant des messages par leur date.
+            Collections.reverse(messages);
+
         } finally {
+            //Fermeture de la connexion
             AbstractDAOFactory.getDAOFactory().closeConnection();
         }
-        return list;
+        return messages;
     }
 
     /**
@@ -70,8 +101,13 @@ public class MessageService {
         }
         return list;
     }
-    
-    public static List<TwitterMessage> findAllTwitterMessages(){
+
+    /**
+     * Retourne la liste de tous les messages Twitter
+     *
+     * @return
+     */
+    private static List<TwitterMessage> findAllTwitterMessages() {
         List<TwitterMessage> list = null;
         try {
             list = AbstractDAOFactory.getDAOFactory().getTwitterDao().getAllTwitterMessages();
@@ -80,8 +116,13 @@ public class MessageService {
         }
         return list;
     }
-    
-    public static List<RSS> findAllRSS(){
+
+    /**
+     * Retourne la liste de tous les messages RSS
+     *
+     * @return
+     */
+    private static List<RSS> findAllRSS() {
         List<RSS> list = null;
         try {
             list = AbstractDAOFactory.getDAOFactory().getRSSDaoImpl().getRSSMessages();
@@ -92,9 +133,10 @@ public class MessageService {
     }
 
     /**
-     * Service appelé lors d'un clic sur le bouton d'actualisation. Il
-     * supprime toutes les données dans les tables et en rajoute des fraiches
-     * @throws CommitException 
+     * Service appelé lors d'un clic sur le bouton d'actualisation. Il supprime
+     * toutes les données dans les tables et en rajoute des fraiches
+     *
+     * @throws CommitException
      */
     public static void UpdateAll() throws CommitException {
 
@@ -129,7 +171,8 @@ public class MessageService {
     }
 
     /**
-     * Ce service permet de récupérer tous les messages sur twitter et de les insérer dans la base de données
+     * Ce service permet de récupérer tous les messages sur twitter et de les
+     * insérer dans la base de données
      */
     private static void recupMessagesTwitter() {
 

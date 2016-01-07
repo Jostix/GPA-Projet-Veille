@@ -123,7 +123,7 @@ public class HtmlHttpUtils extends HttpServlet {
         out.println("    <tr>");
         out.println("      <td class='text-center'>Source</td>");
         out.println("      <td>Résumé</td>");
-        //out.println("      <td>Description</td>");
+        out.println("      <td>Date</td>");
         out.println("      <td>Action</td>");
         out.println("    </tr>");
         out.println("  </thead>");
@@ -134,11 +134,12 @@ public class HtmlHttpUtils extends HttpServlet {
      *
      * @param out
      * @param cat
-     * @param col1
-     * @param col2
+     * @param resume
+     * @param date
+     * @param contenuMessage
      * @param actionLink
      */
-    public static void doTableRow(PrintWriter out, final String cat, final String col1, final String col2, final String actionLink) {
+    public static void doTableRow(PrintWriter out, final String cat, final String resume, final String contenuMessage, final String date, final String actionLink) {
         out.println("<tr class='" + getCategoryColor(cat) + "'>");
 
         //Test conditionel pour afficher le logo de la catégorie
@@ -150,12 +151,18 @@ public class HtmlHttpUtils extends HttpServlet {
             out.println("<td>" + cat + "</td>");
         }
 
-        out.println("<td>" + col1 + "</td>");
-        //out.println("<td>" + col2 + "</td>");
+        out.println("<td>" + resume + "</td>");
+        out.println("<td>" + date + "</td>");
         out.println("<td><button class='btn-xs btn btn-primary' type='button' data-toggle=\"modal\" data-target='#" + actionLink + "'><span class='glyphicon glyphicon-search' aria-hidden='true'></span> Détail</button></td>");
         out.println("</tr>");
-
-        doModal(out, actionLink, col1, col2);
+        
+        //Construction de la chaine qui sera utilisé dans la description de la fenêtre modal
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(contenuMessage);
+        stringBuilder.append(date);
+        
+        //Appelle la méthode qui crée la fenêtre modal
+        doModal(out, actionLink, resume, stringBuilder.toString());
     }
 
     /**

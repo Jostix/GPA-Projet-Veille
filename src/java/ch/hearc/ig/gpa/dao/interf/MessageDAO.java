@@ -46,14 +46,6 @@ public interface MessageDAO {
     public Message getMessageById(int numero) throws ConnectionProblemException;
 
     /**
-     * Retourne une liste de tous les messages
-     * 
-     * @return
-     * @throws ConnectionProblemException 
-     */
-    public List<Message> getAllMessage() throws ConnectionProblemException;
-
-    /**
      * Retourne une liste du top 5 des messages
      * 
      * @return
