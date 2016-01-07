@@ -20,7 +20,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import twitter4j.Twitter;
 
 /**
  * Ensemble d'utilitaires pour l'affichage HTML
@@ -149,7 +148,11 @@ public class HtmlHttpUtils extends HttpServlet {
         String resume = message.getResume();
         String date = message.getDate_heure_publication().toString();
         String contenuMessage = message.getMessage();
-
+        
+        //Rend les url du contenu des messages cliquable
+        contenuMessage.replaceAll("(\\A|\\s)((http|https|ftp|mailto):\\S+)(\\s|\\z)","$1<a href=\"$2\">$2</a>$4");
+        resume.replaceAll("(\\A|\\s)((http|https|ftp|mailto):\\S+)(\\s|\\z)","$1<a href=\"$2\">$2</a>$4");
+        
         //Attributs classe RSS
         String rssURL = "";
 
