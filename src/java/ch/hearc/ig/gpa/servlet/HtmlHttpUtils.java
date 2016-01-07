@@ -140,10 +140,7 @@ public class HtmlHttpUtils extends HttpServlet {
      * Méthode qui permet d'afficher une ligne dans un tableau
      *
      * @param out
-     * @param cat
-     * @param resume
-     * @param date
-     * @param contenuMessage
+     * @param message
      * @param actionLink
      */
     public static void doTableRow(PrintWriter out, final Message message, final String actionLink) {
