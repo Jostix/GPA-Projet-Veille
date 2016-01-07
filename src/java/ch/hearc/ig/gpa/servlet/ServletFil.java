@@ -57,7 +57,7 @@ public class ServletFil extends HttpServlet {
             // Affiche le tableau et l'alimente
             HtmlHttpUtils.doTableHeader(out);
             for (int compteur = 0; compteur < listeMessageTop5.size(); compteur++) {
-                HtmlHttpUtils.doTableRow(out, listeMessageTop5.get(compteur).getSourceType(), listeMessageTop5.get(compteur).getResume(), listeMessageTop5.get(compteur).getMessage(), listeMessageTop5.get(compteur).getDate_heure_publication().toString(), "top5" + compteur);
+                HtmlHttpUtils.doTableRow(out, listeMessageTop5.get(compteur), "top5" + compteur);
             }
 
             HtmlHttpUtils.doTableFooter(out);
@@ -72,7 +72,7 @@ public class ServletFil extends HttpServlet {
             // Affiche le tableau et l'alimente
             HtmlHttpUtils.doTableHeader(out); // En-tête du tableau
             for (int compteur = 0; compteur < listeMessage.size(); compteur++) {
-                HtmlHttpUtils.doTableRow(out, listeMessage.get(compteur).getSourceType(), listeMessage.get(compteur).getResume(), listeMessage.get(compteur).getMessage(), listeMessage.get(compteur).getDate_heure_publication().toString(), "allMessages" + compteur);
+                HtmlHttpUtils.doTableRow(out, listeMessage.get(compteur), "allMessages" + compteur);
             }
             HtmlHttpUtils.doTableFooter(out); // Fin du tableau
 

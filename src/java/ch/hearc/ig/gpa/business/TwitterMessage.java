@@ -21,6 +21,7 @@ public class TwitterMessage extends Message {
     private int identifiantTwi;
     private Integer retweet;
     private List<Hashtag> hashtags;
+    private User autor;
 
     /**
      *  Constructeur
@@ -95,4 +96,42 @@ public class TwitterMessage extends Message {
     public void setRetweet(Integer retweet) {
         this.retweet = retweet;
     }
+    
+    /**
+     * Retourne les hashtags
+     * 
+     * @return 
+     */
+    public List<Hashtag> getHashtags() {
+        return hashtags;
+    }
+
+    /**
+     * Met à jour les hashtags
+     * 
+     * @param hashtags 
+     */
+    public void setHashtags(final List<Hashtag> hashtags) {
+        this.hashtags = hashtags;
+    }
+
+    /**
+     * Retourne l'utilisateur du compte tweeter
+     * 
+     * @return 
+     */
+    public User getUser() {
+        return autor;
+    }
+
+    /**
+     * Met à jour l'user du compte Tweeter
+     * 
+     * @param user 
+     */
+    public void setUser(final User user) {
+        this.autor = user;
+    }
+
+    
 }

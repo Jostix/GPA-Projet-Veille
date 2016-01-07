@@ -8,12 +8,19 @@
  */
 package ch.hearc.ig.gpa.servlet;
 
+import ch.hearc.ig.gpa.business.Hashtag;
+import ch.hearc.ig.gpa.business.Message;
+import ch.hearc.ig.gpa.business.RSS;
+import ch.hearc.ig.gpa.business.TwitterMessage;
+import ch.hearc.ig.gpa.business.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import twitter4j.Twitter;
 
 /**
  * Ensemble d'utilitaires pour l'affichage HTML
@@ -139,7 +146,33 @@ public class HtmlHttpUtils extends HttpServlet {
      * @param contenuMessage
      * @param actionLink
      */
-    public static void doTableRow(PrintWriter out, final String cat, final String resume, final String contenuMessage, final String date, final String actionLink) {
+    public static void doTableRow(PrintWriter out, final Message message, final String actionLink) {
+        //Attributs classe message
+        String cat = message.getSourceType();
+        String resume = message.getResume();
+        String date = message.getDate_heure_publication().toString();
+        String contenuMessage = message.getMessage();
+
+        //Attributs classe RSS
+        String rssURL = "";
+
+        //Attrobut classe Twitter
+        User auteur = null;
+        List<Hashtag> hashtags = null;
+
+        //Récupère les attributs RSS
+        if (message.getClass().equals(RSS.class)) {
+            RSS rss = (RSS) message;
+            rssURL = rss.getUrl();
+        }
+
+        //Récupère les attributs Twitter
+        if (message.getClass().equals(TwitterMessage.class)) {
+            TwitterMessage tweet = (TwitterMessage) message;
+            hashtags = tweet.getHashtags();
+            auteur = tweet.getUser();
+        }
+
         out.println("<tr class='" + getCategoryColor(cat) + "'>");
 
         //Test conditionel pour afficher le logo de la catégorie
@@ -155,12 +188,49 @@ public class HtmlHttpUtils extends HttpServlet {
         out.println("<td>" + date + "</td>");
         out.println("<td><button class='btn-xs btn btn-primary' type='button' data-toggle=\"modal\" data-target='#" + actionLink + "'><span class='glyphicon glyphicon-search' aria-hidden='true'></span> Détail</button></td>");
         out.println("</tr>");
-        
+
         //Construction de la chaine qui sera utilisé dans la description de la fenêtre modal
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(contenuMessage);
+        stringBuilder.append("<b>Date: </b>");
         stringBuilder.append(date);
-        
+        stringBuilder.append("<br/>");
+
+        if (message.getClass().equals(RSS.class)) {
+
+            //Affichage de l'url
+            stringBuilder.append("<b>URL: </b>");
+            stringBuilder.append("<a href='");
+            stringBuilder.append(rssURL);
+            stringBuilder.append("'>Lien</a>");
+            stringBuilder.append("<br/>");
+        }
+        if (message.getClass().equals(TwitterMessage.class)) {
+
+            //Affichage des hashtags
+            stringBuilder.append("<b>Hashtags: </b>");
+            if (hashtags != null && hashtags.size() > 0) {
+                for (Hashtag hashtag : hashtags) {
+                    stringBuilder.append(hashtag);
+                    stringBuilder.append(", ");
+                }
+            } else {
+                stringBuilder.append("Aucun Hashtag");
+            }
+            stringBuilder.append("<br/>");
+
+            //Affichage de l'utilisateur
+            stringBuilder.append("<b>Auteur: </b>");
+            if (auteur == null) {
+                stringBuilder.append("Aucun auteur");
+            } else {
+                stringBuilder.append(auteur.getNom());
+                stringBuilder.append(auteur.getPrenom());
+            }
+            stringBuilder.append("<br/>");
+        }
+
+        stringBuilder.append(contenuMessage);
+
         //Appelle la méthode qui crée la fenêtre modal
         doModal(out, actionLink, resume, stringBuilder.toString());
     }
