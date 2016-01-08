@@ -12,12 +12,14 @@ import ch.hearc.ig.gpa.dao.interf.MessageDAO;
 import ch.hearc.ig.gpa.business.Message;
 import ch.hearc.ig.gpa.business.RSS;
 import ch.hearc.ig.gpa.business.TwitterMessage;
+import ch.hearc.ig.gpa.dbfactory.AbstractDAOFactory;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -165,9 +167,27 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
         return m;
     }
 
+    /**
+     * Cette méthode récupère le top 5 des messages twitter et des messages
+     * RSS mélange le tout et retourne les 5 premiers messages. 
+     * @return le top 5 des messages
+     * @throws ConnectionProblemException 
+     */
     @Override
     public List<Message> getTop5Message() throws ConnectionProblemException {
-        List topMessages = new TwitterDao().getTopRetweeted(5); //Si le client veut un top 6, entrer 6 ici
+        List topTwitter = AbstractDAOFactory.getDAOFactory().getTwitterDao().getTopRetweeted(5);
+        List topRss = AbstractDAOFactory.getDAOFactory().getRSSDaoImpl().getTopRss(5);
+        
+        //Merge des deux listes
+        List topMessages = topTwitter;
+        topMessages.addAll(topRss);
+        
+        //Mélange
+        Collections.shuffle(topMessages);
+        
+        //Limiter la liste aux 5 premiers
+        topMessages = topMessages.subList(0, 5);
+        
         return topMessages;
     }
     

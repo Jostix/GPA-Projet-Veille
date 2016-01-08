@@ -121,20 +121,29 @@ public class RSSDaoImpl extends MessageDAOImpl implements RSSDao{
     }
 
     /**
-     * Retourne les 5 meilleurs
+     * Retourne les meilleurs messages RSS selon la longueur du message
      * @param nbMessages
      * @return 
+     * @throws ch.hearc.ig.gpa.exceptions.ConnectionProblemException 
      */
-    public List getTopRss(int nbMessages){
+    @Override
+    public List getTopRss(int nbMessages) throws ConnectionProblemException{
         List<RSS> rssMessages = new ArrayList();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        String query = "SELECT numero, categorie, url, msg_numero FROM rss";
+        String query = "SELECT numero, categorie, url, msg_numero " +
+                    "FROM(SELECT rss.numero as numero, rss.categorie as categorie, rss.url as url, rss.msg_numero as msg_numero " +
+                    "FROM rss " +
+                    "INNER JOIN message on rss.msg_numero = message.numero " +
+                    "ORDER BY length(message.message) DESC) " +
+                    "WHERE ROWNUM <=" + nbMessages;
         try {
+            System.out.println(query);
             stmt = getConnection().prepareStatement(query);
             rs = stmt.executeQuery();
             while (rs.next()) {
+                System.out.println("INSIDE THE TOP 5");
                 rssMessages.add(getRSS(rs));
             }
 
@@ -145,6 +154,7 @@ public class RSSDaoImpl extends MessageDAOImpl implements RSSDao{
         } finally {
             closePStmtAndRS(stmt, rs);
         }
+        System.out.println(rssMessages.size());
         return rssMessages;
     }
     private RSS getRSS(ResultSet rs) throws SQLException, ConnectionProblemException {

@@ -20,5 +20,7 @@ public interface RSSDao {
     
     public List<RSS> getRSSMessagesByCategory(String categorie) throws ConnectionProblemException;
     
+    public List getTopRss(int nbMessages) throws ConnectionProblemException;
+    
     public void deleteAllRSS();
 }

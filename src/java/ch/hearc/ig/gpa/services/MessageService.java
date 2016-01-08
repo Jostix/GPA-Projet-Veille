@@ -95,6 +95,7 @@ public class MessageService {
         List<Message> list = null;
         try {
             list = AbstractDAOFactory.getDAOFactory().getMessageDAO().getTop5Message();
+            
         } catch (ConnectionProblemException e) {
             MyLogger.getInstance().log(Level.SEVERE, null, e);
             throw e;
