@@ -37,7 +37,6 @@ public class MyLogger {
             filehandler.setFormatter(new java.util.logging.SimpleFormatter());
             logger.addHandler(filehandler);
         } catch (Exception e) {
-            System.out.println("Erreur pendant la création du logger: " + e);
             throw new LoggerException("Erreur pendant la création du logger" + e);
         }
     }

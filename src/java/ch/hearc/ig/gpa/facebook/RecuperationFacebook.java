@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Cette classe n'est pas utilisée car la récupération facebook est indisponible
  * @author thierry.hubmann
  */
 public class RecuperationFacebook {
@@ -32,7 +32,7 @@ public class RecuperationFacebook {
         try {
             ResponseList<Post> results = facebook.searchPosts("watermelon");
             for (Post result : results) {
-                System.out.println(result.getMessage());
+            
             }
         } catch (FacebookException ex) {
             Logger.getLogger(RecuperationFacebook.class.getName()).log(Level.SEVERE, null, ex);

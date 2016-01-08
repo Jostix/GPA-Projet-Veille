@@ -69,7 +69,7 @@ public class TwitterDao extends MessageDAOImpl {
             pstmt.setInt(1, message.getRetweet());
             pstmt.setInt(2, messageNumber);
             
-            System.out.println(messageNumber);
+          
             int count = pstmt.executeUpdate();
             
         } catch (Exception e) {

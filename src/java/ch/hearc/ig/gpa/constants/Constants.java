@@ -14,5 +14,8 @@ package ch.hearc.ig.gpa.constants;
  */
 public class Constants {
     public static final String[] KEYWORDS = {"MERCEDES","BENZ","MBZ","DAIMLER","MERCEDESBENZ"};
-    public static final String[] RSSFEEDS = {"f1"};
+    public static final String[] RSSFEEDS = {"http://www.cnet.com/rss/car-tech/", 
+                                                "https://www.mercedes-benz.com/en/ressort/mercedes-benz/innovation/feed/",
+                                                "http://fr.turbo.feedsportal.com/c/788/f/581895/index.rss",
+                                                };
 }

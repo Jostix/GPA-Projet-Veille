@@ -27,16 +27,17 @@ import javax.xml.stream.XMLStreamException;
 public class RecuperationRSS {
 
     /**
-     * Récupère la liste des flux RSS des liens contenus dans la méthode
+     * Récupère la liste des flux RSS du lien donné en paramètre
      *
+     * @param rssFeed le lien du flux RSS
      * @return une liste de flux RSS
      * @throws XMLStreamException
      * @throws ConnectionProblemException
      */
-    public List<RSS> getRSS() throws XMLStreamException, ConnectionProblemException, ParseException {
-        FeedReader parser = new FeedReader("https://www.mercedes-benz.com/en/ressort/mercedes-benz/innovation/feed/");
+    public List<RSS> getRSS(String rssFeed) throws XMLStreamException, ConnectionProblemException, ParseException {
+        FeedReader parser = new FeedReader(rssFeed);
         RSSFeed feed = parser.readFeed();
-        System.out.println(feed);
+      
         MessageDAOImpl msgDao = AbstractDAOFactory.getDAOFactory().getMessageDAO();
         for (RSS message : feed.getMessages()) {
             //Verification si le message contient un des mots clés

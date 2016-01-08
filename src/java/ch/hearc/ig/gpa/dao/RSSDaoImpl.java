@@ -120,6 +120,33 @@ public class RSSDaoImpl extends MessageDAOImpl implements RSSDao{
         }
     }
 
+    /**
+     * Retourne les 5 meilleurs
+     * @param nbMessages
+     * @return 
+     */
+    public List getTopRss(int nbMessages){
+        List<RSS> rssMessages = new ArrayList();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        String query = "SELECT numero, categorie, url, msg_numero FROM rss";
+        try {
+            stmt = getConnection().prepareStatement(query);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                rssMessages.add(getRSS(rs));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RSSDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ConnectionProblemException ex) {
+            throw new ConnectionProblemException("A problem apeared while loading all RSS feeds");
+        } finally {
+            closePStmtAndRS(stmt, rs);
+        }
+        return rssMessages;
+    }
     private RSS getRSS(ResultSet rs) throws SQLException, ConnectionProblemException {
         int numero = rs.getInt("NUMERO");
         String url = rs.getString("URL");
@@ -129,5 +156,7 @@ public class RSSDaoImpl extends MessageDAOImpl implements RSSDao{
 
         return rss;
     }
+    
+    
 
 }

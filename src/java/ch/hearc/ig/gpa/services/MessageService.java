@@ -14,6 +14,7 @@ import ch.hearc.ig.gpa.business.Message;
 import ch.hearc.ig.gpa.business.RSS;
 import ch.hearc.ig.gpa.business.TwitterMessage;
 import ch.hearc.ig.gpa.business.User;
+import ch.hearc.ig.gpa.constants.Constants;
 import ch.hearc.ig.gpa.dbfactory.AbstractDAOFactory;
 import ch.hearc.ig.gpa.exceptions.CommitException;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
@@ -169,7 +170,9 @@ public class MessageService {
      */
     private static void recupMessagesRSS() throws FeedNotFoundException, ConnectionProblemException {
         try {
-            new RecuperationRSS().getRSS();           
+            for (String feed : Constants.RSSFEEDS) {
+                new RecuperationRSS().getRSS(feed);    
+            }              
         } catch (XMLStreamException ex) {
             throw new FeedNotFoundException("Il y a eu un problème lors de la récuperation des flux RSS");
         } catch (ParseException ex) {
