@@ -67,6 +67,7 @@ public class Update extends HttpServlet {
         
         try {
             MessageService.UpdateAll();
+          //  request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (CommitException ex) {
             Logger.getLogger(Update.class.getName()).log(Level.SEVERE, null, ex);
         }

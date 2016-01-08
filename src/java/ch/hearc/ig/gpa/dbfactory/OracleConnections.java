@@ -36,9 +36,7 @@ public class OracleConnections {
         try {
             // Se connecter à la BD Oracle
             String DBURL = "jdbc:oracle:thin:@" + HOST + ":" + PORT + ":" + SID;
-            System.out.println("URL:" + DBURL);
-            con = DriverManager.getConnection(DBURL, USER, PASSWORD);
-            System.out.println("TEST");
+            con = DriverManager.getConnection(DBURL, USER, PASSWORD);     
             con.setAutoCommit(false);
 
         } catch (SQLException ex) {
@@ -49,7 +47,7 @@ public class OracleConnections {
     public static Connection getConnection() throws ConnectionProblemException {
         if (con == null) {
             createConnection();
-        }
+        }        
         return con;
     }
 

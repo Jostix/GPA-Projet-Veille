@@ -14,4 +14,5 @@ package ch.hearc.ig.gpa.constants;
  */
 public class Constants {
     public static final String[] KEYWORDS = {"MERCEDES","BENZ","MBZ","DAIMLER","MERCEDESBENZ"};
+    public static final String[] RSSFEEDS = {"f1"};
 }

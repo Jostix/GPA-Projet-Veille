@@ -16,7 +16,13 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -58,7 +64,7 @@ public class FeedReader {
      * @return un flux RSS
      * @throws javax.xml.stream.XMLStreamException 
      */
-    public RSSFeed readFeed() throws javax.xml.stream.XMLStreamException {
+    public RSSFeed readFeed() throws javax.xml.stream.XMLStreamException, ParseException {
         RSSFeed feed = null;
         try {
             boolean isFeedHeader = true;
@@ -122,7 +128,18 @@ public class FeedReader {
                         RSS message = new RSS();
                         message.setMessage(description);
                         message.setUrl(link);
-                        message.setDate_heure_publication(new Date(Calendar.getInstance().getTime().getTime()));
+                        
+                        /**
+                         * Formattage de la date en SQL DATE. La date à un format
+                         * non commun: EEE, dd MMM yyyy HH:mm:ss Z
+                         */
+                        DateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
+                       
+                        java.util.Date formatedPubDate = formatter.parse(pubdate);
+                        
+                        
+                        message.setDate_heure_publication(new Date(formatedPubDate.getTime()));
+                        
                         message.setResume(StringServices.limit(description, RESUMELIMIT));
                         message.setDate_heure_recup(new Date(Calendar.getInstance().getTime().getTime()));
                         feed.getMessages().add(message);

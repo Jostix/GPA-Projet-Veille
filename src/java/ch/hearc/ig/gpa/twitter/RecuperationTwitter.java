@@ -68,8 +68,7 @@ public class RecuperationTwitter {
         UserDAOImpl userDao = AbstractDAOFactory.getDAOFactory().getUserDAOImpl();
         MessageDAOImpl msgDao = AbstractDAOFactory.getDAOFactory().getMessageDAO();
         for (Status status : statuses) {
-        
-          
+                 
             TwitterMessage twitMessage = new TwitterMessage(status.getText(), new java.sql.Date(status.getCreatedAt().getTime()), new java.sql.Date(100000), StringServices.limit(status.getText(), RESUMELIMIT) + " [...]", status.getRetweetCount());
 
             if (StringServices.containsKey(twitMessage.getMessage(), Constants.KEYWORDS)) {

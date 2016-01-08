@@ -16,6 +16,7 @@ import ch.hearc.ig.gpa.dao.MessageDAOImpl;
 import ch.hearc.ig.gpa.dbfactory.AbstractDAOFactory;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import ch.hearc.ig.gpa.services.StringServices;
+import java.text.ParseException;
 import java.util.List;
 import javax.xml.stream.XMLStreamException;
 
@@ -32,7 +33,7 @@ public class RecuperationRSS {
      * @throws XMLStreamException
      * @throws ConnectionProblemException
      */
-    public List<RSS> getRSS() throws XMLStreamException, ConnectionProblemException {
+    public List<RSS> getRSS() throws XMLStreamException, ConnectionProblemException, ParseException {
         FeedReader parser = new FeedReader("https://www.mercedes-benz.com/en/ressort/mercedes-benz/innovation/feed/");
         RSSFeed feed = parser.readFeed();
         System.out.println(feed);

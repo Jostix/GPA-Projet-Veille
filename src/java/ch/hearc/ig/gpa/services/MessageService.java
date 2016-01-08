@@ -21,6 +21,7 @@ import ch.hearc.ig.gpa.exceptions.FeedNotFoundException;
 import ch.hearc.ig.gpa.log.MyLogger;
 import ch.hearc.ig.gpa.twitter.RecuperationTwitter;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -107,13 +108,14 @@ public class MessageService {
      *
      * @return
      */
-    private static List<TwitterMessage> findAllTwitterMessages() {
+    public static List<TwitterMessage> findAllTwitterMessages() {
         List<TwitterMessage> list = null;
         try {
             list = AbstractDAOFactory.getDAOFactory().getTwitterDao().getAllTwitterMessages();
         } catch (ConnectionProblemException ex) {
             Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         return list;
     }
 
@@ -122,13 +124,14 @@ public class MessageService {
      *
      * @return
      */
-    private static List<RSS> findAllRSS() {
+    public static List<RSS> findAllRSS() {
         List<RSS> list = null;
         try {
             list = AbstractDAOFactory.getDAOFactory().getRSSDaoImpl().getRSSMessages();
         } catch (ConnectionProblemException ex) {
             Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         return list;
     }
 
@@ -147,6 +150,8 @@ public class MessageService {
             recupMessagesRSS();
             recupMessagesTwitter();
             AbstractDAOFactory.getDAOFactory().commit();
+            AbstractDAOFactory.getDAOFactory().closeConnection();
+            System.out.println("Update completed successfully");
         } catch (FeedNotFoundException ex) {
             Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ConnectionProblemException ex) {
@@ -162,11 +167,13 @@ public class MessageService {
      * @throws FeedNotFoundException
      * @throws ConnectionProblemException
      */
-    public static void recupMessagesRSS() throws FeedNotFoundException, ConnectionProblemException {
+    private static void recupMessagesRSS() throws FeedNotFoundException, ConnectionProblemException {
         try {
-            new RecuperationRSS().getRSS();
+            new RecuperationRSS().getRSS();           
         } catch (XMLStreamException ex) {
             throw new FeedNotFoundException("Il y a eu un problème lors de la récuperation des flux RSS");
+        } catch (ParseException ex) {
+            Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
