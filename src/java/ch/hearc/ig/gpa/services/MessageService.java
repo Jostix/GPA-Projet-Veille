@@ -40,12 +40,18 @@ import twitter4j.TwitterException;
 public class MessageService {
 
     /**
-     * Retourne une liste de tous les messages (facebook / twitter / RSS)
+     * Retourne une liste des messages en fonction de ce qui est demandé en
+     * paramètre - getTop5 limite la recherche au top5, getMessageTechno limite
+     * la recherche à la veille technologique, getMessageProtection limite la
+     * recherche à la veille protection
      *
+     * @param getTop5
+     * @param getMessageTechno
+     * @param getMessageProtection
      * @return
      * @throws ConnectionProblemException
      */
-    public static List<Message> findAllMessage() throws ConnectionProblemException {
+    public static List<Message> findAllMessage(final Boolean getTop5, final Boolean getMessageTechno, final Boolean getMessageProtection) throws ConnectionProblemException {
         //Initialisation des listes de messages
         List<Message> messages = new ArrayList<>(); // Stocke les messages FB
         List<Facebook> facebookMessages = new ArrayList<>(); // Stocke les messages FB
@@ -53,18 +59,38 @@ public class MessageService {
         List<RSS> rssMessages = new ArrayList<>(); // Stocke les messages RSS
 
         try {
-            //Récupèration des messages
-            twitterMessages = findAllTwitterMessages();
-            rssMessages = findAllRSS();
+            //Récupèration des messages Twitter
+            if (getMessageProtection) {
 
-            //Concaténation messages twitter
-            for (TwitterMessage twitterMessage : twitterMessages) {
-                messages.add(twitterMessage);
+                //Limite la recherche au top 5
+                if (getTop5) {
+                    twitterMessages = AbstractDAOFactory.getDAOFactory().getTwitterDao().getTopRetweeted(5);
+                } else {
+                    twitterMessages = findAllTwitterMessages();
+                }
+
+                //Concaténation messages twitter
+                for (TwitterMessage twitterMessage : twitterMessages) {
+                    messages.add(twitterMessage);
+                }
+
             }
 
-            //messages RSS
-            for (RSS rssMessage : rssMessages) {
-                messages.add(rssMessage);
+            //Récupèration des messages RSS
+            if (getMessageTechno) {
+
+                //Limite la recherche au top 5
+                if (getTop5) {
+                    rssMessages = AbstractDAOFactory.getDAOFactory().getRSSDaoImpl().getTopRss(5);
+                } else {
+                    rssMessages = findAllRSS();
+                }
+
+                //messages RSS
+                for (RSS rssMessage : rssMessages) {
+                    messages.add(rssMessage);
+                }
+
             }
 
             //Tri des données sur le champ date
@@ -74,7 +100,7 @@ public class MessageService {
                     return message1.getDate_heure_publication().compareTo(message2.getDate_heure_publication());
                 }
             });
-            
+
             //Trie descendant des messages par leur date.
             Collections.reverse(messages);
 
@@ -95,7 +121,7 @@ public class MessageService {
         List<Message> list = null;
         try {
             list = AbstractDAOFactory.getDAOFactory().getMessageDAO().getTop5Message();
-            
+
         } catch (ConnectionProblemException e) {
             MyLogger.getInstance().log(Level.SEVERE, null, e);
             throw e;
@@ -117,7 +143,7 @@ public class MessageService {
         } catch (ConnectionProblemException ex) {
             Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return list;
     }
 
@@ -133,7 +159,7 @@ public class MessageService {
         } catch (ConnectionProblemException ex) {
             Logger.getLogger(MessageService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return list;
     }
 
@@ -172,8 +198,8 @@ public class MessageService {
     private static void recupMessagesRSS() throws FeedNotFoundException, ConnectionProblemException {
         try {
             for (String feed : Constants.RSSFEEDS) {
-                new RecuperationRSS().getRSS(feed);    
-            }              
+                new RecuperationRSS().getRSS(feed);
+            }
         } catch (XMLStreamException ex) {
             throw new FeedNotFoundException("Il y a eu un problème lors de la récuperation des flux RSS");
         } catch (ParseException ex) {

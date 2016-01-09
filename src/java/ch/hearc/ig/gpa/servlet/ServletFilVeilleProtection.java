@@ -22,12 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet utilisé sur la page d'index pour affiche le top5 et le reste de
- * l'actu
  *
  * @author Romain Ducret <romain.ducret1@he-arc.ch>
  */
-public class ServletFil extends HttpServlet {
+public class ServletFilVeilleProtection extends HttpServlet {
 
     /**
      *
@@ -42,11 +40,11 @@ public class ServletFil extends HttpServlet {
 
         try {
             //Ajout de l'entête
-            HtmlHttpUtils.doHeader("<span class='glyphicon glyphicon-th-list'></span> Fil d'actualité", out, request, response);
+            HtmlHttpUtils.doHeader("<span class='glyphicon glyphicon-th-list'></span> Fil d'actualité - Veille protection", out, request, response);
 
             // ---------------------------  TOP 5
             // Récupère la liste du top 5 des messages
-            List<Message> listeMessageTop5 = MessageService.findAllMessage(true,true,true);
+            List<Message> listeMessageTop5 =  MessageService.findAllMessage(true,false,true);
 
             //Bouton qui met à jour les données
             out.println("<a class='btn btn-default' href='Update'>Update Data</a>");
@@ -64,7 +62,7 @@ public class ServletFil extends HttpServlet {
 
             // ---------------------------  Reste de l'actualité
             //Récupère la liste de tout les messages
-            List<Message> listeMessage = MessageService.findAllMessage(false,true,true);
+            List<Message> listeMessage = MessageService.findAllMessage(false,false,true);
 
             // Titre
             out.println("<h2>Reste de l'actualité</h2>");
@@ -77,7 +75,7 @@ public class ServletFil extends HttpServlet {
             HtmlHttpUtils.doTableFooter(out); // Fin du tableau
 
         } catch (ConnectionProblemException ex) {
-            Logger.getLogger(ServletFil.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServletFilVeilleProtection.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
         }

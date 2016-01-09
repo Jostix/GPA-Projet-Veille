@@ -22,6 +22,8 @@
             <ul class="nav navbar-nav navbar-right">
                 <!--<li class="active"><a href="index.jps">Index<span class="sr-only">(current)</span></a></li>-->
                 <li><a href="ServletFil">Fil d'acutalité</a></li>
+                <li><a href="ServletFilVeilleTechno">Veille Technologique</a></li>
+                <li><a href="ServletFilVeilleProtection">Veille protection</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
