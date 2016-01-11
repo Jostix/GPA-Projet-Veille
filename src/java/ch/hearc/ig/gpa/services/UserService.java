@@ -51,33 +51,37 @@ public abstract class UserService {
         return list;
     }
 
-    public static User createUser(String name, String lastname, Date birthdate, String country, String usernameTwitter) throws ConnectionProblemException {
-        User newUser = null;
-        try {
-            newUser = AbstractDAOFactory.getDAOFactory().getUserDAOImpl().insert(name, lastname, birthdate, country, usernameTwitter);
-            AbstractDAOFactory.getDAOFactory().commit();
-
-        } catch (ConnectionProblemException ex) {
-            try {
-                AbstractDAOFactory.getDAOFactory().rollback();
-            } catch (RollbackException ex1) {
-                MyLogger.getInstance().log(Level.SEVERE, null, ex1);
-            }
-            MyLogger.getInstance().log(Level.SEVERE, null, ex);
-            throw ex;
-        } catch (CommitException ex) {
-            try {
-                AbstractDAOFactory.getDAOFactory().rollback();
-            } catch (RollbackException ex1) {
-                MyLogger.getInstance().log(Level.SEVERE, null, ex1);
-            }
-            MyLogger.getInstance().log(Level.SEVERE, null, ex);
-            throw new ConnectionProblemException("A problem appeared while inserting the new user in the database");
-        } finally {
-            AbstractDAOFactory.getDAOFactory().closeConnection();
-        }
-
-        return newUser;
-    }
+    
+    /**
+     * Not used yet
+     */
+//    public static User createUser(String name, String lastname, Date birthdate, String country, String usernameTwitter) throws ConnectionProblemException {
+//        User newUser = null;
+//        try {
+//            newUser = AbstractDAOFactory.getDAOFactory().getUserDAOImpl().insert(name, lastname, birthdate, country, usernameTwitter);
+//            AbstractDAOFactory.getDAOFactory().commit();
+//
+//        } catch (ConnectionProblemException ex) {
+//            try {
+//                AbstractDAOFactory.getDAOFactory().rollback();
+//            } catch (RollbackException ex1) {
+//                MyLogger.getInstance().log(Level.SEVERE, null, ex1);
+//            }
+//            MyLogger.getInstance().log(Level.SEVERE, null, ex);
+//            throw ex;
+//        } catch (CommitException ex) {
+//            try {
+//                AbstractDAOFactory.getDAOFactory().rollback();
+//            } catch (RollbackException ex1) {
+//                MyLogger.getInstance().log(Level.SEVERE, null, ex1);
+//            }
+//            MyLogger.getInstance().log(Level.SEVERE, null, ex);
+//            throw new ConnectionProblemException("A problem appeared while inserting the new user in the database");
+//        } finally {
+//            AbstractDAOFactory.getDAOFactory().closeConnection();
+//        }
+//
+//        return newUser;
+//    }
 
 }

@@ -12,9 +12,13 @@ import ch.hearc.ig.gpa.exceptions.CommitException;
 import ch.hearc.ig.gpa.services.MessageService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,16 +42,21 @@ public class Update extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Update</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Update at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            //Ajout de l'entête
+            HtmlHttpUtils.doHeader("<span class='glyphicon glyphicon-th-list'></span> Mise à jour des données", out, request, response);
+
+            HtmlHttpUtils.doFooter(out);
+           
+            try {
+                MessageService.UpdateAll();
+
+            } catch (CommitException ex) {
+                Logger.getLogger(Update.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            out.println("Mise à jour terminée");
+
+            out.println("<a class='btn btn-xs' href='ServletFil'>Retourner vers l'accueil</a>");
         }
     }
 
@@ -64,13 +73,13 @@ public class Update extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        
-        try {
-            MessageService.UpdateAll();
-          //  request.getRequestDispatcher("index.jsp").forward(request, response);
-        } catch (CommitException ex) {
-            Logger.getLogger(Update.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+//        try {
+//            MessageService.UpdateAll();
+//            request.getRequestDispatcher("ServletFil").forward(request, response);
+//        } catch (CommitException ex) {
+//            Logger.getLogger(Update.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     /**

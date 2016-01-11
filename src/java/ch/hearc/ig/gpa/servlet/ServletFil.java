@@ -9,6 +9,7 @@
 package ch.hearc.ig.gpa.servlet;
 
 import ch.hearc.ig.gpa.business.Message;
+import ch.hearc.ig.gpa.exceptions.CommitException;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import ch.hearc.ig.gpa.services.MessageService;
 import java.io.IOException;
@@ -41,6 +42,7 @@ public class ServletFil extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         try {
+          
             //Ajout de l'entête
             HtmlHttpUtils.doHeader("<span class='glyphicon glyphicon-th-list'></span> Fil d'actualité", out, request, response);
 
@@ -49,7 +51,7 @@ public class ServletFil extends HttpServlet {
             List<Message> listeMessageTop5 = MessageService.findTop5Message();
 
             //Bouton qui met à jour les données
-            out.println("<a class='btn btn-default' href='Update'>Update Data</a>");
+            out.println("<a class='btn btn-default' href='updateLoading.jsp'>Update Data</a>");
 
             // Titre
             out.println("<h2>Top 5 des actualités</h2>");
@@ -75,6 +77,7 @@ public class ServletFil extends HttpServlet {
                 HtmlHttpUtils.doTableRow(out, listeMessage.get(compteur), "allMessages" + compteur);
             }
             HtmlHttpUtils.doTableFooter(out); // Fin du tableau
+            HtmlHttpUtils.doFooter(out);
 
         } catch (ConnectionProblemException ex) {
             Logger.getLogger(ServletFil.class.getName()).log(Level.SEVERE, null, ex);

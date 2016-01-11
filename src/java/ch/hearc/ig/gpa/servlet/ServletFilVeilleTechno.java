@@ -47,7 +47,7 @@ public class ServletFilVeilleTechno extends HttpServlet {
             List<Message> listeMessageTop5 =  MessageService.findAllMessage(true,true,false);
 
             //Bouton qui met à jour les données
-            out.println("<a class='btn btn-default' href='Update'>Update Data</a>");
+            out.println("<a class='btn btn-default' href='updateLoading.jsp'>Update Data</a>");
 
             // Titre
             out.println("<h2>Top 5 des actualités</h2>");
@@ -73,6 +73,7 @@ public class ServletFilVeilleTechno extends HttpServlet {
                 HtmlHttpUtils.doTableRow(out, listeMessage.get(compteur), "allMessages" + compteur);
             }
             HtmlHttpUtils.doTableFooter(out); // Fin du tableau
+            HtmlHttpUtils.doFooter(out);
 
         } catch (ConnectionProblemException ex) {
             Logger.getLogger(ServletFilVeilleTechno.class.getName()).log(Level.SEVERE, null, ex);
