@@ -49,14 +49,12 @@ public class Update extends HttpServlet {
            
             try {
                 MessageService.UpdateAll();
-
+                
             } catch (CommitException ex) {
                 Logger.getLogger(Update.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            out.println("Mise à jour terminée");
-
-            out.println("<a class='btn btn-xs' href='ServletFil'>Retourner vers l'accueil</a>");
+            request.getRequestDispatcher("ServletFil").forward(request, response);
         }
     }
 
