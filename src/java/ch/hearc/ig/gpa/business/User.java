@@ -33,6 +33,7 @@ public class User {
      * @param pays
      * @param username_twitter 
      */
+    
     public User(final Integer identifiant, final String nom, final String prenom, final Date dateNaissance, final String pays, final String username_twitter) {
         this.identifiant = identifiant;
         this.nom = nom;
@@ -52,6 +53,11 @@ public class User {
         this.dateNaissance = null;
         this.pays = null;
         this.username_twitter = null;
+    }
+    
+    public User(String username) {
+        
+        this.username_twitter = username;
     }
 
     /**

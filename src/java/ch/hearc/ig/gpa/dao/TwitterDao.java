@@ -10,6 +10,7 @@ package ch.hearc.ig.gpa.dao;
 
 import ch.hearc.ig.gpa.business.TwitterMessage;
 import ch.hearc.ig.gpa.business.Message;
+import ch.hearc.ig.gpa.business.User;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import static com.sun.xml.ws.security.addressing.impl.policy.Constants.logger;
 import java.sql.Connection;

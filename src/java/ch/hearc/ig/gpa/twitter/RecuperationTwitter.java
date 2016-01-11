@@ -67,14 +67,21 @@ public class RecuperationTwitter {
         List<Status> statuses = twitter.getUserTimeline(usernameTwitter);
         UserDAOImpl userDao = AbstractDAOFactory.getDAOFactory().getUserDAOImpl();
         MessageDAOImpl msgDao = AbstractDAOFactory.getDAOFactory().getMessageDAO();
+        HashtagDAOImpl hashDao = AbstractDAOFactory.getDAOFactory().getHashtagDAO();
+        RelationTwiHashDAO relDao = AbstractDAOFactory.getDAOFactory().getRelationTwiHashDAO();
+        User auteur = new User(usernameTwitter);
+        Hashtag hash = new Hashtag();
+        List<Hashtag> TwiHashtags = new ArrayList<>();
         for (Status status : statuses) {
                  
             TwitterMessage twitMessage = new TwitterMessage(status.getText(), new java.sql.Date(status.getCreatedAt().getTime()), new java.sql.Date(100000), StringServices.limit(status.getText(), RESUMELIMIT) + " [...]", status.getRetweetCount());
-
+            twitMessage.setUser(auteur);
+            System.out.println(twitMessage.getUser().getUsername_twitter());
+            
             if (StringServices.containsKey(twitMessage.getMessage(), Constants.KEYWORDS)) {
                 msgDao.addMessageTwitter(twitMessage, userDao.getIdByUsername(usernameTwitter));
             }
-
+            
 //            //Persistence
 //            OracleDAOFactory factory = OracleDAOFactory.getInstance();
 //            factory.getConnection();
@@ -93,24 +100,24 @@ public class RecuperationTwitter {
 //            
 //            
 //            
-//            HashtagDAOImpl hashtagDAO = factory.getHashtagDAO();
-//            RelationTwiHashDAO relationTwiHashDAO = factory.getRelationTwiHashDAO();
-//            
+            
 //            HashtagEntity[] hashtags = status.getHashtagEntities();
 //            for (HashtagEntity hashtag : hashtags) {
-//                Hashtag hash = new Hashtag();
 //                hash.setLibelle(hashtag.getText());
-//                if (!hashtagDAO.exist(hash)) {
-//                    hashtagDAO.insert(hash);
+//                TwiHashtags.add(hash);
+//                
+//                if (!hashDao.exist(hash)) {
+//                    hashDao.insert(hash);
 //                }
 //                
-//                hash = hashtagDAO.getHashtag(hash);
-//                System.out.println("Hash:" + hash.getIdentifiant());
-//                System.out.println("pk twi_pub:" + twitMessage.getIdentifiantTwi());
-//                relationTwiHashDAO.insert(twitMessage, hash);
+////                hash = hashDao.getHashtag(hash);
+////                System.out.println(twitMessage.getHashtags().get(0).getLibelle());
+////                System.out.println("Hash:" + hash.getIdentifiant());
+////                System.out.println("pk twi_pub:" + twitMessage.getIdentifiantTwi());
+//                twitMessage.setIdentifiantTwi(msgDao.getIdTwitMessage(twitMessage));
+//                relDao.insert(twitMessage, hash);
 //            }
+//            twitMessage.setHashtags(TwiHashtags);
         }
-
     }
-
 }

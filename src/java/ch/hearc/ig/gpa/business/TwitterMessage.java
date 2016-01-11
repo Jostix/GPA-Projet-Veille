@@ -21,7 +21,7 @@ public class TwitterMessage extends Message {
     private int identifiantTwi;
     private Integer retweet;
     private List<Hashtag> hashtags;
-    private User autor;
+    private User autor = null;
 
     /**
      *  Constructeur
@@ -55,6 +55,13 @@ public class TwitterMessage extends Message {
      * @param date_heure_recup
      * @param resume 
      */
+    public TwitterMessage(final String message,final Date date_heure_publication,final Date date_heure_recup,final String resume,final Integer retweet, final User autor) {
+        super(message, date_heure_publication, date_heure_recup, resume,ch.hearc.ig.gpa.constants.Categories.TWITTER.toString());
+        this.retweet = retweet;
+        hashtags = new ArrayList<>();
+        this.autor = autor;
+    }
+    
     public TwitterMessage(final String message,final Date date_heure_publication,final Date date_heure_recup,final String resume,final Integer retweet) {
         super(message, date_heure_publication, date_heure_recup, resume,ch.hearc.ig.gpa.constants.Categories.TWITTER.toString());
         this.retweet = retweet;

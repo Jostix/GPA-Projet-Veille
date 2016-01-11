@@ -12,6 +12,7 @@ import ch.hearc.ig.gpa.dao.interf.MessageDAO;
 import ch.hearc.ig.gpa.business.Message;
 import ch.hearc.ig.gpa.business.RSS;
 import ch.hearc.ig.gpa.business.TwitterMessage;
+import ch.hearc.ig.gpa.business.User;
 import ch.hearc.ig.gpa.dbfactory.AbstractDAOFactory;
 import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import java.sql.Date;
@@ -241,6 +242,87 @@ public class MessageDAOImpl extends AbstractDAOOracle implements MessageDAO {
         } finally {
             closePStmtAndRS(stmt, rsMessages);
         }
+    }
+    
+    public int getIdMessage(Message message){
+        int idUser = 0;
+        PreparedStatement stmt = null;
+        ResultSet rsMessages = null;
+            
+        String query = "SELECT user_numero from message where message = ?";
+        try {
+            stmt = getConnection().prepareStatement(query);
+            stmt.setString(1, message.getMessage());
+            rsMessages = stmt.executeQuery();
+            while (rsMessages.next()) {
+                
+                idUser = rsMessages.getInt("user_numero");
+            }
+            
+        } catch (ConnectionProblemException ex) {
+            Logger.getLogger(MessageDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(MessageDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return idUser;
+    }
+    
+    public User getUserByMessage(Message message) throws ConnectionProblemException, SQLException{
+        User u = null;
+        PreparedStatement stmt = null;
+        ResultSet rsMessages = null;
+        
+
+        String query = "SELECT numero, nom, prenom, datenaissance, pays, username_twitter from utilisateur where numero = ?";
+        try {
+            stmt = getConnection().prepareStatement(query);
+            stmt.setInt(1, getIdMessage(message));
+            rsMessages = stmt.executeQuery();
+            
+            while (rsMessages.next()) {
+                int numero = rsMessages.getInt("numero");
+                String nom = rsMessages.getString("nom");
+                String prenom = rsMessages.getString("prenom");
+                Date dateNaissance = rsMessages.getDate("datenaissance");
+                String pays = rsMessages.getString("pays");
+                String username_twitter = rsMessages.getString("username_twitter");
+                
+                u = new User(numero, nom, prenom, dateNaissance, pays, username_twitter);
+            }
+        } catch (ConnectionProblemException ex) {
+            Logger.getLogger(MessageDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(MessageDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closePStmtAndRS(stmt, rsMessages);
+        }
+        
+        
+        return u;
+    }
+    
+    public int getIdTwitMessage(Message message){
+        int idTwitMessage = 0;
+        PreparedStatement stmt = null;
+        ResultSet rsMessages = null;
+            
+        String query = "SELECT twitter_publication.numero from twitter_publication inner join message on message.numero = twitter_publication.msg_numero where message.message = ?";
+        try {
+            stmt = getConnection().prepareStatement(query);
+            stmt.setString(1, message.getMessage());
+            rsMessages = stmt.executeQuery();
+            while (rsMessages.next()) {
+                
+                idTwitMessage = rsMessages.getInt("numero");
+            }
+            
+        } catch (ConnectionProblemException ex) {
+            Logger.getLogger(MessageDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(MessageDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return idTwitMessage;
     }
 
 }

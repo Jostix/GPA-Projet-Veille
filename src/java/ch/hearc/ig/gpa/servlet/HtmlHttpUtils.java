@@ -13,9 +13,14 @@ import ch.hearc.ig.gpa.business.Message;
 import ch.hearc.ig.gpa.business.RSS;
 import ch.hearc.ig.gpa.business.TwitterMessage;
 import ch.hearc.ig.gpa.business.User;
+import ch.hearc.ig.gpa.dbfactory.AbstractDAOFactory;
+import ch.hearc.ig.gpa.exceptions.ConnectionProblemException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -156,7 +161,7 @@ public class HtmlHttpUtils extends HttpServlet {
         //Attributs classe RSS
         String rssURL = "";
 
-        //Attrobut classe Twitter
+        //Attribut classe Twitter
         User auteur = null;
         List<Hashtag> hashtags = null;
 
@@ -169,8 +174,16 @@ public class HtmlHttpUtils extends HttpServlet {
         //Récupère les attributs Twitter
         if (message.getClass().equals(TwitterMessage.class)) {
             TwitterMessage tweet = (TwitterMessage) message;
+            try {
+                auteur = AbstractDAOFactory.getDAOFactory().getMessageDAO().getUserByMessage(message);
+                
+                        } catch (ConnectionProblemException ex) {
+                Logger.getLogger(HtmlHttpUtils.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(HtmlHttpUtils.class.getName()).log(Level.SEVERE, null, ex);
+            }
             hashtags = tweet.getHashtags();
-            auteur = tweet.getUser();
+//            auteur = tweet.getUser();
         }
 
         out.println("<tr class='" + getCategoryColor(cat) + "'>");
@@ -223,8 +236,7 @@ public class HtmlHttpUtils extends HttpServlet {
             if (auteur == null) {
                 stringBuilder.append("Aucun auteur");
             } else {
-                stringBuilder.append(auteur.getNom());
-                stringBuilder.append(auteur.getPrenom());
+                stringBuilder.append(auteur.getUsername_twitter());
             }
             stringBuilder.append("<br/>");
         }
