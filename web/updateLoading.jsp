@@ -14,7 +14,11 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <p class=''>Le fil d'actualité est entrain d'être mis à jour</p>
+        <div class="modal-body">
+            <h1>Mise à jour</h1>
+            <p>Le fil d'actualité est entrain d'être mis à jour...</p>
+        </div>
+
         <form name="auto" action="Update" />
         <script>
             document.auto.submit();
