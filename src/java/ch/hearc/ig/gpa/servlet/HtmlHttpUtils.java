@@ -212,7 +212,7 @@ public class HtmlHttpUtils extends HttpServlet {
 
             //Affichage de l'url
             stringBuilder.append("<b>URL: </b>");
-            stringBuilder.append("<a href='");
+            stringBuilder.append("<a target='_blank' href='");
             stringBuilder.append(rssURL);
             stringBuilder.append("'>Lien</a>");
             stringBuilder.append("<br/>");
